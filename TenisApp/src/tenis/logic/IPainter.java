@@ -7,11 +7,11 @@
 package tenis.logic;
 
 
-import tenis.library.Diseno;
+import tenis.library.Design;
 /**
  *
  * @author Rodrigo
  */
 public interface IPainter {
-    void pintar(Diseno pDesign);
+    void pintar(Design pDesign);
 }

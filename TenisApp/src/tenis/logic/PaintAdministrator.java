@@ -8,7 +8,7 @@ package tenis.logic;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
-import tenis.library.Diseno;
+import tenis.library.Design;
 import tenis.library.ModeTypes;
 
 /**
@@ -35,7 +35,7 @@ public class PaintAdministrator
     }
     
     
-    public void cargarDiseno(Diseno pDesino) 
+    public void cargarDiseno(Design pDesino) 
     {
         IPainter painter = _Painters.get(_ModeType);
         painter.pintar(pDesino);

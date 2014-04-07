@@ -6,7 +6,7 @@
 
 package tenis.logic;
 
-import tenis.library.Diseno;
+import tenis.library.Design;
 
 /**
  *
@@ -15,7 +15,7 @@ import tenis.library.Diseno;
 public class EditorPainter implements IPainter 
 {
     @Override
-    public void pintar(Diseno pDesign) {
+    public void pintar(Design pDesign) {
         System.out.println("Imprimendo en modo Editor");
     }
     
