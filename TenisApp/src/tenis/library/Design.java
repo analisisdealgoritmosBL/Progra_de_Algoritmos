@@ -5,6 +5,7 @@
  */
 
 package tenis.library;
+import tenis.library.Figure;
 
 /**
  *
