@@ -5,7 +5,6 @@
  */
 
 package tenis.library;
-import tenis.library.Figure;
 
 /**
  *
@@ -18,6 +17,29 @@ public class Design {
         return _Name;
     }
     
-    private String _Name;
+    public Figure getDots() 
+    {
+        return _Dots;
+    }
     
+    public Figure getLines() 
+    {
+        return _Lines;
+    }
+    
+    public Figure getCircles() 
+    {
+        return _Circles;
+    }
+    
+    public Figure getColors() 
+    {
+        return _Colors;
+    }
+    
+    private String _Name;
+    private Figure _Dots;
+    private Figure _Lines;
+    private Figure _Circles;
+    private Figure _Colors;
 }
