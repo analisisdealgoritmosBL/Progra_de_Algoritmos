@@ -13,23 +13,23 @@ import java.awt.Graphics;
  */
 public class Figure {
     
-    public void Point (Graphics pfigure, int pcoordxPoint, int pcoordyPoint, int pwidthPoint, int pheightPoint){
-        pfigure.setColor (Color.blue);
-        pfigure.fillOval(pcoordxPoint, pcoordyPoint, pwidthPoint, pheightPoint);
+    public void Point (Graphics pFigure, int pCoordXPoint, int pCoordYPoint, int pWidthPoint, int pHeightPoint){
+        pFigure.setColor (Color.blue);
+        pFigure.fillOval(pCoordXPoint, pCoordYPoint, pWidthPoint, pHeightPoint);
     }
     
-    public void Circle (Graphics pfigure, int pcoordxCircle, int pcoordyCircle, int pwidthCircle, int pheightCircle){
-        pfigure.setColor (Color.blue);
-        pfigure.drawOval(pcoordxCircle, pcoordyCircle, pwidthCircle, pheightCircle);
+    public void Circle (Graphics pFigure, int pCoordXCircle, int pCoordYCircle, int pWidthCircle, int pHeightCircle){
+        pFigure.setColor (Color.blue);
+        pFigure.drawOval(pCoordXCircle, pCoordYCircle, pWidthCircle, pHeightCircle);
     }
     
-    public void Line (Graphics pfigure, int pcoordxLine, int pcoordyLine, int pwidthLine, int pheightLine){
-        pfigure.setColor (Color.blue);
-        pfigure.drawLine(pcoordxLine, pcoordyLine, pwidthLine, pheightLine);
+    public void Line (Graphics pFigure, int pCoordXLine, int pCoordYLine, int pWidthLine, int pHeightLine){
+        pFigure.setColor (Color.blue);
+        pFigure.drawLine(pCoordXLine, pCoordYLine, pWidthLine, pHeightLine);
     }
     
-    public void Sole (Graphics pfigure, int pcoordxSole, int pcoordySole, int pwidthSole, int pheightSole){
-        pfigure.setColor (Color.blue);
-        pfigure.drawLine(pcoordxSole, pcoordySole, pwidthSole, pheightSole);
+    public void Sole (Graphics pFigure, int pCoordXSole, int pCoordYSole, int pWidthSole, int pHeightSole){
+        pFigure.setColor (Color.blue);
+        pFigure.drawLine(pCoordXSole, pCoordYSole, pWidthSole, pHeightSole);
     }
 }
