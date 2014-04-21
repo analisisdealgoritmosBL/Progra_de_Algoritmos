@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package tenis.Datos;
 
 import java.util.List;
@@ -18,9 +12,10 @@ import org.parse4j.*;
  */
 public class DataBaseAdmin {
     private List<Design> designList;
+    public static ParseObject testObject;
     
     private void parseTest() {
-        ParseObject testObject = new ParseObject("TestObject");
+        testObject = new ParseObject("TestObject");
         testObject.put("foo", "bar");
         try {
             testObject.save();
@@ -33,5 +28,11 @@ public class DataBaseAdmin {
         Parse.initialize("sWHeJhUcP8MMDStbDh2BcYu9AGfKqiPXIVfooZqQ", "FAu31BWoXqKV70BvEiVG2NSCyBo5CBve277vs915");
         DataBaseAdmin asd = new DataBaseAdmin();
         asd.parseTest();
+        
+        /*try {
+            testObject.delete();
+        } catch (ParseException ex) {
+            Logger.getLogger(DataBaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }
 }
