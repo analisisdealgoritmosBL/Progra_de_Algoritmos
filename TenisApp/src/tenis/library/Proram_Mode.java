@@ -10,6 +10,6 @@ package tenis.library;
  *
  * @author Rodrigo
  */
-public enum ModeTypes {
+public enum Proram_Mode {
     EDIT, ARCADE, FIRE
 }
