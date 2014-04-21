@@ -15,6 +15,7 @@ import java.util.List;
 
 public class Figure {
     
+    
         private int x1;
         private int x2;
         private int x3;

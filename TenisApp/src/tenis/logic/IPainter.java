@@ -14,4 +14,5 @@ import tenis.library.Design;
  */
 public interface IPainter {
     void pintar(Design pDesign);
+    
 }

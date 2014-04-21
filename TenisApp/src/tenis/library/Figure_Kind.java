@@ -10,4 +10,5 @@ package tenis.library;
  */
 public enum Figure_Kind {
     Circular, Line, Curve;
+    
 }

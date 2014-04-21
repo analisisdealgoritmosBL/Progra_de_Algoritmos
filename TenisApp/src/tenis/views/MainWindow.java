@@ -22,6 +22,7 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
     }
+    
     private static final int WIDE = 640;
     private static final int HIGH = 480;
     private Point mousePt = new Point(WIDE / 2, HIGH / 2);
