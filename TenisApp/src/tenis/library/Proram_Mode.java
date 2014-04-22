@@ -12,4 +12,5 @@ package tenis.library;
  */
 public enum Proram_Mode {
     EDIT, ARCADE, FIRE
+    
 }

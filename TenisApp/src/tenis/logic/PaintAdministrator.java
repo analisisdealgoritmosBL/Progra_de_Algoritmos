@@ -56,6 +56,7 @@ public class PaintAdministrator
     public static void newDesign() 
     {
         
+        
     }
     
     public static void firsthDesignPoints(Point mousePt, Figure_Kind kind, int radius, List<Figure> nodes) 
