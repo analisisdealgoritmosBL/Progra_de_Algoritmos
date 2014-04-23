@@ -10,9 +10,9 @@ package tenis.logic;
 import tenis.library.Design;
 /**
  *
- * @author Rodrigo
+ * @author 
  */
-public interface IPainter {
+public interface LogicController {
     void pintar(Design pDesign);
     
 }

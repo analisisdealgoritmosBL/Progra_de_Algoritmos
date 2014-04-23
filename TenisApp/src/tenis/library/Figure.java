@@ -16,15 +16,10 @@ import java.util.List;
 public class Figure {
     
     
-        private int x1;
-        private int x2;
-        private int x3;
-        private int x4;
-        private Point point1;
-        private Point curve;
-        private Point point2;
         private Point p;
         private int r;
+        private int thickness;
+        private static final int _thicknessLine = 1;
         private Color color;
         private Figure_Kind kind;
         private boolean selected = false;
@@ -34,25 +29,13 @@ public class Figure {
         /**
          * Construct a new node.
          */
-        public Figure(Point p, int r, Color color, Figure_Kind kind) {
+        public Figure(Point p, int r, Color color, Figure_Kind kind, int thickness) {
             this.p = p;
             this.r = r;
             this.color = color;
             this.kind = kind;
+            this.thickness = thickness;
             setBoundary(b);
-        }
-        public Figure(int x1, int x2, int x3, int x4, Figure_Kind kind) {
-            this.x1 = x1;
-            this.x2 = x2;
-            this.x3 = x3;
-            this.x4 = x4;
-            this.kind = kind;
-        }
-        public Figure(Point point1,Point curve,Point point2, Figure_Kind kind) {
-            this.point1 = point1;
-            this.curve = curve;
-            this.point2 = point2;
-            this.kind = kind;
         }
 
         /**
@@ -65,23 +48,18 @@ public class Figure {
         /**
          * Draw this node.
          */
-        public void draw(Graphics g) {
+        public void draw(Graphics2D g2) {
             QuadCurve2D q = new QuadCurve2D.Float();
-            Graphics2D g2 = (Graphics2D) g;
-            g.setColor(this.color);
-            if (this.kind == Figure_Kind.Circular) {
-                g.fillOval(b.x, b.y, b.width, b.height);
-            } 
-            else if (this.kind == Figure_Kind.Line) {
-                g.drawLine(this.x1, this.x2, this.x3, this.x4);
-            } 
-            else if (this.kind == Figure_Kind.Curve) {
-                q.setCurve(this.point1, this.curve, this.point2);
-                g2.draw(q);
+            g2.setColor(this.color);
+            if (this.kind == Figure_Kind.Point) {
+                g2.fillOval(b.x, b.y, b.width, b.height);
+            }
+            else if (this.kind == Figure_Kind.Circle) {
+                g2.drawOval(b.x, b.y, b.width, b.height);
             }
             if (selected) {
-                g.setColor(Color.darkGray);
-                g.drawRect(b.x, b.y, b.width, b.height);
+                g2.setColor(Color.darkGray);
+                g2.drawRect(b.x, b.y, b.width, b.height);
             }
         }
 
@@ -112,7 +90,19 @@ public class Figure {
         public void setSelected(boolean selected) {
             this.selected = selected;
         }
-
+        
+        /**
+         * Collected all the selected nodes in list.
+         */
+        public static void getSelected(List<Figure> list, List<Figure> selected) {
+            selected.clear();
+            for (Figure n : list) {
+                if (n.isSelected()) {
+                    selected.add(n);
+                }
+            }
+        }
+        
         /**
          * Select no nodes.
          */
@@ -174,10 +164,10 @@ public class Figure {
         /**
          * Update each node's radius r.
          */
-        public static void updateRadius(List<Figure> list, int r) {
+        public static void updateRadius(List<Figure> list, int pRadPoint) {
             for (Figure n : list) {
                 if (n.isSelected()) {
-                    n.r = r;
+                    n.r = pRadPoint;
                     n.setBoundary(n.b);
                 }
             }
@@ -186,24 +176,58 @@ public class Figure {
         /**
          * Update each node's color.
          */
-        public static void updateColor(List<Figure> list, Color color) {
-            for (Figure n : list) {
-                if (n.isSelected()) {
+        public static void updateColor(List<Figure> list, Color color) 
+        {
+            for (Figure n : list) 
+            {
+                if (n.isSelected()) 
+                {
                     n.color = color;
                 }
             }
         }
-
-        /**
-         * Update each node's kind.
-         */
-        public static void updateFigure_Kind(List<Figure> list, Figure_Kind kind) {
-            for (Figure n : list) {
-                if (n.isSelected()) {
-                    n.kind = kind;
+        
+        /*public static void updateThickness(List<Figure> list, int thickness) 
+        {
+            for (Figure n : list) 
+            {
+                if (n.isSelected()) 
+                {
+                    n.thickness = thickness;
                 }
             }
+        }*/
+
+        
+        public static void firsthDesignPoints(Point mousePt, Figure_Kind kind, int radius, List<Figure> nodes) 
+        {
+            Figure.selectNone(nodes);
+            Point p = mousePt.getLocation();
+            Figure n = new Figure(p, radius, Color.BLUE, kind, 0);
+            n.setSelected(true);
+            nodes.add(n);
         }
+        public static void lines(Point mousePt1, Point mousePt2, int radius, Figure_Kind kindPoint, Figure_Kind kindLine, List<Figure> nodes, List<Edge> edges) 
+        {
+            Figure.selectNone(nodes);
+            Figure n = new Figure(mousePt1, radius, Color.BLACK, kindPoint, 0);
+            Figure n1 = new Figure(mousePt2, radius, Color.BLACK, kindPoint, 0);
+            edges.add(new Edge(n, n1, kindLine, 0, _thicknessLine));
+            n.setSelected(true);
+            nodes.add(n);
+            nodes.add(n1);
+        }
+        public static void circle(Point mousePt,  int radius, int thickness, Figure_Kind kind, List<Figure> nodes) 
+        {
+            Figure.selectNone(nodes);
+            Point p = mousePt.getLocation();
+            Figure n = new Figure(p, radius, Color.BLUE, kind, thickness);
+            n.setSelected(true);
+            nodes.add(n);
+        }
+    
+        
+    
 }
 
-
+    

@@ -6,40 +6,36 @@
 
 package tenis.library;
 
-/**
- *
- * @author Rodrigo
- */
+import java.awt.Color;
+import java.sql.Time;
+import java.util.List;
+import tenis.logic.PaintAdministrator;
+
+
 public class Design {
     
     public String getName() 
     {
-        return _Name;
+        return PaintAdministrator._name;
     }
     
-    public Figure getDots() 
+    public List<Figure> getDotsAndCircles() 
     {
-        return _Dots;
+        return PaintAdministrator._nodes;
     }
     
-    public Figure getLines() 
+    public List<Edge> getLines()
     {
-        return _Lines;
+        return PaintAdministrator._edges;
     }
-    
-    public Figure getCircles() 
-    {
-        return _Circles;
-    }
-    
-    public Figure getColors() 
+    public Color getColors() 
     {
         return _Colors;
     }
+    public Time getTime(){
+        return _time;
+    }
+    private Time _time;
+    private Color _Colors;
     
-    private String _Name;
-    private Figure _Dots;
-    private Figure _Lines;
-    private Figure _Circles;
-    private Figure _Colors;
 }
