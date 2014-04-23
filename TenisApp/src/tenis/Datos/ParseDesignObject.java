@@ -15,10 +15,29 @@ public class ParseDesignObject extends ParseObject {
     }
     
     public void setDesignName(String pDesignName) {
-        put("Nombre", pDesignName);
+        put("Name", pDesignName);
     }
     
     public String getDesignName() {
-        return getString("Nombre");
+        return getString("Name");
     }
+    
+    //Since JSONArrays are also strings, there is no need to use more 
+    //than one pair in the DB to save all of the specific Figure types.
+    
+    /*public void setDesignCircles(String pCircleParams) {
+        put("Circles", pCircleParams);
+    }
+    
+    public String getDesignCircles() {
+        return getString("Circles");
+    }
+    
+    public void setDesignLines(String pLineParams) {
+        put("Lines", pLineParams);
+    }
+    
+    public String getDesignLines() {
+        return getString("Lines");
+    }*/
 }
