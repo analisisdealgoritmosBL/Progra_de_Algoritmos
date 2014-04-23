@@ -13,7 +13,7 @@ import tenis.library.Design;
  *
  * @author Rodrigo
  */
-public class ArcadePainter implements IPainter {
+public class ArcadePainter implements LogicController {
 
     @Override
     public void pintar(Design pDesign) {

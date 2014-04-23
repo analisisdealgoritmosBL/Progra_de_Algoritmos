@@ -5,13 +5,14 @@
 package tenis.views;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import tenis.app.Main;
+import tenis.library.Edge;
 import tenis.library.Figure;
-import tenis.library.Figure_Kind;
 import tenis.library.Proram_Mode;
+import tenis.logic.PaintAdministrator;
+import tenis.logic.EditorPainter;
 
 /**
  *
@@ -25,36 +26,29 @@ public class MainWindow extends javax.swing.JFrame {
     
     private static final int WIDE = 640;
     private static final int HIGH = 480;
-    private Point mousePt = new Point(WIDE / 2, HIGH / 2);
-    private Rectangle mouseRect = new Rectangle();
-    private Rectangle mouseBounds = new Rectangle(200,200,300,300);
-    private boolean selecting = false;
-    private static final int RADIUS = 15;
-    //private static final Random rnd = new Random();
-    //private MainWindow control = new MainWindow();
-    private int radius = RADIUS;
-    private Figure_Kind kind = Figure_Kind.Circular;
-    public List<Figure> nodes = new ArrayList<>();
-    private List<Figure> selected = new ArrayList<>();
+    private Point _mousePt = new Point(WIDE / 2, HIGH / 2);
+    private Rectangle _mouseRect = new Rectangle();
+    private Rectangle _mouseBounds = new Rectangle(200,200,300,300);
+    private boolean _selecting = false;
 
     @Override
     public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
         super.paintComponents(g);
         //new Color(0x00f0f0f0)
-        for (Figure n : nodes) {
-            n.draw(g);
+        for (Edge e : PaintAdministrator._edges) {
+            e.draw(g2);
         }
-        if (selecting) {
+        for (Figure n : PaintAdministrator._nodes){
+            n.draw(g2);
+        }
+        if (_selecting) {
             g.setColor(Color.darkGray);
-            g.drawRect(mouseRect.x, mouseRect.y,
-                mouseRect.width, mouseRect.height);
+            g.drawRect(_mouseRect.x, _mouseRect.y,
+                _mouseRect.width, _mouseRect.height);
         }
     }
-    
-  
-    
 
-    Main _main = new Main();
     
     
     @SuppressWarnings("unchecked")
@@ -74,14 +68,19 @@ public class MainWindow extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jSpinner1 = new javax.swing.JSpinner();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+        jSeparator5 = new javax.swing.JSeparator();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jSpinner2 = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        jButton11 = new javax.swing.JButton();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -128,6 +127,11 @@ public class MainWindow extends javax.swing.JFrame {
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         jButton3.setText("EDIT");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("ARCADE");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -137,26 +141,69 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         jButton5.setText("FIRE");
-
-        jButton6.setText("Line");
-
-        jButton7.setText("Circle");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Color");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
-        jButton9.setText("thickness");
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(15, 1, 50, 1));
+        jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner1StateChanged(evt);
+            }
+        });
 
-        jMenu2.setText("File");
+        jLabel1.setText("Tamano");
 
-        jMenuItem3.setText("New desing");
-        jMenu2.add(jMenuItem3);
+        jButton6.setText("Line");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
-        jMenuBar1.add(jMenu2);
+        jButton7.setText("Circle");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
-        jMenu3.setText("Edit");
-        jMenuBar1.add(jMenu3);
+        jButton10.setText("Point");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
-        setJMenuBar(jMenuBar1);
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 1, 50, 1));
+        jSpinner2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner2StateChanged(evt);
+            }
+        });
+
+        jLabel2.setText("Thickness");
+
+        jButton9.setText("Clear");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jLayeredPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jLayeredPane1.setOpaque(true);
+
+        jButton11.setText("Report");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -175,26 +222,46 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
+                .addGap(6, 6, 6)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(65, 65, 65)
-                        .addComponent(jButton4)
-                        .addGap(64, 64, 64)
-                        .addComponent(jButton5)
-                        .addGap(165, 165, 165))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8)
+                        .addComponent(jButton10)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton8)
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton9)
-                        .addGap(184, 184, 184))))
+                        .addGap(48, 48, 48))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jButton3)
+                        .addGap(103, 103, 103)
+                        .addComponent(jButton4)
+                        .addGap(92, 92, 92)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton11)
+                        .addGap(63, 63, 63))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLayeredPane1)
+                            .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,26 +270,40 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(jSeparator1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3)
+                            .addComponent(jButton4)
+                            .addComponent(jButton5)
+                            .addComponent(jButton11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton8)
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
                             .addComponent(jButton6)
                             .addComponent(jButton7)
-                            .addComponent(jButton8)
-                            .addComponent(jButton9)))
-                    .addComponent(jSeparator1))
+                            .addComponent(jButton10)
+                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jButton9))))
                 .addContainerGap())
         );
 
@@ -230,75 +311,59 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Point point1 = new Point(207,128);
-        Point point2 = new Point(212,323);
-        Point point3 = new Point(448,128);
-        Point point4 = new Point(581,218);
-        Point point5 = new Point(680,323);
-        Point curve1 = new Point(150,175);
-        Point curve2 = new Point(330,170);
         String inputValue = JOptionPane.showInputDialog(jButton1, "Style Name: ", null, WIDTH);
-        _main.newDesign(inputValue);
-        _main.setMode(Proram_Mode.EDIT);
-        Main.createDesingPoints(point1,Figure_Kind.Circular,radius, nodes);
-        Main.createDesingPoints(point2,Figure_Kind.Circular,radius, nodes);
-        Main.createDesingPoints(point3,Figure_Kind.Circular,radius, nodes);
-        Main.createDesingPoints(point4,Figure_Kind.Circular,radius, nodes);
-        Main.createDesingPoints(point5,Figure_Kind.Circular,radius, nodes);
-        Main.createDesingLines(point2.x,point2.y,point5.x,point5.y,Figure_Kind.Line,nodes);
-        Main.createDesingLines(point3.x,point3.y,point4.x,point4.y,Figure_Kind.Line,nodes);
-        Main.createDesingLines(point4.x,point4.y,point5.x,point5.y,Figure_Kind.Line,nodes);
-        Main.createDesingCurves(point1,curve1,point2,Figure_Kind.Curve,nodes);
-        Main.createDesingCurves(point1,curve2,point3,Figure_Kind.Curve,nodes);
+        Main.nameDesign(inputValue);
+        Main.setMode(Proram_Mode.EDIT);
+        Main.createDesing();
         repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+        //Guarda en PARSE
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
         Point delta = new Point();
         //if (!mouseBounds.inside(evt.getX(),evt.getY())){
-        if (selecting) {
+        if (_selecting) {
             
-                mouseRect.setBounds(
-                    Math.min(mousePt.x, evt.getX()),
-                    Math.min(mousePt.y, evt.getY()),
-                    Math.abs(mousePt.x - evt.getX()),
-                    Math.abs(mousePt.y - evt.getY()));
-                Figure.selectRect(nodes, mouseRect);
+                _mouseRect.setBounds(
+                    Math.min(_mousePt.x, evt.getX()),
+                    Math.min(_mousePt.y, evt.getY()),
+                    Math.abs(_mousePt.x - evt.getX()),
+                    Math.abs(_mousePt.y - evt.getY()));
+                Figure.selectRect(PaintAdministrator._nodes, _mouseRect);
             }
         //}
         else {
             delta.setLocation(
-                evt.getX() - mousePt.x,
-                evt.getY() - mousePt.y);
-            Figure.updatePosition(nodes, delta);
-            mousePt = evt.getPoint();
+                evt.getX() - _mousePt.x,
+                evt.getY() - _mousePt.y);
+            Figure.updatePosition(PaintAdministrator._nodes, delta);
+            _mousePt = evt.getPoint();
         }
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMouseDragged
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        mousePt = evt.getPoint();
+        _mousePt = evt.getPoint();
         if (evt.isShiftDown()) {
-            Figure.selectToggle(nodes, mousePt);
+            Figure.selectToggle(PaintAdministrator._nodes, _mousePt);
         } else if (evt.isPopupTrigger()) {
-            Figure.selectOne(nodes, mousePt);
+            Figure.selectOne(PaintAdministrator._nodes, _mousePt);
             //showPopup(evt);
-        } else if (Figure.selectOne(nodes, mousePt)) {
-            selecting = false;
+        } else if (Figure.selectOne(PaintAdministrator._nodes, _mousePt)) {
+            _selecting = false;
         } else {
-            Figure.selectNone(nodes);
-            selecting = true;
+            Figure.selectNone(PaintAdministrator._nodes);
+            _selecting = true;
         }
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        selecting = false;
-        mouseRect.setBounds(0, 0, 0, 0);
+        _selecting = false;
+        _mouseRect.setBounds(0, 0, 0, 0);
         if (evt.isPopupTrigger()) {
             //showPopup(e);
         }
@@ -306,13 +371,71 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_formMouseReleased
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        Main.setMode(Proram_Mode.ARCADE);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Main.setMode(Proram_Mode.EDIT);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        Main.setMode(Proram_Mode.FIRE);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        Color color = null;
+        color = JColorChooser.showDialog(this, "Choose a color", color);
+        if (color != null) {
+            Figure.updateColor(PaintAdministrator._nodes, color);
+            repaint();
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
+        int radius;
+        radius = (int) jSpinner1.getValue();
+        Figure.updateRadius(PaintAdministrator._nodes, radius);
+        repaint();
+    }//GEN-LAST:event_jSpinner1StateChanged
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        Main.drawLine();
+        repaint();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        Main.drawCircle();
+        repaint();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jSpinner2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner2StateChanged
+        /*int thickness;
+        thickness = (int) jSpinner1.getValue();
+        Figure.updateThickness(PaintAdministrator._nodes, thickness);
+        repaint();*/
+        int thickness;
+        thickness = (int) jSpinner1.getValue();
+        Edge.updateThickness(PaintAdministrator._edges, thickness);
+        repaint();
+    }//GEN-LAST:event_jSpinner2StateChanged
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        Main.drawPoint();
+        repaint();
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        PaintAdministrator._nodes.clear();
+        PaintAdministrator._edges.clear();
+        repaint();
+    }//GEN-LAST:event_jButton9ActionPerformed
     
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -321,18 +444,21 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JList jList1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner2;
     // End of variables declaration//GEN-END:variables
 
 }

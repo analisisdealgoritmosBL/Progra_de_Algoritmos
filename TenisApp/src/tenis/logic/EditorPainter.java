@@ -12,11 +12,13 @@ import tenis.library.Design;
  *
  * @author Rodrigo
  */
-public class EditorPainter implements IPainter 
+public class EditorPainter implements LogicController
 {
+   
+    
     @Override
     public void pintar(Design pDesign) {
-        System.out.println("Imprimendo en modo Editor");
+        
     }
     
 }

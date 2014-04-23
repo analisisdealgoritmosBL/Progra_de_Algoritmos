@@ -12,7 +12,7 @@ import tenis.library.Design;
  *
  * @author Rodrigo
  */
-public class FirePainter implements IPainter
+public class FirePainter implements LogicController
 {
     @Override
     public void pintar(Design pDesign) {

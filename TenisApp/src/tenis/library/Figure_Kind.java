@@ -9,6 +9,6 @@ package tenis.library;
  * @author Braulio Rivera
  */
 public enum Figure_Kind {
-    Circular, Line, Curve;
+    Point, Line, Curve, Circle;  
     
 }
