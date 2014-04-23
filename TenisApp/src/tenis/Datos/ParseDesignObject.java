@@ -25,7 +25,7 @@ public class ParseDesignObject extends ParseObject {
     //Since JSONArrays are also strings, there is no need to use more 
     //than one pair in the DB to save all of the specific Figure types.
     
-    /*public void setDesignCircles(String pCircleParams) {
+    public void setDesignCircles(String pCircleParams) {
         put("Circles", pCircleParams);
     }
     
@@ -39,5 +39,21 @@ public class ParseDesignObject extends ParseObject {
     
     public String getDesignLines() {
         return getString("Lines");
-    }*/
+    }
+    
+     public void setDesignBackgrounds(String pBackgroundParams) {
+        put("Backgrounds", pBackgroundParams);
+    }
+    
+    public String getDesignBackgrounds() {
+        return getString("Backgrounds");
+    }
+    
+    public void setTime(Long pDuration) {
+        put("Elapsed time", pDuration);
+    }
+    
+    public String getTime() {
+        return getString("Elapsed time");
+    }
 }
