@@ -15,6 +15,7 @@ import tenis.library.Figure;
 import tenis.library.Figure_Kind;
 import java.awt.Color;
 import java.awt.Point;
+import org.parse4j.callback.FindCallback;
 
 
 /**
@@ -25,7 +26,7 @@ public class DataBaseAdmin {
     //private List<Design> _DesignList;
     private List<Figure> _FigureListPRUEBA = new ArrayList<Figure>();
     private Gson _ObjectToJsonConverter = new Gson();
-    public static ParseObject testObject = new ParseObject("Design");;
+    public static ParseDesignObject testObject = new ParseDesignObject();
     
     private void fillDesignList(Figure pPruebaFigure) {
         _FigureListPRUEBA.add(pPruebaFigure);
@@ -39,15 +40,28 @@ public class DataBaseAdmin {
         //ParseObject(Design.getName()) Salva el nombre de la clase como un objeto completamente distinto
         //Segunda parte debe estar en un método de salvar
         //Se llama 2 veces para que todo quede en el mismo objeto
-        testObject.put("Figura1", json1); //El nombre se obtiene de Design.getname()
-        testObject.put("Figura2", json2);
+        testObject.setDesignName("Design1");
+        testObject.put("Figure1", json1); //El nombre se obtiene de Design.getname()
+        testObject.put("Figure2", json2);
         testObject.save();
         
     }
     
     private void convertFromJson() {
         //Primera parte debe convertirse en un método de getFromParse()
-        
+        ParseQuery<ParseDesignObject> query = ParseQuery.getQuery(ParseDesignObject.class);
+        //Checks for objects of the ParseDesignObject class, that have the Name attribute set
+        query.whereExists("Name");
+        query.findInBackground(new FindCallback<ParseDesignObject>() {
+            @Override
+            public void done(List<ParseDesignObject> designList, ParseException exception) {
+                Figure figureFromJson;
+                String json;
+                for(ParseDesignObject design : designList) {
+                    
+                }
+            }
+        });
     }
     
     private void parseTest() {
