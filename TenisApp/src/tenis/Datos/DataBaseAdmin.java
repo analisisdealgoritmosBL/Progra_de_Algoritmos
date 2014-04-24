@@ -6,9 +6,20 @@ import java.util.logging.Logger;
 import tenis.library.Design;
 import org.parse4j.*;
 import com.google.gson.Gson;
+import java.awt.Color;
+import java.awt.Point;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import org.parse4j.util.ParseRegistry;
 import org.parse4j.callback.FindCallback;
+import tenis.library.Background;
+import tenis.library.DateDuration;
+import tenis.library.Edge;
+
+//Pruebas
+import tenis.library.Figure;
+import tenis.library.Figure_Kind;
 
 
 /**
@@ -19,6 +30,7 @@ public final class DataBaseAdmin {
     
     private Gson _ObjectJsonConverter = new Gson();
     public static ParseDesignObject testObject = new ParseDesignObject();
+    public static Design _DesignList;
     
     //This Database Administrator is created using the Singleton Pattern
     private static DataBaseAdmin _DBInstance = null;
@@ -41,14 +53,22 @@ public final class DataBaseAdmin {
         return _DBInstance;
     }
     
+    public void setDesignList(Design pDesign) {
+        _DesignList = pDesign;
+    }
+    
     private void saveDesignToDatabase(Design pDesign) throws ParseException {
         ParseDesignObject transitionalObjectToSave = new ParseDesignObject();
         
         transitionalObjectToSave.setDesignName(pDesign.getName());
         transitionalObjectToSave.setDesignCircles(convertListToJson(pDesign.getCircles()));
         transitionalObjectToSave.setDesignLines(convertListToJson(pDesign.getLines()));
-        transitionalObjectToSave.setDesignBackgrounds(convertListToJson(pDesign.getDesignBackgrounds()));
+        transitionalObjectToSave.setDesignBackgrounds(convertListToJson(pDesign.getBackgrounds()));
+        transitionalObjectToSave.setDesignDateTime(convertToJson(pDesign.getDuration()));
         
+        System.out.println(transitionalObjectToSave);
+        
+        transitionalObjectToSave.save();
     }
     
     
@@ -72,23 +92,12 @@ public final class DataBaseAdmin {
         jsonString = _ObjectJsonConverter.toJson(pGenericObject);
         return jsonString;
     }
-        
-        /*String json1 = _ObjectJsonConverter.toJson(_FigureListPRUEBA.get(0));
-        System.out.println(json1);
-        //String json2 = _ObjectToJsonConverter.toJson(_FigureListPRUEBA.get(1));
-        //System.out.println(json2);
-        //ParseObject(Design.getName()) Salva el nombre de la clase como un objeto completamente distinto
-        //Segunda parte debe estar en un método de salvar
-        //Se llama 2 veces para que todo quede en el mismo objeto
-        testObject.setDesignName("Design1");
-        testObject.put("Figure1", json1); //El nombre se obtiene de Design.getname()
-        //testObject.put("Figure2", json2);
-        testObject.save();*/
-        
     
-    private void convertFromJson() {
-        //Primera parte debe convertirse en un método de getFromParse()
+    public List<Design> getDesignsFromDatabase() {
+        List<Design> retrievedDesigns = new ArrayList<Design>();
+        
         ParseQuery<ParseDesignObject> parseDesignQuery = ParseQuery.getQuery(ParseDesignObject.class);
+        
         //Checks for objects of the ParseDesignObject class, that have the Name attribute set
         parseDesignQuery.whereExists("Name");
         parseDesignQuery.findInBackground(new FindCallback<ParseDesignObject>() {
@@ -102,9 +111,9 @@ public final class DataBaseAdmin {
                         json = design.getString("Figure1");
                         System.out.println("Json:");
                         System.out.println(json);
-                        figureFromJson = _ObjectJsonConverter.fromJson(json, Figure.class);
+                       // figureFromJson = _ObjectJsonConverter.fromJson(json, Figure.class);
                         System.out.println("Figure");
-                        System.out.println(figureFromJson);
+                        //System.out.println(figureFromJson);
                     }
                 }
                 else {
@@ -112,23 +121,29 @@ public final class DataBaseAdmin {
                 }
             }
         });
+        return retrievedDesigns;
+    }
+            
+    private void convertFromJson() {
+        //Primera parte debe convertirse en un método de getFromParse()
+        
     }
     
-    private void parseTest() {
-        
-        //testObject.add("Diseno1", _FigureListPRUEBA.get(0));
-        try {
-            testObject.save();
-        } catch (ParseException ex) {
-            Logger.getLogger(DataBaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.print(testObject);
-        
-    }
     public static void main(String[] args) throws ParseException {
-        ParseRegistry.registerSubclass(ParseDesignObject.class);
-        Parse.initialize("sWHeJhUcP8MMDStbDh2BcYu9AGfKqiPXIVfooZqQ", "FAu31BWoXqKV70BvEiVG2NSCyBo5CBve277vs915");
+        //ParseRegistry.registerSubclass(ParseDesignObject.class);
+        //Parse.initialize("sWHeJhUcP8MMDStbDh2BcYu9AGfKqiPXIVfooZqQ", "FAu31BWoXqKV70BvEiVG2NSCyBo5CBve277vs915");
+        Point xy = new Point(2,3);
+        Figure testCircle = new Figure(xy, 3, Color.blue, Figure_Kind.Circle, 1);
+        Edge testLine = new Edge(testCircle, testCircle, Figure_Kind.Line, 6, 7);
+        Background testBG = new Background(xy.x, xy.y, Color.blue);
+        Date testDate = new Date();
+        
+        //DateDuration testDD = new DateDuration(testDate, 180L);
+        Design design1 = new Design("Prueba1", testCircle, testLine, testBG, testDate, 190L);
         DataBaseAdmin asd = new DataBaseAdmin();
+        asd.getInstance();
+        asd.setDesignList(design1);
+        asd.saveDesignToDatabase(design1);
         //Point p = new Point(2,3);
         //Figure prueba1 = new Figure(p, 3, Color.blue, Figure_Kind.Line);
         //Figure prueba2 = new Figure(2, 3, 4, 5, Figure_Kind.Circular);
@@ -136,7 +151,7 @@ public final class DataBaseAdmin {
         //asd.fillDesignList(prueba2);
         //asd.convertToJson();
         //asd.convertToJson();
-        asd.convertFromJson();
+        //asd.convertFromJson();
         
         /*try {
             testObject.delete();

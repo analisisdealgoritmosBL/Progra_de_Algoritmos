@@ -49,11 +49,11 @@ public class ParseDesignObject extends ParseObject {
         return getString("Backgrounds");
     }
     
-    public void setTime(Long pDuration) {
-        put("Elapsed time", pDuration);
+    public void setDesignDateTime(String pDuration) {
+        put("Elapsed_time", pDuration);
     }
     
-    public String getTime() {
-        return getString("Elapsed time");
+    public String getDesignDateTime() {
+        return getString("Elapsed_time");
     }
 }

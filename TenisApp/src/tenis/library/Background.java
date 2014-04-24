@@ -9,10 +9,12 @@ import java.awt.Color;
 public class Background {
     private int _BackgroundCoordinateX;
     private int _BackgroundCoordinateY;
-    private int _BackgroundColor;
+    private Color _BackgroundColor;
     
     public Background(int pBackgroundCoordinateX, int pBackgroundCoordinateY, Color pBackgroundColor) {
-        
+        setBackgroundCoordinateX(pBackgroundCoordinateX);
+        setBackgroundCoordinateY(pBackgroundCoordinateY);
+        setBackgroundColor(pBackgroundColor);
     }
 
     public int getBackgroundCoordinateX() {
@@ -31,12 +33,12 @@ public class Background {
         _BackgroundCoordinateY = pBackgroundCoordinateY;
     }
 
-    public int getBackgroudColor() {
+    public Color getBackgroundColor() {
         return _BackgroundColor;
     }
 
-    public void setBackgroudColor(int pBackgroudColor) {
-        _BackgroundColor = pBackgroudColor;
+    public void setBackgroundColor(Color pBackgroundColor) {
+        _BackgroundColor = pBackgroundColor;
     }
     
 }
