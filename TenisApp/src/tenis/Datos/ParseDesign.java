@@ -9,8 +9,8 @@ import org.parse4j.ParseClassName;
  * @author L. Antonio Hidalgo
  */
 @ParseClassName("ParseDesignObject")
-public class ParseDesignObject extends ParseObject {
-    public ParseDesignObject() {
+public class ParseDesign extends ParseObject {
+    public ParseDesign() {
         
     }
     
@@ -49,11 +49,11 @@ public class ParseDesignObject extends ParseObject {
         return getString("Backgrounds");
     }
     
-    public void setDesignDateTime(String pDuration) {
+    public void setDesignDuration(String pDuration) {
         put("Elapsed_time", pDuration);
     }
     
-    public String getDesignDateTime() {
+    public String getDesignDuration() {
         return getString("Elapsed_time");
     }
 }

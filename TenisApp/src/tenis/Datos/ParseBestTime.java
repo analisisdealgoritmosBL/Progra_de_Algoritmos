@@ -9,9 +9,8 @@ import org.parse4j.ParseClassName;
  * @author L. Antonio Hidalgo
  */
 @ParseClassName("ParseBestTimeObject")
-public class ParseBestTimeObject extends ParseObject {
-    public ParseBestTimeObject() {
-        
+public class ParseBestTime extends ParseObject {
+    public ParseBestTime () {       
     }
     
     public void setDesignName(String pDesignName) {

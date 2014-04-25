@@ -1,16 +1,17 @@
 package tenis.Datos;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import tenis.library.Design;
 import org.parse4j.*;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.awt.Color;
 import java.awt.Point;
-import java.text.SimpleDateFormat;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.parse4j.util.ParseRegistry;
 import org.parse4j.callback.FindCallback;
 import tenis.library.Background;
@@ -29,8 +30,8 @@ import tenis.library.Figure_Kind;
 public final class DataBaseAdmin {
     
     private Gson _ObjectJsonConverter = new Gson();
-    public static ParseDesignObject testObject = new ParseDesignObject();
-    public static Design _DesignList;
+    public static ParseDesign testObject = new ParseDesign();
+    public static List<Design> _DesignList = new ArrayList<>();
     
     //This Database Administrator is created using the Singleton Pattern
     private static DataBaseAdmin _DBInstance = null;
@@ -42,8 +43,8 @@ public final class DataBaseAdmin {
             _DBInstance = new DataBaseAdmin();
             
             //The ParseDesignObject and ParseBestTimeObject classes have to be registered prior to Parse initialization
-            ParseRegistry.registerSubclass(ParseDesignObject.class);
-            ParseRegistry.registerSubclass(ParseBestTimeObject.class);
+            ParseRegistry.registerSubclass(ParseDesign.class);
+            ParseRegistry.registerSubclass(ParseBestTime.class);
             
             //Parse initialization should occur only once, in this case when DataBaseAdmin is instantiated.
             //Both arguments are provided by Parse, and they correspond to APP_ID and APP_REST_API_ID according
@@ -53,80 +54,111 @@ public final class DataBaseAdmin {
         return _DBInstance;
     }
     
-    public void setDesignList(Design pDesign) {
-        _DesignList = pDesign;
-    }
-    
     private void saveDesignToDatabase(Design pDesign) throws ParseException {
-        ParseDesignObject transitionalObjectToSave = new ParseDesignObject();
+        ParseDesign transitionalObjectToSave = new ParseDesign();
         
         transitionalObjectToSave.setDesignName(pDesign.getName());
-        transitionalObjectToSave.setDesignCircles(convertListToJson(pDesign.getCircles()));
-        transitionalObjectToSave.setDesignLines(convertListToJson(pDesign.getLines()));
-        transitionalObjectToSave.setDesignBackgrounds(convertListToJson(pDesign.getBackgrounds()));
-        transitionalObjectToSave.setDesignDateTime(convertToJson(pDesign.getDuration()));
-        
-        System.out.println(transitionalObjectToSave);
+        transitionalObjectToSave.setDesignCircles(convertToJson(pDesign.getCircles()));
+        transitionalObjectToSave.setDesignLines(convertToJson(pDesign.getLines()));
+        transitionalObjectToSave.setDesignBackgrounds(convertToJson(pDesign.getBackgrounds()));
+        transitionalObjectToSave.setDesignDuration(convertToJson(pDesign.getDateDuration()));
         
         transitionalObjectToSave.save();
     }
     
-    
-    /*private void fillDesignList(Figure pPruebaFigure) {
-        _FigureListPRUEBA.add(pPruebaFigure);
-    }*/
-    
-    private String convertListToJson(List<?> pGenericObjectList) throws ParseException {
+    private String convertToJson(List<?> pGenericObjectList) {
         String jsonString = new String();
         
-        for(Object objectToConvert : pGenericObjectList) {
-            jsonString += convertToJson(objectToConvert);
-        }
-        
+        jsonString = _ObjectJsonConverter.toJson(pGenericObjectList);
         return jsonString;
     }
     
-    private String convertToJson(Object pGenericObject) {
+    private <T> String convertToJson(T pGenericObject) {
         String jsonString = new String();
         
         jsonString = _ObjectJsonConverter.toJson(pGenericObject);
         return jsonString;
     }
+            
+    private DateDuration convertDateDurationFromJson(String pJsonString) {
+        DateDuration durationFromJson;
+        
+        durationFromJson = _ObjectJsonConverter.fromJson(pJsonString, DateDuration.class);
+        
+        return durationFromJson;
+    }
+    
+    private List<Figure> convertFigureListFromJson(String pJsonString) {
+        List<Figure> figureListFromJson = new ArrayList<>();
+        Type collectionType = new TypeToken<ArrayList<Figure>>(){}.getType();
+       
+        figureListFromJson = _ObjectJsonConverter.fromJson(pJsonString, collectionType);
+        return figureListFromJson;
+    }
+    
+    private List<Edge> convertLineListFromJson(String pJsonString) {
+        List<Edge> lineListFromJson = new ArrayList<>();
+        Type collectionType = new TypeToken<ArrayList<Edge>>(){}.getType();
+       
+        lineListFromJson = _ObjectJsonConverter.fromJson(pJsonString, collectionType);
+        return lineListFromJson;
+    }
+    
+    private List<Background> convertBackgroundListFromJson(String pJsonString) {
+        List<Background> backgroundListFromJson = new ArrayList<>();
+        Type collectionType = new TypeToken<ArrayList<Background>>(){}.getType();
+       
+        backgroundListFromJson = _ObjectJsonConverter.fromJson(pJsonString, collectionType);
+        return backgroundListFromJson;
+    }
     
     public List<Design> getDesignsFromDatabase() {
-        List<Design> retrievedDesigns = new ArrayList<Design>();
-        
-        ParseQuery<ParseDesignObject> parseDesignQuery = ParseQuery.getQuery(ParseDesignObject.class);
-        
-        //Checks for objects of the ParseDesignObject class, that have the Name attribute set
-        parseDesignQuery.whereExists("Name");
-        parseDesignQuery.findInBackground(new FindCallback<ParseDesignObject>() {
-            @Override
-            public void done(List<ParseDesignObject> designList, ParseException exception) {
-                //Figure figureFromJson;
-                String json = new String();
-                
-                if(exception == null) {
-                    for(ParseDesignObject design : designList) {
-                        json = design.getString("Figure1");
-                        System.out.println("Json:");
-                        System.out.println(json);
-                       // figureFromJson = _ObjectJsonConverter.fromJson(json, Figure.class);
-                        System.out.println("Figure");
-                        //System.out.println(figureFromJson);
-                    }
-                }
-                else {
-                    System.out.println("Object retrieval failed!");
-                }
-            }
-        });
-        return retrievedDesigns;
+        findDesignsInDatabase();
+        return _DesignList;
     }
-            
-    private void convertFromJson() {
-        //Primera parte debe convertirse en un método de getFromParse()
+    private void findDesignsInDatabase() {
         
+        ParseQuery<ParseDesign> parseDesignQuery = ParseQuery.getQuery(ParseDesign.class);
+        
+        //Checks for objects of the ParseDesignObject class that have the Name attribute set
+        parseDesignQuery.whereExists("Name");
+        try {
+            buildDesignListFromQuery(parseDesignQuery.find());
+            
+            /*
+            parseDesignQuery.findInBackground(new FindCallback<ParseDesign>() {
+            @Override
+            public void done(List<ParseDesign> pDesignList, ParseException pException) {
+            if(pException == null) {
+            //System.out.println(pDesignList.get(0).get("Name"));
+            buildDesignListFromQuery(pDesignList);
+            }
+            else {
+            System.out.println("Object retrieval failed!");
+            }
+            }
+            });*/
+        } catch (ParseException ex) {
+            Logger.getLogger(DataBaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void buildDesignListFromQuery(List<ParseDesign> pDesignList) {
+        Design retrievedDesign;
+        List<Design> retrievedDesigns = new ArrayList<>();
+        
+        for(ParseDesign design : pDesignList) {
+                        //A new Design is created with the results from the query
+                        
+                        retrievedDesign = new Design(design.getDesignName(),
+                            convertFigureListFromJson(design.getDesignCircles()), 
+                            convertLineListFromJson(design.getDesignLines()), 
+                            convertBackgroundListFromJson(design.getDesignBackgrounds()),
+                            convertDateDurationFromJson(design.getDesignDuration())
+                        );
+                        _DesignList.add(retrievedDesign);
+
+        }
     }
     
     public static void main(String[] args) throws ParseException {
@@ -141,9 +173,14 @@ public final class DataBaseAdmin {
         //DateDuration testDD = new DateDuration(testDate, 180L);
         Design design1 = new Design("Prueba1", testCircle, testLine, testBG, testDate, 190L);
         DataBaseAdmin asd = new DataBaseAdmin();
+        List<Design> testList = new ArrayList<>();
         asd.getInstance();
-        asd.setDesignList(design1);
-        asd.saveDesignToDatabase(design1);
+        //asd.setDesignList(design1);
+        //asd.saveDesignToDatabase(design1);
+        
+        testList = asd.getDesignsFromDatabase();
+        System.out.println(testList.get(0).getDateDuration().getDuration());
+        
         //Point p = new Point(2,3);
         //Figure prueba1 = new Figure(p, 3, Color.blue, Figure_Kind.Line);
         //Figure prueba2 = new Figure(2, 3, 4, 5, Figure_Kind.Circular);
