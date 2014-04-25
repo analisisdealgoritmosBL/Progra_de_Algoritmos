@@ -6,47 +6,72 @@
 
 package tenis.library;
 
-import java.awt.Color;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import tenis.logic.PaintAdministrator;
 
 
 public final class Design {
     
     //The first two constructors are desirable, though not essential.
-    public Design(String pDesignName, Figure pCircle, Edge pLine, Background pBackground, Date pDate, Long pDuration) {
+    public Design(String pDesignName, Figure pCircle, Edge pLine, 
+            Background pBackground, Date pDateFire, Long pDurationFire, Date pDateArcade, Long pDurationArcade) {
         setName(pDesignName);
         setCircles(pCircle);
         setLines(pLine);
         setBackgrounds(pBackground);
-        setDateDuration(pDate, pDuration);
+        _FireDuration = new DrawDuration(new DateDuration(pDateFire, pDurationFire), DrawType.Fire);
+        _ArcadeDuration = new DrawDuration(new DateDuration(pDateArcade, pDurationArcade), DrawType.Arcade);
     }
     
-    public Design(String pDesignName, Figure pCircle, Edge pLine, Background pBackground, DateDuration pDateDuration) {
+    public Design(String pDesignName, Figure pCircle, Edge pLine, Background pBackground, 
+            DateDuration pDateDurationFire, DateDuration pDateDurationArcade) {
         setName(pDesignName);
         setCircles(pCircle);
         setLines(pLine);
         setBackgrounds(pBackground);
-        setDateDuration(pDateDuration);
+        _FireDuration = new DrawDuration(pDateDurationFire, DrawType.Fire);
+        _ArcadeDuration = new DrawDuration(pDateDurationArcade, DrawType.Arcade);
     }
     
-    public Design(String pDesignName, List<Figure> pCircles, List<Edge> pLines, List<Background> pBackgrounds, Date pDate, Long pDuration) {
+    public Design(String pDesignName, Figure pCircle, Edge pLine,
+            Background pBackground, DrawDuration pDrawDurationFire, DrawDuration pDrawDurationArcade) {
+        setName(pDesignName);
+        setCircles(pCircle);
+        setLines(pLine);
+        setBackgrounds(pBackground);
+        _FireDuration = pDrawDurationFire;
+        _ArcadeDuration = pDrawDurationArcade;
+    }
+    
+    public Design(String pDesignName, List<Figure> pCircles, List<Edge> pLines, 
+            List<Background> pBackgrounds, Date pDateFire, Long pDurationFire, Date pDateArcade, Long pDurationArcade) {
         setName(pDesignName);
         setCircles(pCircles);
         setLines(pLines);
         setBackgrounds(pBackgrounds);
-        setDateDuration(pDate, pDuration);
+        _FireDuration = new DrawDuration(new DateDuration(pDateFire, pDurationFire), DrawType.Fire);
+        _ArcadeDuration = new DrawDuration(new DateDuration(pDateArcade, pDurationArcade), DrawType.Arcade);
     }
     
-    public Design(String pDesignName, List<Figure> pCircles, List<Edge> pLines, List<Background> pBackgrounds, DateDuration pDateDuration) {
+    public Design(String pDesignName, List<Figure> pCircles, List<Edge> pLines, 
+            List<Background> pBackgrounds, DateDuration pDateDurationFire, DateDuration pDateDurationArcade) {
         setName(pDesignName);
         setCircles(pCircles);
         setLines(pLines);
         setBackgrounds(pBackgrounds);
-        setDateDuration(pDateDuration);
+        _FireDuration = new DrawDuration(pDateDurationFire, DrawType.Fire);
+        _ArcadeDuration = new DrawDuration(pDateDurationArcade, DrawType.Arcade);
+    }
+    
+    public Design(String pDesignName, List<Figure> pCircles, List<Edge> pLines, 
+            List<Background> pBackgrounds, DrawDuration pDrawDurationFire, DrawDuration pDrawDurationArcade) {
+        setName(pDesignName);
+        setCircles(pCircles);
+        setLines(pLines);
+        setBackgrounds(pBackgrounds);
+        _FireDuration = pDrawDurationFire;
+        _ArcadeDuration = pDrawDurationArcade;
     }
     
     public String getName() 
@@ -102,20 +127,34 @@ public final class Design {
             _DesignBackgrounds.add(background);
     }
     
-    public DateDuration getDateDuration(){
-        return _DateDuration;
+    public DrawDuration getFireDuration(){
+        return _FireDuration;
     }
     
-    public void setDateDuration(Date pDate, Long pDuration) {
-        _DateDuration = new DateDuration(pDate, pDuration);
+    public void setFireDuration(DateDuration pDuration) {
+        _FireDuration.setDateDuration(pDuration);
     }
     
-    public void setDateDuration(DateDuration pDateDuration) {
-        _DateDuration = pDateDuration;
+    public void setFireDuration(Date pDateFire, Long pDurationFire) {
+        _FireDuration.setDateDuration(new DateDuration(pDateFire, pDurationFire));
     }
+    
+    public DrawDuration getArcadeDuration(){
+        return _ArcadeDuration;
+    }
+    
+    public void setArcadeDuration(DateDuration pDuration) {
+        _ArcadeDuration.setDateDuration(pDuration);
+    }
+    
+    public void setArcadeDuration(Date pDateArcade, Long pDurationArcade) {
+        _FireDuration.setDateDuration(new DateDuration(pDateArcade, pDurationArcade));
+    }
+    
     
     private List<Background> _DesignBackgrounds = new ArrayList<>();
-    private DateDuration _DateDuration;
+    private DrawDuration _FireDuration;
+    private DrawDuration _ArcadeDuration;
     private String _DesignName;
     private List<Figure> _DesignCircles = new ArrayList<>();
     private List<Edge> _DesignLines = new ArrayList<>();

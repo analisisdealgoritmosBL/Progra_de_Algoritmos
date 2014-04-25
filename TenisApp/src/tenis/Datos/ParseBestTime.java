@@ -21,11 +21,19 @@ public class ParseBestTime extends ParseObject {
         return getString("Name");
     }
     
-    public void setBestTime(long pBestDrawingTime) {
-        put("Best Time", pBestDrawingTime);
+    public void setFireDrawDuration(String pDurationFire) {
+        put("Date_Elapsed_time_Fire", pDurationFire);
     }
     
-    public long getBestTime() {
-        return getLong("Best Time");
+    public String getFireDrawDuration() {
+        return getString("Date_Elapsed_time_Fire");
+    }
+    
+    public void setArcadeDrawDuration(String pDurationArcade) {
+        put("Date_Elapsed_time_Arcade", pDurationArcade);
+    }
+    
+    public String getArcadeDrawDuration() {
+        return getString("Date_Elapsed_time_Arcade");
     }
 }

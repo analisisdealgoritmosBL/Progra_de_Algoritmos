@@ -49,11 +49,19 @@ public class ParseDesign extends ParseObject {
         return getString("Backgrounds");
     }
     
-    public void setDesignDuration(String pDuration) {
-        put("Elapsed_time", pDuration);
+    public void setFireDuration(String pDurationFire) {
+        put("Elapsed_time_Fire", pDurationFire);
     }
     
-    public String getDesignDuration() {
-        return getString("Elapsed_time");
+    public String getFireDuration() {
+        return getString("Elapsed_time_Fire");
+    }
+    
+    public void setArcadeDuration(String pDurationArcade) {
+        put("Elapsed_time_Arcade", pDurationArcade);
+    }
+    
+    public String getArcadeDuration() {
+        return getString("Elapsed_time_Arcade");
     }
 }
