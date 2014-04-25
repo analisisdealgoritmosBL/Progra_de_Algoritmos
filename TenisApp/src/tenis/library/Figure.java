@@ -24,6 +24,7 @@ public class Figure {
         private Figure_Kind kind;
         private boolean selected = false;
         private Rectangle b = new Rectangle();
+        private Rectangle u = new Rectangle();
         
 
         /**
@@ -36,6 +37,7 @@ public class Figure {
             this.kind = kind;
             this.thickness = thickness;
             setBoundary(b);
+            setPosBounds(u);
         }
 
         /**
@@ -43,6 +45,9 @@ public class Figure {
          */
         private void setBoundary(Rectangle b) {
             b.setBounds(p.x - r, p.y - r, 2 * r, 2 * r);
+        }
+        private void setPosBounds(Rectangle u) {
+            u.setBounds(b.x-50, b.y-50, b.height*2, b.width*2);
         }
 
         /**
@@ -76,6 +81,15 @@ public class Figure {
         public boolean contains(Point p) {
             return b.contains(p);
         }
+        
+        /*public static boolean intersects(List<Figure> pList, List<Edge> pEdges ) {
+            for (Figure n : pList) {
+                if (n.isSelected()) {
+                    return n.b.intersectsLine();
+                }
+            }
+            return false;
+        }*/
 
         /**
          * Return true if this node is selected.
@@ -187,6 +201,22 @@ public class Figure {
             }
         }
         
+        public static boolean RectIntersect(List<Figure> list) 
+        {
+            for (Figure n : list) 
+            {
+                if (n.isSelected()) 
+                {
+                    if (n.b.intersects(n.u)){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
+        
         /*public static void updateThickness(List<Figure> list, int thickness) 
         {
             for (Figure n : list) 
@@ -229,5 +259,3 @@ public class Figure {
         
     
 }
-
-    

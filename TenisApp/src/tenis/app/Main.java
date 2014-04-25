@@ -46,6 +46,12 @@ public class Main {
     {
         PaintAdministrator.drawPoint();
     }
+    public static void UpdateRadius(int pValue){
+        PaintAdministrator.UpdateCircle(pValue);
+    }
+    public static void Clean(){
+        PaintAdministrator.clear();
+    }
     
     private String _desing;
     private static Proram_Mode _ModeType;

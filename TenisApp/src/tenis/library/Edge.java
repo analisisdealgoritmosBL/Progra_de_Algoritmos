@@ -53,6 +53,24 @@ public class Edge {
             //g2.setStroke(new BasicStroke (this._thickness1));
         }
         
+        
+        public static Point intersect1(List<Edge> list) 
+        {
+            for (Edge n : list) 
+            {
+                return n._figure1.getLocation();
+            }
+            return null;
+        }
+        public static Point intersect2(List<Edge> list) 
+        {
+            for (Edge n : list) 
+            {
+                return n._figure2.getLocation();
+            }
+            return null;
+        }
+        
         public static void updateThickness(List<Edge> list, int thickness) 
         {
             for (Edge n : list) 

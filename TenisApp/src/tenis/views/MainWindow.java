@@ -24,29 +24,12 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
     }
     
-    private static final int WIDE = 640;
-    private static final int HIGH = 480;
-    private Point _mousePt = new Point(WIDE / 2, HIGH / 2);
-    private Rectangle _mouseRect = new Rectangle();
-    private Rectangle _mouseBounds = new Rectangle(200,200,300,300);
-    private boolean _selecting = false;
+    
 
     @Override
     public void paint(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
         super.paintComponents(g);
-        //new Color(0x00f0f0f0)
-        for (Edge e : PaintAdministrator._edges) {
-            e.draw(g2);
-        }
-        for (Figure n : PaintAdministrator._nodes){
-            n.draw(g2);
-        }
-        if (_selecting) {
-            g.setColor(Color.darkGray);
-            g.drawRect(_mouseRect.x, _mouseRect.y,
-                _mouseRect.width, _mouseRect.height);
-        }
+        EditorPainter.paint(g); 
     }
 
     
@@ -250,7 +233,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jButton3)
                         .addGap(103, 103, 103)
                         .addComponent(jButton4)
-                        .addGap(92, 92, 92)
+                        .addGap(100, 100, 100)
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton11)
@@ -289,8 +272,8 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(jButton11))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -324,46 +307,53 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
         Point delta = new Point();
-        //if (!mouseBounds.inside(evt.getX(),evt.getY())){
-        if (_selecting) {
+        //if (!Figure.RectIntersect(EditorPainter.getListFigure())){
             
-                _mouseRect.setBounds(
-                    Math.min(_mousePt.x, evt.getX()),
-                    Math.min(_mousePt.y, evt.getY()),
-                    Math.abs(_mousePt.x - evt.getX()),
-                    Math.abs(_mousePt.y - evt.getY()));
-                Figure.selectRect(PaintAdministrator._nodes, _mouseRect);
-            }
         //}
+        if (EditorPainter.isSelecting()) {
+
+        //if (Figure.colitions(EditorPainter.getListFigure(), PaintAdministrator._edges)){
+            EditorPainter.getMouseRect().setBounds(
+                Math.min(EditorPainter.getMousePt().x, evt.getX()),
+                Math.min(EditorPainter.getMousePt().y, evt.getY()),
+                Math.abs(EditorPainter.getMousePt().x - evt.getX()),
+                Math.abs(EditorPainter.getMousePt().y - evt.getY()));
+            Figure.selectRect(EditorPainter.getListFigures(), EditorPainter.getMouseRect());
+        //}
+        }
+        
+        
         else {
             delta.setLocation(
-                evt.getX() - _mousePt.x,
-                evt.getY() - _mousePt.y);
-            Figure.updatePosition(PaintAdministrator._nodes, delta);
-            _mousePt = evt.getPoint();
+                evt.getX() - EditorPainter.getMousePt().x,
+                evt.getY() - EditorPainter.getMousePt().y);
+            
+                Figure.updatePosition(EditorPainter.getListFigures(), delta);
+            
+            EditorPainter.setMousePt(evt.getPoint());
         }
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMouseDragged
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        _mousePt = evt.getPoint();
+        EditorPainter.setMousePt(evt.getPoint());
         if (evt.isShiftDown()) {
-            Figure.selectToggle(PaintAdministrator._nodes, _mousePt);
+            Figure.selectToggle(EditorPainter.getListFigures(), EditorPainter.getMousePt());
         } else if (evt.isPopupTrigger()) {
-            Figure.selectOne(PaintAdministrator._nodes, _mousePt);
+            Figure.selectOne(EditorPainter.getListFigures(), EditorPainter.getMousePt());
             //showPopup(evt);
-        } else if (Figure.selectOne(PaintAdministrator._nodes, _mousePt)) {
-            _selecting = false;
+        } else if (Figure.selectOne(EditorPainter.getListFigures(), EditorPainter.getMousePt())) {
+            EditorPainter.setSelecting(false);
         } else {
-            Figure.selectNone(PaintAdministrator._nodes);
-            _selecting = true;
+            Figure.selectNone(EditorPainter.getListFigures());
+            EditorPainter.setSelecting(true);
         }
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        _selecting = false;
-        _mouseRect.setBounds(0, 0, 0, 0);
+        EditorPainter.setSelecting(false);
+        EditorPainter.getMouseRect().setBounds(0, 0, 0, 0);
         if (evt.isPopupTrigger()) {
             //showPopup(e);
         }
@@ -383,18 +373,12 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        Color color = null;
-        color = JColorChooser.showDialog(this, "Choose a color", color);
-        if (color != null) {
-            Figure.updateColor(PaintAdministrator._nodes, color);
-            repaint();
-        }
+        EditorPainter.putColor(this);
+        repaint();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
-        int radius;
-        radius = (int) jSpinner1.getValue();
-        Figure.updateRadius(PaintAdministrator._nodes, radius);
+        Main.UpdateRadius((int) jSpinner1.getValue());
         repaint();
     }//GEN-LAST:event_jSpinner1StateChanged
 
@@ -411,11 +395,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void jSpinner2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner2StateChanged
         /*int thickness;
         thickness = (int) jSpinner1.getValue();
-        Figure.updateThickness(PaintAdministrator._nodes, thickness);
+        Figure.updateThickness(EditorPainter.getListFigure(), thickness);
         repaint();*/
         int thickness;
         thickness = (int) jSpinner1.getValue();
-        Edge.updateThickness(PaintAdministrator._edges, thickness);
+        Edge.updateThickness(EditorPainter.getListEdges(), thickness);
         repaint();
     }//GEN-LAST:event_jSpinner2StateChanged
 
@@ -425,8 +409,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        PaintAdministrator._nodes.clear();
-        PaintAdministrator._edges.clear();
+        Main.Clean();
         repaint();
     }//GEN-LAST:event_jButton9ActionPerformed
     
