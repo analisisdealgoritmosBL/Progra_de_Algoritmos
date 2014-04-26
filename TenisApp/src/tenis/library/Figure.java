@@ -16,26 +16,27 @@ import java.util.List;
 public class Figure {
     
     
-        private Point p;
-        private int r;
+        private Point point;
+        private int radius;
         private int thickness;
         private static final int _thicknessLine = 1;
         private Color color;
+
+    
         private Figure_Kind kind;
         private boolean selected = false;
         private Rectangle b = new Rectangle();
-        private Rectangle u = new Rectangle();
         
 
         /**
          * Construct a new node.
          */
-        public Figure(Point p, int r, Color color, Figure_Kind kind, int thickness) {
-            this.p = p;
-            this.r = r;
-            this.color = color;
-            this.kind = kind;
-            this.thickness = thickness;
+        public Figure(Point pPoint, int pRadius, Color pColor, Figure_Kind pKind, int pThickness) {
+            this.point = pPoint;
+            this.radius = pRadius;
+            this.color = pColor;
+            this.kind = pKind;
+            this.thickness = pThickness;
             setBoundary(b);
             //setPosBounds(u);
         }
@@ -44,7 +45,7 @@ public class Figure {
          * Calculate this node's rectangular boundary.
          */
         private void setBoundary(Rectangle b) {
-            b.setBounds(p.x - r, p.y - r, 2 * r, 2 * r);
+            b.setBounds(point.x - radius, point.y - radius, 2 * radius, 2 * radius);
         }
         /*private void setPosBounds(Rectangle u) {
             u.setBounds(b.x-50, b.y-50, b.height*2, b.width*2);
@@ -72,7 +73,13 @@ public class Figure {
          * Return this node's location.
          */
         public Point getLocation() {
-            return p;
+            return point;
+        }
+        public Color getColor() {
+            return color;
+        }
+        public int getRadius() {
+            return radius;
         }
 
         /**
@@ -147,16 +154,16 @@ public class Figure {
          */
         public static void selectRect(List<Figure> list, Rectangle r) {
             for (Figure n : list) {
-                n.setSelected(r.contains(n.p));
+                n.setSelected(r.contains(n.point));
             }
         }
 
         /**
          * Toggle selected state of each node containing p.
          */
-        public static void selectToggle(List<Figure> list, Point p) {
+        public static void selectToggle(List<Figure> list, Point pointSearch) {
             for (Figure n : list) {
-                if (n.contains(p)) {
+                if (n.contains(pointSearch)) {
                     n.setSelected(!n.isSelected());
                 }
             }
@@ -168,8 +175,8 @@ public class Figure {
         public static void updatePosition(List<Figure> list, Point d) {
             for (Figure n : list) {
                 if (n.isSelected()) {
-                    n.p.x += d.x;
-                    n.p.y += d.y;
+                    n.point.x += d.x;
+                    n.point.y += d.y;
                     n.setBoundary(n.b);
                 }
             }
@@ -181,16 +188,18 @@ public class Figure {
         public static void updateRadius(List<Figure> list, int pRadPoint) {
             for (Figure n : list) {
                 if (n.isSelected()) {
-                    n.r = pRadPoint;
+                    n.radius = pRadPoint;
                     n.setBoundary(n.b);
                 }
             }
         }
-        
-        public static void updateRadius(Figure point, int pRadPoint) {
-            point.r = pRadPoint;
-            point.setBoundary(point.b);
+        public static void updateRadius1(List<Figure> list, int pRadPoint) {
+            for (Figure n : list) {
+                n.radius = pRadPoint;
+                n.setBoundary(n.b);
+            }            
         }
+        
 
         /**
          * Update each node's color.
@@ -206,22 +215,7 @@ public class Figure {
             }
         }
         
-        public static boolean RectIntersect(List<Figure> list) 
-        {
-            for (Figure n : list) 
-            {
-                if (n.isSelected()) 
-                {
-                    if (n.b.intersects(n.u)){
-                        return true;
-                    }else{
-                        return false;
-                    }
-                }
-            }
-            return false;
-        }
-        
+               
         /*public static void updateThickness(List<Figure> list, int thickness) 
         {
             for (Figure n : list) 
@@ -242,6 +236,17 @@ public class Figure {
             n.setSelected(true);
             nodes.add(n);
         }
+        
+        public static void Points(Point mousePt, Figure_Kind kind, int radius, List<Figure> nodes, List<Background> Backgroundnodes) 
+        {
+            Figure.selectNone(nodes);
+            Point p = mousePt.getLocation();
+            Figure n = new Figure(p, radius, Color.green, kind, 0);
+            Backgroundnodes.add(new Background(n,Color.green,kind));
+            n.setSelected(true);
+            nodes.add(n);
+        }
+        
         public static void lines(Point mousePt1, Point mousePt2, int radius, Figure_Kind kindPoint, Figure_Kind kindLine, List<Figure> nodes, List<Edge> edges) 
         {
             Figure.selectNone(nodes);

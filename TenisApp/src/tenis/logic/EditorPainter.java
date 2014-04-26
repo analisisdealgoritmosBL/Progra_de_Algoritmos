@@ -12,6 +12,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import javax.swing.JColorChooser;
+import tenis.library.Background;
 import tenis.library.Design;
 import tenis.library.Edge;
 import tenis.library.Figure;
@@ -104,12 +105,13 @@ public class EditorPainter implements LogicController
     public static void drawPoint()
     {
         Point point = new Point (WIDE/2, HIGH/2);
-        Figure.firsthDesignPoints(point,Figure_Kind.Point,PaintAdministrator.getRadiusPoint(),PaintAdministrator.getNodes());
+        Figure.Points(point,Figure_Kind.Point,PaintAdministrator.getRadiusPoint(),PaintAdministrator.getNodes(),PaintAdministrator.getBackgrounds());
     }
     
     public static void UpdateRadius(int pValue){
         
         Figure.updateRadius(PaintAdministrator.getNodes(), pValue);
+        
     }
     private static final int WIDE = 640;
     private static final int HIGH = 480;

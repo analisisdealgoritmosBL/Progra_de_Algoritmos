@@ -1,44 +1,55 @@
 package tenis.library;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.QuadCurve2D;
 
 /**
  *
  * @author L. Antonio Hidalgo
  */
 public class Background {
-    private int _BackgroundCoordinateX;
-    private int _BackgroundCoordinateY;
-    private Color _BackgroundColor;
     
-    public Background(int pBackgroundCoordinateX, int pBackgroundCoordinateY, Color pBackgroundColor) {
-        setBackgroundCoordinateX(pBackgroundCoordinateX);
-        setBackgroundCoordinateY(pBackgroundCoordinateY);
-        setBackgroundColor(pBackgroundColor);
+    private Figure _BackgroundFigure1;
+    private Color _BackgroundColor;
+    private Figure_Kind _Backgroundkind;
+    
+    public Background(Figure pFigure1, Color pBackgroundColor, Figure_Kind pKind) {
+        this._BackgroundFigure1 = pFigure1;
+        this._BackgroundColor = pBackgroundColor;
+        this._Backgroundkind = pKind;
+    }
+    
+    public void draw(Graphics2D g2) {
+        g2.setColor(_BackgroundFigure1.getColor());
+        g2.fillOval(_BackgroundFigure1.getLocation().x, _BackgroundFigure1.getLocation().y, _BackgroundFigure1.getRadius()*2,_BackgroundFigure1.getRadius()*2);
     }
 
-    public int getBackgroundCoordinateX() {
-        return _BackgroundCoordinateX;
+    public Figure getBackgroundFigure1() {
+        return _BackgroundFigure1;
     }
 
-    public void setBackgroundCoordinateX(int pBackgroundCoordinateX) {
-        _BackgroundCoordinateX = pBackgroundCoordinateX;
-    }
-
-    public int getBackgroundCoordinateY() {
-        return _BackgroundCoordinateY;
-    }
-
-    public void setBackgroundCoordinateY(int pBackgroundCoordinateY) {
-        _BackgroundCoordinateY = pBackgroundCoordinateY;
+    public void setBackgroundFigure1(Figure _BackgroundFigure1) {
+        this._BackgroundFigure1 = _BackgroundFigure1;
     }
 
     public Color getBackgroundColor() {
         return _BackgroundColor;
     }
 
-    public void setBackgroundColor(Color pBackgroundColor) {
-        _BackgroundColor = pBackgroundColor;
+    public void setBackgroundColor(Color _BackgroundColor) {
+        this._BackgroundColor = _BackgroundColor;
     }
+
+    public Figure_Kind getBackgroundkind() {
+        return _Backgroundkind;
+    }
+
+    public void setBackgroundkind(Figure_Kind _Backgroundkind) {
+        this._Backgroundkind = _Backgroundkind;
+    }
+    
+    
+    
     
 }

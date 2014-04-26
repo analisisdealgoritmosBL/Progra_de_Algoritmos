@@ -8,6 +8,7 @@ import java.awt.*;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import tenis.app.Main;
+import tenis.library.Background;
 import tenis.library.Edge;
 import tenis.library.Figure;
 import tenis.library.Program_Mode;
@@ -35,8 +36,6 @@ public class MainWindow extends javax.swing.JFrame {
         }
         else if (Main.getMode()==Program_Mode.FIRE){
             EditorPainter.paint(g);
-            FirePainter.AlgorithmNew(g);
-            super.repaint();
             FirePainter.Algorithm(g);
         }
         else if (Main.getMode()==Program_Mode.ARCADE){

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
+import tenis.library.Background;
 import tenis.library.Design;
 import tenis.library.Edge;
 import tenis.library.Figure;
@@ -144,6 +145,7 @@ public class PaintAdministrator
     public static void clear(){
         getNodes().clear();
         getEdges().clear();
+        getBackgrounds().clear();
         firstDesign();
     }
 
@@ -190,6 +192,13 @@ public class PaintAdministrator
     public static List<Point> getCurvePoints() {
         return _curvePoints;
     }
+    public static List<Background> getBackgrounds() {
+        return _Backgrounds;
+    }
+
+    public static void setBackgrounds(List<Background> _Backgrounds) {
+        PaintAdministrator._Backgrounds = _Backgrounds;
+    }
     
     private Program_Mode _ModeType;
     private static PaintAdministrator _PainterLogic;
@@ -208,6 +217,7 @@ public class PaintAdministrator
     private static int _radiusLine = 5;
     private static List<Figure> _nodes = new ArrayList<>();
     private static List<Edge> _edges = new ArrayList<>();
+    private static List<Background> _Backgrounds = new ArrayList<>();
     private static List<Point> _curvePoints = Edge.getcurvePoints();
     private static String _name;
 }
