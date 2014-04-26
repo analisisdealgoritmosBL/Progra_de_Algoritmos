@@ -188,6 +188,9 @@ public final class DataBaseAdmin {
         ParseQuery<ParseBestTime> parseBestTimeQuery = ParseQuery.getQuery(ParseBestTime.class);
         DrawDuration currentBestDrawDurationForDesign;
         List<DrawDuration> bestDrawDurationsForDesign = new ArrayList<>();
+        Long currentDesignArcadeTime = pDesign.getArcadeDuration().getDateDuration().getDuration();
+        Long currentDesignFireTime = pDesign.getFireDuration().getDateDuration().getDuration();
+        Long currentBestArcadeTime;
         
         
         //Checks for objects of the ParseDesignObject class that have the Name attribute set
@@ -195,6 +198,14 @@ public final class DataBaseAdmin {
         try {
             if(parseBestTimeQuery.find() != null) {
                 bestDrawDurationsForDesign = buildDrawDurationFromQuery(parseBestTimeQuery.find());
+                
+                currentBestArcadeTime = 
+                
+                //Checks if pDesign's ArcadeDuration is lower (and better) than the one currently stored
+                if(currentDesignTime < bestDrawDurationsForDesign.get(0).getDateDuration().getDuration()) {
+                    
+                }
+                    
             }
             else {
                 saveBestDrawTime(pDesign);
