@@ -9,7 +9,8 @@ import java.awt.geom.QuadCurve2D;
 import java.util.List;
 
 /**
- *
+ * Saves information about the figures (circles) that
+ * can be drawn in a design.
  * @author Braulio Rivera
  */
 
@@ -23,7 +24,7 @@ public class Figure {
         private Color color;
 
     
-        private Figure_Kind kind;
+        private FigureType kind;
         private boolean selected = false;
         private Rectangle b = new Rectangle();
         
@@ -31,7 +32,7 @@ public class Figure {
         /**
          * Construct a new node.
          */
-        public Figure(Point pPoint, int pRadius, Color pColor, Figure_Kind pKind, int pThickness) {
+        public Figure(Point pPoint, int pRadius, Color pColor, FigureType pKind, int pThickness) {
             this.point = pPoint;
             this.radius = pRadius;
             this.color = pColor;
@@ -57,10 +58,10 @@ public class Figure {
         public void draw(Graphics2D g2) {
             QuadCurve2D q = new QuadCurve2D.Float();
             g2.setColor(this.color);
-            if (this.kind == Figure_Kind.Point) {
+            if (this.kind == FigureType.Point) {
                 g2.fillOval(b.x, b.y, b.width, b.height);
             }
-            else if (this.kind == Figure_Kind.Circle) {
+            else if (this.kind == FigureType.Circle) {
                 g2.drawOval(b.x, b.y, b.width, b.height);
             }
             if (selected) {
@@ -228,7 +229,7 @@ public class Figure {
         }*/
 
         
-        public static void firsthDesignPoints(Point mousePt, Figure_Kind kind, int radius, List<Figure> nodes) 
+        public static void firstDesignPoints(Point mousePt, FigureType kind, int radius, List<Figure> nodes) 
         {
             Figure.selectNone(nodes);
             Point p = mousePt.getLocation();
@@ -237,7 +238,7 @@ public class Figure {
             nodes.add(n);
         }
         
-        public static void Points(Point mousePt, Figure_Kind kind, int radius, List<Figure> nodes, List<Background> Backgroundnodes) 
+        public static void Points(Point mousePt, FigureType kind, int radius, List<Figure> nodes, List<Background> Backgroundnodes) 
         {
             Figure.selectNone(nodes);
             Point p = mousePt.getLocation();
@@ -247,7 +248,7 @@ public class Figure {
             nodes.add(n);
         }
         
-        public static void lines(Point mousePt1, Point mousePt2, int radius, Figure_Kind kindPoint, Figure_Kind kindLine, List<Figure> nodes, List<Edge> edges) 
+        public static void lines(Point mousePt1, Point mousePt2, int radius, FigureType kindPoint, FigureType kindLine, List<Figure> nodes, List<Edge> edges) 
         {
             Figure.selectNone(nodes);
             Figure n = new Figure(mousePt1, radius, Color.BLACK, kindPoint, 0);
@@ -257,7 +258,7 @@ public class Figure {
             nodes.add(n);
             nodes.add(n1);
         }
-        public static void circle(Point mousePt,  int radius, int thickness, Figure_Kind kind, List<Figure> nodes) 
+        public static void circle(Point mousePt,  int radius, int thickness, FigureType kind, List<Figure> nodes) 
         {
             Figure.selectNone(nodes);
             Point p = mousePt.getLocation();

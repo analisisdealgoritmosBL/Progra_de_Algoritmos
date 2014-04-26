@@ -3,7 +3,9 @@ package tenis.library;
 import java.util.Date;
 
 /**
- *
+ * Saves information about the date and time when an
+ * algorithm was called to paint a design and the duration
+ * of this process.
  * @author L. Antonio Hidalgo
  */
 public class DateDuration {

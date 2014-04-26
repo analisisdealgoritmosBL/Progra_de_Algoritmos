@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tenis.library;
 
 import java.awt.BasicStroke;
@@ -13,18 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Saves information about the lines to be drawn
+ * in a design.
  * @author Braulio Rivera
  */
 public class Edge {
         private Figure _figure1;
         private Figure _figure2;
-        private Figure_Kind _kind;
+        private FigureType _kind;
         private int _curve;
         private int _thickness1;
         private Color _color;
 
-        public Edge(Figure pFigure1, Figure pFigure2, Figure_Kind pKind, int pCurve, int pThickness, Color pColor) {
+        public Edge(Figure pFigure1, Figure pFigure2, FigureType pKind, int pCurve, int pThickness, Color pColor) {
             this._figure1 = pFigure1;
             this._figure2 = pFigure2;
             this._kind = pKind;
@@ -39,11 +36,11 @@ public class Edge {
             Point _point2 = _figure2.getLocation();
             g2.setColor(_color);
             Point pointCurve = new Point();
-            if (this._kind == Figure_Kind.Line)
+            if (this._kind == FigureType.Line)
             {           
                 g2.drawLine(_point1.x, _point1.y, _point2.x, _point2.y);
             }
-            else if (this._kind == Figure_Kind.Curve) {
+            else if (this._kind == FigureType.Curve) {
                 
                 if (_curve == 1){
                     pointCurve.setLocation(_point2.x-50, _point2.y-((_point2.y-_point1.y)/2));

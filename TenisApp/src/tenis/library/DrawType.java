@@ -7,7 +7,8 @@
 package tenis.library;
 
 /**
- *
+ * Enum that describes both possible drawing algorithms:
+ * Fire and Arcade.
  * @author L. Antonio Hidalgo
  */
 public enum DrawType {

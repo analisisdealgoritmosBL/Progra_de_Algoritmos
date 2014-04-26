@@ -7,7 +7,8 @@
 package tenis.library;
 
 /**
- *
+ * Saves information about the dateduration of an algorithm
+ * and the respective algorithm.
  * @author L. Antonio Hidalgo
  */
 public class DrawDuration {

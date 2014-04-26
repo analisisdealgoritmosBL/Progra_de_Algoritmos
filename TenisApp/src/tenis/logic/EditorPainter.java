@@ -16,7 +16,7 @@ import tenis.library.Background;
 import tenis.library.Design;
 import tenis.library.Edge;
 import tenis.library.Figure;
-import tenis.library.Figure_Kind;
+import tenis.library.FigureType;
 
 /**
  *
@@ -61,22 +61,22 @@ public class EditorPainter implements LogicController
         Point point5 = new Point(680,323);
         Point curve1 = new Point(150,175);
         Point curve2 = new Point(330,170);
-        Figure.firsthDesignPoints(point1,Figure_Kind.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
-        Figure.firsthDesignPoints(point2,Figure_Kind.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
-        Figure.firsthDesignPoints(point3,Figure_Kind.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
-        Figure.firsthDesignPoints(point4,Figure_Kind.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
-        Figure.firsthDesignPoints(point5,Figure_Kind.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
+        Figure.firstDesignPoints(point1,FigureType.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
+        Figure.firstDesignPoints(point2,FigureType.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
+        Figure.firstDesignPoints(point3,FigureType.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
+        Figure.firstDesignPoints(point4,FigureType.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
+        Figure.firstDesignPoints(point5,FigureType.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
         
         Figure n0 = PaintAdministrator.getNodes().get(0);
         Figure n1 = PaintAdministrator.getNodes().get(1);
         Figure n2 = PaintAdministrator.getNodes().get(2);
         Figure n3 = PaintAdministrator.getNodes().get(3);
         Figure n4 = PaintAdministrator.getNodes().get(4);
-        PaintAdministrator.getEdges().add(new Edge(n2, n3,Figure_Kind.Line,0, PaintAdministrator.getThickness(), Color.blue));
-        PaintAdministrator.getEdges().add(new Edge(n3, n4,Figure_Kind.Line,0, PaintAdministrator.getThickness(), Color.blue));
-        PaintAdministrator.getEdges().add(new Edge(n1, n4,Figure_Kind.Line,0, PaintAdministrator.getThickness(), Color.blue));
-        PaintAdministrator.getEdges().add(new Edge(n0, n1,Figure_Kind.Curve,1, PaintAdministrator.getThickness(), Color.blue));
-        PaintAdministrator.getEdges().add(new Edge(n0, n2,Figure_Kind.Curve,2, PaintAdministrator.getThickness(), Color.blue));
+        PaintAdministrator.getEdges().add(new Edge(n2, n3,FigureType.Line,0, PaintAdministrator.getThickness(), Color.blue));
+        PaintAdministrator.getEdges().add(new Edge(n3, n4,FigureType.Line,0, PaintAdministrator.getThickness(), Color.blue));
+        PaintAdministrator.getEdges().add(new Edge(n1, n4,FigureType.Line,0, PaintAdministrator.getThickness(), Color.blue));
+        PaintAdministrator.getEdges().add(new Edge(n0, n1,FigureType.Curve,1, PaintAdministrator.getThickness(), Color.blue));
+        PaintAdministrator.getEdges().add(new Edge(n0, n2,FigureType.Curve,2, PaintAdministrator.getThickness(), Color.blue));
     }
     
     public static void putColor(Component component){
@@ -92,20 +92,20 @@ public class EditorPainter implements LogicController
     {
         Point point = new Point (WIDE/2, HIGH/2);
         Point point1 = new Point ((WIDE/2)+50, (HIGH/2)+50);
-        Figure.lines(point, point1, PaintAdministrator.getRadiusLine(), Figure_Kind.Point,Figure_Kind.Line,PaintAdministrator.getNodes(),PaintAdministrator.getEdges());
+        Figure.lines(point, point1, PaintAdministrator.getRadiusLine(), FigureType.Point,FigureType.Line,PaintAdministrator.getNodes(),PaintAdministrator.getEdges());
     }
     
     public static void drawCircle()
     {
         Point point = new Point (WIDE/2, HIGH/2);
-        Figure.circle(point, PaintAdministrator.getRadiusCircle(), PaintAdministrator.getThickness(), Figure_Kind.Circle,PaintAdministrator.getNodes());
+        Figure.circle(point, PaintAdministrator.getRadiusCircle(), PaintAdministrator.getThickness(), FigureType.Circle,PaintAdministrator.getNodes());
     }
     
     
     public static void drawPoint()
     {
         Point point = new Point (WIDE/2, HIGH/2);
-        Figure.Points(point,Figure_Kind.Point,PaintAdministrator.getRadiusPoint(),PaintAdministrator.getNodes(),PaintAdministrator.getBackgrounds());
+        Figure.Points(point,FigureType.Point,PaintAdministrator.getRadiusPoint(),PaintAdministrator.getNodes(),PaintAdministrator.getBackgrounds());
     }
     
     public static void UpdateRadius(int pValue){

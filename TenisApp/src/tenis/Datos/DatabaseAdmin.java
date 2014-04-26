@@ -24,7 +24,7 @@ import tenis.library.Edge;
 
 //Pruebas
 import tenis.library.Figure;
-import tenis.library.Figure_Kind;
+import tenis.library.FigureType;
 
 
 /**
@@ -288,8 +288,8 @@ public final class DatabaseAdmin {
         //ParseRegistry.registerSubclass(ParseDesignObject.class);
         //Parse.initialize("sWHeJhUcP8MMDStbDh2BcYu9AGfKqiPXIVfooZqQ", "FAu31BWoXqKV70BvEiVG2NSCyBo5CBve277vs915");
         Point xy = new Point(2,3);
-        Figure testCircle = new Figure(xy, 3, Color.blue, Figure_Kind.Circle, 1);
-        Edge testLine = new Edge(testCircle, testCircle, Figure_Kind.Line, 6, 7);
+        Figure testCircle = new Figure(xy, 3, Color.blue, FigureType.Circle, 1);
+        Edge testLine = new Edge(testCircle, testCircle, FigureType.Line, 6, 7);
         Background testBG = new Background(xy.x, xy.y, Color.blue);
         Date testDate = new Date();
         
@@ -308,8 +308,8 @@ public final class DatabaseAdmin {
         System.out.println(testList.get(0).getFireDuration().getDateDuration().getDuration());
         
         //Point p = new Point(2,3);
-        //Figure prueba1 = new Figure(p, 3, Color.blue, Figure_Kind.Line);
-        //Figure prueba2 = new Figure(2, 3, 4, 5, Figure_Kind.Circular);
+        //Figure prueba1 = new Figure(p, 3, Color.blue, FigureType.Line);
+        //Figure prueba2 = new Figure(2, 3, 4, 5, FigureType.Circular);
         //asd.fillDesignList(prueba1);
         //asd.fillDesignList(prueba2);
         //asd.convertToJson();

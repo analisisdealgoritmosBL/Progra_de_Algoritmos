@@ -5,19 +5,20 @@ import java.awt.Graphics2D;
 import java.awt.geom.QuadCurve2D;
 
 /**
- *
- * @author L. Antonio Hidalgo
+ * Saves information about the color a background is
+ * going to be painted with.
+ * @author Braulio Rivera
  */
 public class Background {
     
     private Figure _BackgroundFigure1;
     private Color _BackgroundColor;
-    private Figure_Kind _Backgroundkind;
+    private FigureType _BackgroundKind;
     
-    public Background(Figure pFigure1, Color pBackgroundColor, Figure_Kind pKind) {
+    public Background(Figure pFigure1, Color pBackgroundColor, FigureType pKind) {
         this._BackgroundFigure1 = pFigure1;
         this._BackgroundColor = pBackgroundColor;
-        this._Backgroundkind = pKind;
+        this._BackgroundKind = pKind;
     }
     
     public void draw(Graphics2D g2) {
@@ -41,12 +42,12 @@ public class Background {
         this._BackgroundColor = _BackgroundColor;
     }
 
-    public Figure_Kind getBackgroundkind() {
-        return _Backgroundkind;
+    public FigureType getBackgroundKind() {
+        return _BackgroundKind;
     }
 
-    public void setBackgroundkind(Figure_Kind _Backgroundkind) {
-        this._Backgroundkind = _Backgroundkind;
+    public void setBackgroundKind(FigureType _BackgroundKind) {
+        this._BackgroundKind = _BackgroundKind;
     }
     
     

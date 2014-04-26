@@ -1,16 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package tenis.library;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * Saves information about the design characteristics: name,
+ * list of figures, list of edges, dateduration for arcade and
+ * fire algorithms.
+ * @author L. Antonio Hidalgo
+ */
 public final class Design {
     
     //The first two constructors are desirable, though not essential.
