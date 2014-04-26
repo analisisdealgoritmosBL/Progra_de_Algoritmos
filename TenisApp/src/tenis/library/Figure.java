@@ -37,18 +37,18 @@ public class Figure {
             this.kind = kind;
             this.thickness = thickness;
             setBoundary(b);
-            setPosBounds(u);
+            //setPosBounds(u);
         }
-
+       
         /**
          * Calculate this node's rectangular boundary.
          */
         private void setBoundary(Rectangle b) {
             b.setBounds(p.x - r, p.y - r, 2 * r, 2 * r);
         }
-        private void setPosBounds(Rectangle u) {
+        /*private void setPosBounds(Rectangle u) {
             u.setBounds(b.x-50, b.y-50, b.height*2, b.width*2);
-        }
+        }*/
 
         /**
          * Draw this node.
@@ -186,6 +186,11 @@ public class Figure {
                 }
             }
         }
+        
+        public static void updateRadius(Figure point, int pRadPoint) {
+            point.r = pRadPoint;
+            point.setBoundary(point.b);
+        }
 
         /**
          * Update each node's color.
@@ -233,7 +238,7 @@ public class Figure {
         {
             Figure.selectNone(nodes);
             Point p = mousePt.getLocation();
-            Figure n = new Figure(p, radius, Color.BLUE, kind, 0);
+            Figure n = new Figure(p, radius, Color.blue, kind, 0);
             n.setSelected(true);
             nodes.add(n);
         }
@@ -242,7 +247,7 @@ public class Figure {
             Figure.selectNone(nodes);
             Figure n = new Figure(mousePt1, radius, Color.BLACK, kindPoint, 0);
             Figure n1 = new Figure(mousePt2, radius, Color.BLACK, kindPoint, 0);
-            edges.add(new Edge(n, n1, kindLine, 0, _thicknessLine));
+            edges.add(new Edge(n, n1, kindLine, 0, _thicknessLine, Color.black));
             n.setSelected(true);
             nodes.add(n);
             nodes.add(n1);
@@ -251,7 +256,7 @@ public class Figure {
         {
             Figure.selectNone(nodes);
             Point p = mousePt.getLocation();
-            Figure n = new Figure(p, radius, Color.BLUE, kind, thickness);
+            Figure n = new Figure(p, radius, Color.green, kind, thickness);
             n.setSelected(true);
             nodes.add(n);
         }

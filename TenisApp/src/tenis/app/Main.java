@@ -6,7 +6,7 @@
 
 package tenis.app;
 
-import tenis.library.Proram_Mode;
+import tenis.library.Program_Mode;
 import tenis.logic.PaintAdministrator;
 import tenis.views.MainWindow;
 
@@ -21,18 +21,22 @@ public class Main {
         _window.show();
     }
     
-    public static void setMode(Proram_Mode pMode)
+    public static void setMode(Program_Mode pMode)
     {
         _ModeType = pMode;
+    }
+    public static Program_Mode getMode()
+    {
+        return _ModeType;
     }
     
     public static void nameDesign(String pDesignName)
     {
         PaintAdministrator.nameDesign(pDesignName);
     }
-    public static void createDesing() 
+    public static void createDesign() 
     {
-        PaintAdministrator.firsthDesign();
+        PaintAdministrator.firstDesign();
     }
     public static void drawLine() 
     {
@@ -54,7 +58,7 @@ public class Main {
     }
     
     private String _desing;
-    private static Proram_Mode _ModeType;
+    private static Program_Mode _ModeType;
 
     
     

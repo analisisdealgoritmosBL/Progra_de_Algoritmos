@@ -10,9 +10,11 @@ import javax.swing.JOptionPane;
 import tenis.app.Main;
 import tenis.library.Edge;
 import tenis.library.Figure;
-import tenis.library.Proram_Mode;
-import tenis.logic.PaintAdministrator;
+import tenis.library.Program_Mode;
 import tenis.logic.EditorPainter;
+import tenis.logic.PaintAdministrator;
+import tenis.logic.PaintAdministrator;
+import tenis.logic.FirePainter;
 
 /**
  *
@@ -24,14 +26,26 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
     }
     
-    
 
     @Override
     public void paint(Graphics g) {
         super.paintComponents(g);
-        EditorPainter.paint(g); 
+        if (Main.getMode()==Program_Mode.EDIT){
+            EditorPainter.paint(g);
+        }
+        else if (Main.getMode()==Program_Mode.FIRE){
+            EditorPainter.paint(g);
+            FirePainter.AlgorithmNew(g);
+            super.repaint();
+            FirePainter.Algorithm(g);
+        }
+        else if (Main.getMode()==Program_Mode.ARCADE){
+            //ArcadePainter.Algorithm(g);
+        }
     }
-
+    
+    
+    
     
     
     @SuppressWarnings("unchecked")
@@ -42,15 +56,15 @@ public class MainWindow extends javax.swing.JFrame {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jSpinner1 = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
@@ -64,6 +78,9 @@ public class MainWindow extends javax.swing.JFrame {
         jButton9 = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jButton11 = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        jToggleButton3 = new javax.swing.JToggleButton();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -108,27 +125,6 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
-        jButton3.setText("EDIT");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("ARCADE");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setText("FIRE");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
 
         jButton8.setText("Color");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -188,6 +184,27 @@ public class MainWindow extends javax.swing.JFrame {
 
         jButton11.setText("Report");
 
+        jToggleButton1.setText("EDIT");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
+        jToggleButton2.setText("ARCADE");
+        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton2ActionPerformed(evt);
+            }
+        });
+
+        jToggleButton3.setText("FIRE");
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -229,12 +246,12 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jButton9)
                         .addGap(48, 48, 48))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jButton3)
-                        .addGap(103, 103, 103)
-                        .addComponent(jButton4)
-                        .addGap(100, 100, 100)
-                        .addComponent(jButton5)
+                        .addGap(61, 61, 61)
+                        .addComponent(jToggleButton1)
+                        .addGap(69, 69, 69)
+                        .addComponent(jToggleButton2)
+                        .addGap(80, 80, 80)
+                        .addComponent(jToggleButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton11)
                         .addGap(63, 63, 63))
@@ -242,8 +259,11 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLayeredPane1)
                             .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLayeredPane1)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -266,15 +286,15 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3)
-                            .addComponent(jButton4)
-                            .addComponent(jButton5)
-                            .addComponent(jButton11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jButton11)
+                            .addComponent(jToggleButton1)
+                            .addComponent(jToggleButton2)
+                            .addComponent(jToggleButton3))
+                        .addGap(15, 15, 15)
                         .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(16, 16, 16)
                         .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -296,81 +316,70 @@ public class MainWindow extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String inputValue = JOptionPane.showInputDialog(jButton1, "Style Name: ", null, WIDTH);
         Main.nameDesign(inputValue);
-        Main.setMode(Proram_Mode.EDIT);
-        Main.createDesing();
+        Main.createDesign();
         repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //Guarda en PARSE
+        
+        //update(getGraphics());
+        repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
         Point delta = new Point();
-        //if (!Figure.RectIntersect(EditorPainter.getListFigure())){
+        //if (!Figure.RectIntersect(PaintAdministrator.getListFigure())){
             
         //}
-        if (EditorPainter.isSelecting()) {
+        if (PaintAdministrator.isSelecting()) {
 
-        //if (Figure.colitions(EditorPainter.getListFigure(), PaintAdministrator._edges)){
-            EditorPainter.getMouseRect().setBounds(
-                Math.min(EditorPainter.getMousePt().x, evt.getX()),
-                Math.min(EditorPainter.getMousePt().y, evt.getY()),
-                Math.abs(EditorPainter.getMousePt().x - evt.getX()),
-                Math.abs(EditorPainter.getMousePt().y - evt.getY()));
-            Figure.selectRect(EditorPainter.getListFigures(), EditorPainter.getMouseRect());
+        //if (Figure.colitions(PaintAdministrator.getListFigure(), PaintAdministrator._edges)){
+            PaintAdministrator.getMouseRect().setBounds(
+                Math.min(PaintAdministrator.getMousePt().x, evt.getX()),
+                Math.min(PaintAdministrator.getMousePt().y, evt.getY()),
+                Math.abs(PaintAdministrator.getMousePt().x - evt.getX()),
+                Math.abs(PaintAdministrator.getMousePt().y - evt.getY()));
+            Figure.selectRect(PaintAdministrator.getNodes(), PaintAdministrator.getMouseRect());
         //}
         }
         
         
         else {
             delta.setLocation(
-                evt.getX() - EditorPainter.getMousePt().x,
-                evt.getY() - EditorPainter.getMousePt().y);
+                evt.getX() - PaintAdministrator.getMousePt().x,
+                evt.getY() - PaintAdministrator.getMousePt().y);
             
-                Figure.updatePosition(EditorPainter.getListFigures(), delta);
+                Figure.updatePosition(PaintAdministrator.getNodes(), delta);
             
-            EditorPainter.setMousePt(evt.getPoint());
+            PaintAdministrator.setMousePt(evt.getPoint());
         }
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMouseDragged
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        EditorPainter.setMousePt(evt.getPoint());
+        PaintAdministrator.setMousePt(evt.getPoint());
         if (evt.isShiftDown()) {
-            Figure.selectToggle(EditorPainter.getListFigures(), EditorPainter.getMousePt());
+            Figure.selectToggle(PaintAdministrator.getNodes(), PaintAdministrator.getMousePt());
         } else if (evt.isPopupTrigger()) {
-            Figure.selectOne(EditorPainter.getListFigures(), EditorPainter.getMousePt());
+            Figure.selectOne(PaintAdministrator.getNodes(), PaintAdministrator.getMousePt());
             //showPopup(evt);
-        } else if (Figure.selectOne(EditorPainter.getListFigures(), EditorPainter.getMousePt())) {
-            EditorPainter.setSelecting(false);
+        } else if (Figure.selectOne(PaintAdministrator.getNodes(), PaintAdministrator.getMousePt())) {
+            PaintAdministrator.setSelecting(false);
         } else {
-            Figure.selectNone(EditorPainter.getListFigures());
-            EditorPainter.setSelecting(true);
+            Figure.selectNone(PaintAdministrator.getNodes());
+            PaintAdministrator.setSelecting(true);
         }
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        EditorPainter.setSelecting(false);
-        EditorPainter.getMouseRect().setBounds(0, 0, 0, 0);
+        PaintAdministrator.setSelecting(false);
+        PaintAdministrator.getMouseRect().setBounds(0, 0, 0, 0);
         if (evt.isPopupTrigger()) {
             //showPopup(e);
         }
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMouseReleased
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Main.setMode(Proram_Mode.ARCADE);
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Main.setMode(Proram_Mode.EDIT);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        Main.setMode(Proram_Mode.FIRE);
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         EditorPainter.putColor(this);
@@ -395,11 +404,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void jSpinner2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner2StateChanged
         /*int thickness;
         thickness = (int) jSpinner1.getValue();
-        Figure.updateThickness(EditorPainter.getListFigure(), thickness);
+        Figure.updateThickness(PaintAdministrator.getListFigure(), thickness);
         repaint();*/
         int thickness;
         thickness = (int) jSpinner1.getValue();
-        Edge.updateThickness(EditorPainter.getListEdges(), thickness);
+        Edge.updateThickness(PaintAdministrator.getEdges(), thickness);
         repaint();
     }//GEN-LAST:event_jSpinner2StateChanged
 
@@ -412,17 +421,38 @@ public class MainWindow extends javax.swing.JFrame {
         Main.Clean();
         repaint();
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        Main.setMode(Program_Mode.ARCADE);
+        jToggleButton1.setSelected(false);
+        jToggleButton3.setSelected(false);
+        repaint();
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
+        Main.setMode(Program_Mode.FIRE);
+        jToggleButton1.setSelected(false);
+        jToggleButton2.setSelected(false);
+        repaint();
+    }//GEN-LAST:event_jToggleButton3ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        Main.setMode(Program_Mode.EDIT);
+        jToggleButton2.setSelected(false);
+        jToggleButton3.setSelected(false);
+        repaint();
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
     
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -442,6 +472,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JToggleButton jToggleButton3;
     // End of variables declaration//GEN-END:variables
 
 }

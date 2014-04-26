@@ -6,10 +6,19 @@
 
 package tenis.logic;
 
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.List;
 import tenis.library.Design;
-import tenis.library.Proram_Mode;
+import tenis.library.Edge;
+import tenis.library.Figure;
+import tenis.library.Program_Mode;
+import static tenis.logic.PaintAdministrator.firstDesign;
+import static tenis.logic.PaintAdministrator.getEdges;
+import static tenis.logic.PaintAdministrator.getNodes;
 
 /**
  *
@@ -21,10 +30,10 @@ public class PaintAdministrator
 
     private PaintAdministrator() 
     {
-        _Painters = new Hashtable<Proram_Mode, LogicController>();
-        _Painters.put(Proram_Mode.EDIT, new EditorPainter());
-        _Painters.put(Proram_Mode.ARCADE, new ArcadePainter());
-        _Painters.put(Proram_Mode.FIRE, new FirePainter());
+        _Painters = new Hashtable<Program_Mode, LogicController>();
+        _Painters.put(Program_Mode.EDIT, new EditorPainter());
+        _Painters.put(Program_Mode.ARCADE, new ArcadePainter());
+        _Painters.put(Program_Mode.FIRE, new FirePainter());
     }
     
     public synchronized static PaintAdministrator getInstance() 
@@ -43,7 +52,7 @@ public class PaintAdministrator
         painter.pintar(pDesino);
     }
     
-    public void setMode(Proram_Mode pMode)
+    public void setMode(Program_Mode pMode)
     {
         _ModeType = pMode;
     }
@@ -53,9 +62,9 @@ public class PaintAdministrator
         EditorPainter.nameDesign(pName);
     }
     
-    public static void firsthDesign() 
+    public static void firstDesign() 
     {
-        EditorPainter.firsthDesign();
+        EditorPainter.firstDesign();
     }
     
     public static void drawLine() 
@@ -76,13 +85,129 @@ public class PaintAdministrator
     {
         EditorPainter.UpdateRadius(pValue);
     }
-    public static void clear(){
-        EditorPainter.getListFigures().clear();
-        EditorPainter.getListEdges().clear();
-        EditorPainter.firsthDesign();
+
+    public static Point getMousePt() {
+        return _mousePt;
     }
 
-    private Proram_Mode _ModeType;
+    public static void setMousePt(Point _mousePt) {
+        PaintAdministrator._mousePt = _mousePt;
+    }
+
+    public static Rectangle getMouseRect() {
+        return _mouseRect;
+    }
+
+    public static void setMouseRect(Rectangle _mouseRect) {
+        PaintAdministrator._mouseRect = _mouseRect;
+    }
+
+    public Rectangle getMouseBounds() {
+        return _mouseBounds;
+    }
+
+    public void setMouseBounds(Rectangle _mouseBounds) {
+        this._mouseBounds = _mouseBounds;
+    }
+
+    public static boolean isSelecting() {
+        return _selecting;
+    }
+
+    public static void setSelecting(boolean _selecting) {
+        PaintAdministrator._selecting = _selecting;
+    }
+
+    public static List<Figure> getNodes() {
+        return _nodes;
+    }
+
+    public static void setNodes(List<Figure> _nodes) {
+        PaintAdministrator._nodes = _nodes;
+    }
+
+    public static List<Edge> getEdges() {
+        return _edges;
+    }
+
+    public static void setEdges(List<Edge> _edges) {
+        PaintAdministrator._edges = _edges;
+    }
+
+    public static String getName() {
+        return _name;
+    }
+
+    public static void setName(String _name) {
+        PaintAdministrator._name = _name;
+    }
+    public static void clear(){
+        getNodes().clear();
+        getEdges().clear();
+        firstDesign();
+    }
+
+    public static int getRadius() {
+        return _radius;
+    }
+
+    public static void setRadius(int _radius) {
+        PaintAdministrator._radius = _radius;
+    }
+
+    public static int getRadiusPoint() {
+        return _radiusPoint;
+    }
+
+    public static void setRadiusPoint(int _radiusPoint) {
+        PaintAdministrator._radiusPoint = _radiusPoint;
+    }
+
+    public static int getThickness() {
+        return _thickness;
+    }
+
+    public static void setThickness(int _thickness) {
+        PaintAdministrator._thickness = _thickness;
+    }
+
+    public static int getRadiusCircle() {
+        return _radiusCircle;
+    }
+
+    public static void setRadiusCircle(int _radiusCircle) {
+        PaintAdministrator._radiusCircle = _radiusCircle;
+    }
+
+    public static int getRadiusLine() {
+        return _radiusLine;
+    }
+
+    public static void setRadiusLine(int _radiusLine) {
+        PaintAdministrator._radiusLine = _radiusLine;
+    }
+    
+    public static List<Point> getCurvePoints() {
+        return _curvePoints;
+    }
+    
+    private Program_Mode _ModeType;
     private static PaintAdministrator _PainterLogic;
-    private Dictionary<Proram_Mode, LogicController> _Painters;
+    private Dictionary<Program_Mode, LogicController> _Painters;
+    
+    private static final int WIDE = 640;
+    private static final int HIGH = 480;
+    private static Point _mousePt = new Point(WIDE / 2, HIGH / 2);
+    private static Rectangle _mouseRect = new Rectangle();
+    private Rectangle _mouseBounds = new Rectangle(200,200,300,300);
+    private static boolean _selecting = false;
+    private static int _radius = 10;
+    private static int _radiusPoint = 10;
+    private static int _thickness = 1;
+    private static int _radiusCircle = 15;
+    private static int _radiusLine = 5;
+    private static List<Figure> _nodes = new ArrayList<>();
+    private static List<Edge> _edges = new ArrayList<>();
+    private static List<Point> _curvePoints = Edge.getcurvePoints();
+    private static String _name;
 }

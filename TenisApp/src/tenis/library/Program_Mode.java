@@ -7,6 +7,6 @@
 package tenis.library;
 
 
-public enum Proram_Mode {
+public enum Program_Mode {
     EDIT, ARCADE, FIRE
 }
