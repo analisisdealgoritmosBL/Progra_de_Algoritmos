@@ -264,11 +264,5 @@ public class FirePainter implements LogicController
     
     //private static int PixelPointX;
     //private static int PixelPointX1;
-    private static Polygon shape;
-    private static List <Figure> _points = PaintAdministrator.getNodes();
-    private static List <Edge> _Connections = PaintAdministrator.getEdges();
-    private static List <Point> _CurvePoints = PaintAdministrator.getCurvePoints();
-    private static List <Background> _Backgrounds = PaintAdministrator.getBackgrounds();
-    private static List <Point> _skipPoints = new ArrayList();
-    private static List <Point> pixels;
+    private Polygon shape;
 }

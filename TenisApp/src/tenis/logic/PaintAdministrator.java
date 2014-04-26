@@ -27,12 +27,12 @@ public class PaintAdministrator
 
     public void paint(Graphics p, Program_Mode pMode){
 
-        switch(pMode):
+        switch(pMode){
                 case EDIT: 
-                    _Editor.paint(p); 
+                    _Editor.paint(p, _nodes, _edges, _mouseRect, _selecting); 
                     break;
                 case FIRE:
-                    _Editor.paint(p);
+                    _Editor.paint(p, _nodes, _edges, _mouseRect, _selecting);
                     FirePainter.Algorithm(p);
                     break;
                 case ARCADE:
@@ -111,14 +111,14 @@ public class PaintAdministrator
         _ModeType = pMode;
     }
     
-    public void nameDesign(String pName) 
+    /*public void nameDesign(String pName) 
     {
         _Editor.nameDesign(pName);
-    }
+    }*/
     
     public void firstDesign() 
     {
-        _Editor.firstDesign();
+        _Editor.firstDesign(_nodes, _edges, _radius , _thickness);
     }
     
     public void drawLine() 
@@ -128,16 +128,16 @@ public class PaintAdministrator
     
     public void drawCircle()
     {
-        _Editor.drawCircle();
+        _Editor.drawCircle(_radiusCircle , _nodes, _thickness);
     }
     
     public void drawPoint()
     {
-        _Editor.drawPoint();
+        _Editor.drawPoint(_radiusPoint , _nodes, _Backgrounds);
     }
     public void UpdateCircle(int pValue)
     {
-        _Editor.UpdateRadius(pValue);
+        _Editor.UpdateRadius(pValue, _nodes);
     }
     
     public void clear(){

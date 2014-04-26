@@ -26,7 +26,6 @@ public class MainWindow extends javax.swing.JFrame {
     @Override
     public void paint(Graphics g) {
         super.paintComponents(g);
-        LaunchWindow.paint(g);
     }
     
     @SuppressWarnings("unchecked")
@@ -300,8 +299,8 @@ public class MainWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "No puede crear un diseño sin nombre");
         }
         else{
-            LaunchWindow.nameDesign(inputValue);
-            LaunchWindow.createDesign();
+            nameDesign(inputValue);
+            createDesign();
             repaint();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -351,11 +350,11 @@ public class MainWindow extends javax.swing.JFrame {
         /*int thickness;
         thickness = (int) jSpinner1.getValue();
         Figure.updateThickness(PaintAdministrator.getListFigure(), thickness);
-        repaint();*/
+        repaint();
         int thickness;
         thickness = (int) jSpinner1.getValue();
         Edge.updateThickness(PaintAdministrator.getEdges(), thickness);
-        repaint();
+        repaint();*/
     }//GEN-LAST:event_jSpinner2StateChanged
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -389,7 +388,7 @@ public class MainWindow extends javax.swing.JFrame {
         repaint();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
     
-    
+  
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
