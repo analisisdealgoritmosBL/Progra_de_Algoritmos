@@ -6,8 +6,10 @@
 
 package tenis.logic;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
@@ -16,25 +18,78 @@ import tenis.library.Design;
 import tenis.library.Edge;
 import tenis.library.Figure;
 import tenis.library.Program_Mode;
-import static tenis.logic.PaintAdministrator.firstDesign;
-import static tenis.logic.PaintAdministrator.getEdges;
-import static tenis.logic.PaintAdministrator.getNodes;
+//import tenis.logic.PaintAdministrator.firstDesign;
+//import tenis.logic.PaintAdministrator.getEdges;
+//import tenis.logic.PaintAdministrator.getNodes;
 
-/**
- *
- * @author Rodrigo
- */
 public class PaintAdministrator 
 {
-    
 
-    private PaintAdministrator() 
-    {
-        _Painters.put(Program_Mode.EDIT, new EditorPainter());
-        _Painters.put(Program_Mode.ARCADE, new ArcadePainter());
-        _Painters.put(Program_Mode.FIRE, new FirePainter());
+    public void paint(Graphics p, Program_Mode pMode){
+
+        switch(pMode):
+                case EDIT: 
+                    _Editor.paint(p); 
+                    break;
+                case FIRE:
+                    _Editor.paint(p);
+                    FirePainter.Algorithm(p);
+                    break;
+                case ARCADE:
+                    //ArcadePainter.Algorithm(g);
+                    break;
+        }    
+    }
+
+    public void dragNode(MouseEvent evt) {
+        Point delta = new Point();
+        //if (!Figure.RectIntersect(PaintAdministrator.getListFigure())){
+            
+        //}
+        if (_selecting) {
+
+        //if (Figure.colitions(PaintAdministrator.getListFigure(), PaintAdministrator._edges)){
+            _mouseRect.setBounds(
+                Math.min(_mousePt.x, evt.getX()),
+                Math.min(_mousePt.y, evt.getY()),
+                Math.abs(_mousePt.x - evt.getX()),
+                Math.abs(_mousePt.y - evt.getY()));
+            Figure.selectRect(_nodes, _mouseRect);
+        //}
+        }
+        
+        
+        else {
+            delta.setLocation(
+                evt.getX() - _mousePt.x,
+                evt.getY() - _mousePt.y);
+            
+                Figure.updatePosition(_nodes, delta);
+            
+            _mousePt = evt.getPoint();
+        }
+    }
+
+    public void Press(MouseEvent evt) {
+        _mousePt = evt.getPoint();
+        if (evt.isShiftDown()) {
+            Figure.selectToggle(_nodes, _mousePt);
+        } else if (evt.isPopupTrigger()) {
+            Figure.selectOne(_nodes, _mousePt);
+            //showPopup(evt);
+        } else if (Figure.selectOne(_nodes, _mousePt)) {
+            _selecting =false;
+        } else {
+            Figure.selectNone(_nodes);
+            _selecting = true;
+        }    }
+
+    public void Release(MouseEvent evt) {
+        _selecting = false;
+        _mouseRect.setBounds(0, 0, 0, 0);
     }
     
+
     public synchronized static PaintAdministrator getInstance() 
     {
         if (_PainterLogic==null)
@@ -56,49 +111,63 @@ public class PaintAdministrator
         _ModeType = pMode;
     }
     
-    public static void nameDesign(String pName) 
+    public void nameDesign(String pName) 
     {
-        EditorPainter.nameDesign(pName);
+        _Editor.nameDesign(pName);
     }
     
-    public static void firstDesign() 
+    public void firstDesign() 
     {
-        EditorPainter.firstDesign();
+        _Editor.firstDesign();
     }
     
-    public static void drawLine() 
+    public void drawLine() 
     {
-        EditorPainter.drawLine();
+        _Editor.drawLine(_radiusLine, _nodes, _edges);
     }
     
-    public static void drawCircle()
+    public void drawCircle()
     {
-        EditorPainter.drawCircle();
+        _Editor.drawCircle();
     }
     
-    public static void drawPoint()
+    public void drawPoint()
     {
-        EditorPainter.drawPoint();
+        _Editor.drawPoint();
     }
-    public static void UpdateCircle(int pValue)
+    public void UpdateCircle(int pValue)
     {
-        EditorPainter.UpdateRadius(pValue);
+        _Editor.UpdateRadius(pValue);
+    }
+    
+    public void clear(){
+        _nodes.clear();
+        _edges.clear();
+        _Backgrounds.clear();
+        firstDesign();
+    }
+    public Program_Mode getModeType() {
+        return _ModeType;
     }
 
-    public static Point getMousePt() {
+    public void setModeType(Program_Mode _ModeType) {
+        this._ModeType = _ModeType;
+    }
+
+    public Point getMousePt() {
         return _mousePt;
     }
 
-    public static void setMousePt(Point _mousePt) {
-        PaintAdministrator._mousePt = _mousePt;
+    public void setMousePt(Point _mousePt) {
+        this._mousePt = _mousePt;
     }
 
-    public static Rectangle getMouseRect() {
+    public Rectangle getMouseRect() {
         return _mouseRect;
     }
 
-    public static void setMouseRect(Rectangle _mouseRect) {
-        PaintAdministrator._mouseRect = _mouseRect;
+    public void setMouseRect(Rectangle _mouseRect) {
+        this._mouseRect = _mouseRect;
     }
 
     public Rectangle getMouseBounds() {
@@ -109,113 +178,112 @@ public class PaintAdministrator
         this._mouseBounds = _mouseBounds;
     }
 
-    public static boolean isSelecting() {
+    public boolean isSelecting() {
         return _selecting;
     }
 
-    public static void setSelecting(boolean _selecting) {
-        PaintAdministrator._selecting = _selecting;
+    public void setSelecting(boolean _selecting) {
+        this._selecting = _selecting;
     }
 
-    public static List<Figure> getNodes() {
-        return _nodes;
-    }
-
-    public static void setNodes(List<Figure> _nodes) {
-        PaintAdministrator._nodes = _nodes;
-    }
-
-    public static List<Edge> getEdges() {
-        return _edges;
-    }
-
-    public static void setEdges(List<Edge> _edges) {
-        PaintAdministrator._edges = _edges;
-    }
-
-    public static String getName() {
-        return _name;
-    }
-
-    public static void setName(String _name) {
-        PaintAdministrator._name = _name;
-    }
-    public static void clear(){
-        getNodes().clear();
-        getEdges().clear();
-        getBackgrounds().clear();
-        firstDesign();
-    }
-
-    public static int getRadius() {
+    public int getRadius() {
         return _radius;
     }
 
-    public static void setRadius(int _radius) {
-        PaintAdministrator._radius = _radius;
+    public void setRadius(int _radius) {
+        this._radius = _radius;
     }
 
-    public static int getRadiusPoint() {
+    public int getRadiusPoint() {
         return _radiusPoint;
     }
 
-    public static void setRadiusPoint(int _radiusPoint) {
-        PaintAdministrator._radiusPoint = _radiusPoint;
+    public void setRadiusPoint(int _radiusPoint) {
+        this._radiusPoint = _radiusPoint;
     }
 
-    public static int getThickness() {
+    public int getThickness() {
         return _thickness;
     }
 
-    public static void setThickness(int _thickness) {
-        PaintAdministrator._thickness = _thickness;
+    public void setThickness(int _thickness) {
+        this._thickness = _thickness;
     }
 
-    public static int getRadiusCircle() {
+    public int getRadiusCircle() {
         return _radiusCircle;
     }
 
-    public static void setRadiusCircle(int _radiusCircle) {
-        PaintAdministrator._radiusCircle = _radiusCircle;
+    public void setRadiusCircle(int _radiusCircle) {
+        this._radiusCircle = _radiusCircle;
     }
 
-    public static int getRadiusLine() {
+    public int getRadiusLine() {
         return _radiusLine;
     }
 
-    public static void setRadiusLine(int _radiusLine) {
-        PaintAdministrator._radiusLine = _radiusLine;
+    public void setRadiusLine(int _radiusLine) {
+        this._radiusLine = _radiusLine;
     }
-    
-    public static List<Point> getCurvePoints() {
-        return _curvePoints;
+
+    public List<Figure> getNodes() {
+        return _nodes;
     }
-    public static List<Background> getBackgrounds() {
+
+    public void setNodes(List<Figure> _nodes) {
+        this._nodes = _nodes;
+    }
+
+    public List<Edge> getEdges() {
+        return _edges;
+    }
+
+    public void setEdges(List<Edge> _edges) {
+        this._edges = _edges;
+    }
+
+    public List<Background> getBackgrounds() {
         return _Backgrounds;
     }
 
-    public static void setBackgrounds(List<Background> _Backgrounds) {
-        PaintAdministrator._Backgrounds = _Backgrounds;
+    public void setBackgrounds(List<Background> _Backgrounds) {
+        this._Backgrounds = _Backgrounds;
+    }
+
+    public List<Point> getCurvePoints() {
+        return _curvePoints;
+    }
+
+    public void setCurvePoints(List<Point> _curvePoints) {
+        this._curvePoints = _curvePoints;
+    }
+
+    public String getName() {
+        return _name;
+    }
+
+    public void setName(String _name) {
+        this._name = _name;
     }
     
     private Program_Mode _ModeType;
     private static PaintAdministrator _PainterLogic;
     private Dictionary<Program_Mode, LogicController> _Painters;
-    
-    private static final int WIDE = 640;
-    private static final int HIGH = 480;
-    private static Point _mousePt = new Point(WIDE / 2, HIGH / 2);
-    private static Rectangle _mouseRect = new Rectangle();
+    private EditorPainter _Editor = new EditorPainter();
+    private final int WIDE = 640;
+    private final int HIGH = 480;
+    private Point _mousePt = new Point(WIDE / 2, HIGH / 2);
+    private Rectangle _mouseRect = new Rectangle();
     private Rectangle _mouseBounds = new Rectangle(200,200,300,300);
-    private static boolean _selecting = false;
-    private static int _radius = 10;
-    private static int _radiusPoint = 10;
-    private static int _thickness = 1;
-    private static int _radiusCircle = 15;
-    private static int _radiusLine = 5;
-    private static List<Figure> _nodes = new ArrayList<>();
-    private static List<Edge> _edges = new ArrayList<>();
-    private static List<Background> _Backgrounds = new ArrayList<>();
-    private static List<Point> _curvePoints = Edge.getcurvePoints();
-    private static String _name;
+    private boolean _selecting = false;
+    private int _radius = 10;
+    private int _radiusPoint = 10;
+    private int _thickness = 1;
+    private int _radiusCircle = 15;
+    private int _radiusLine = 5;
+    private List<Figure> _nodes = new ArrayList<>();
+    private List<Edge> _edges = new ArrayList<>();
+    private List<Background> _Backgrounds = new ArrayList<>();
+    private List<Point> _curvePoints = Edge.getcurvePoints();
+    private String _name;
 }

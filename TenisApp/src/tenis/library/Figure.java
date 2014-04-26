@@ -243,7 +243,7 @@ public class Figure {
             Figure.selectNone(nodes);
             Point p = mousePt.getLocation();
             Figure n = new Figure(p, radius, Color.green, kind, 0);
-            Backgroundnodes.add(new Background(n,Color.green,kind));
+            Backgroundnodes.add(new Background(n,kind));
             n.setSelected(true);
             nodes.add(n);
         }

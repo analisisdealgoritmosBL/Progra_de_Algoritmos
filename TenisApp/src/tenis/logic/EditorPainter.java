@@ -11,6 +11,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.util.List;
 import javax.swing.JColorChooser;
 import tenis.library.Background;
 import tenis.library.Design;
@@ -88,11 +89,11 @@ public class EditorPainter implements LogicController
         }
     }
     
-    public static void drawLine() 
+    public void drawLine(int pRadiusLine, List<Figure> pNodes, List<Edge> pEdges ) 
     {
         Point point = new Point (WIDE/2, HIGH/2);
         Point point1 = new Point ((WIDE/2)+50, (HIGH/2)+50);
-        Figure.lines(point, point1, PaintAdministrator.getRadiusLine(), FigureType.Point,FigureType.Line,PaintAdministrator.getNodes(),PaintAdministrator.getEdges());
+        Figure.lines(point, point1, pRadiusLine, FigureType.Point,FigureType.Line,pNodes,pEdges);
     }
     
     public static void drawCircle()
