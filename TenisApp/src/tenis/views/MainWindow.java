@@ -5,7 +5,6 @@
 package tenis.views;
 
 import java.awt.*;
-import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import tenis.app.Main;
 import tenis.library.Background;
@@ -13,7 +12,6 @@ import tenis.library.Edge;
 import tenis.library.Figure;
 import tenis.library.Program_Mode;
 import tenis.logic.EditorPainter;
-import tenis.logic.PaintAdministrator;
 import tenis.logic.PaintAdministrator;
 import tenis.logic.FirePainter;
 

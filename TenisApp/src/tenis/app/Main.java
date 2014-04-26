@@ -57,9 +57,7 @@ public class Main {
         PaintAdministrator.clear();
     }
     
-    private String _desing;
+    private String _design;
     private static Program_Mode _ModeType;
 
-    
-    
 }

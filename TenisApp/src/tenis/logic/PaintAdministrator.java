@@ -10,7 +10,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.List;
 import tenis.library.Background;
 import tenis.library.Design;
@@ -31,7 +30,6 @@ public class PaintAdministrator
 
     private PaintAdministrator() 
     {
-        _Painters = new Hashtable<Program_Mode, LogicController>();
         _Painters.put(Program_Mode.EDIT, new EditorPainter());
         _Painters.put(Program_Mode.ARCADE, new ArcadePainter());
         _Painters.put(Program_Mode.FIRE, new FirePainter());

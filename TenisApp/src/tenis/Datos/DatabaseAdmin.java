@@ -4,11 +4,8 @@ import java.util.List;
 import tenis.library.Design;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.awt.Color;
-import java.awt.Point;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -24,11 +21,11 @@ import tenis.library.Edge;
 
 //Pruebas
 import tenis.library.Figure;
-import tenis.library.FigureType;
+
 
 
 /**
- *
+ * This Database Administrator is created using the Singleton Pattern.
  * @author L. Antonio Hidalgo
  */
 public final class DatabaseAdmin {
@@ -37,7 +34,6 @@ public final class DatabaseAdmin {
     private List<Design> _DesignList = new ArrayList<>();
     private Map<String, HashMap<DrawType, DrawDuration>> _BestDrawTimes = new HashMap<String, HashMap<DrawType, DrawDuration>>();
     
-    //This Database Administrator is created using the Singleton Pattern
     private static DatabaseAdmin _DBInstance = null;
     private DatabaseAdmin() { };
     
@@ -57,7 +53,10 @@ public final class DatabaseAdmin {
         }
         return _DBInstance;
     }
-    
+    /**
+     * Saves a design to the parse db.
+     * @param pDesign 
+     */
     private void saveDesignToDatabase(Design pDesign) {
         ParseDesign dummyObjectToSave = new ParseDesign();
         
@@ -139,6 +138,7 @@ public final class DatabaseAdmin {
             /*
             //The findInBackground method fails to fetch the ParseDesign Objects
             //quickly enough to be processed.
+            
             parseDesignQuery.findInBackground(new FindCallback<ParseDesign>() {
             @Override
             public void done(List<ParseDesign> pDesignList, ParseException pException) {
@@ -193,9 +193,7 @@ public final class DatabaseAdmin {
         
         if( !_DesignList.isEmpty())
             for(Design designInList : _DesignList) {
-                System.out.println("entra");
                 timesForDesign = findBestDesignDrawTimeInDatabase(designInList);
-                System.out.println(timesForDesign.get(DrawType.Arcade));
                 _BestDrawTimes.put(designInList.getName(), timesForDesign);
             }
         return _BestDrawTimes;
@@ -216,6 +214,7 @@ public final class DatabaseAdmin {
                 //The result is unique because the Design's name is also unique.
                 //Since getFirst() is not implemented in parse4j, and it's known
                 //that there has to be only one result, the following is valid, though not optimal:
+                
                 currentBestTime = parseBestTimeQuery.find().get(0);
                 bestDrawDurationsForDesign = buildDrawDurationFromQuery(currentBestTime);
                 
@@ -289,8 +288,8 @@ public final class DatabaseAdmin {
         //Parse.initialize("sWHeJhUcP8MMDStbDh2BcYu9AGfKqiPXIVfooZqQ", "FAu31BWoXqKV70BvEiVG2NSCyBo5CBve277vs915");
         Point xy = new Point(2,3);
         Figure testCircle = new Figure(xy, 3, Color.blue, FigureType.Circle, 1);
-        Edge testLine = new Edge(testCircle, testCircle, FigureType.Line, 6, 7);
-        Background testBG = new Background(xy.x, xy.y, Color.blue);
+        Edge testLine = new Edge(testCircle, testCircle, FigureType.Line, 6, 7, Color.YELLOW);
+        Background testBG = new Background(testCircle, Color.blue, FigureType.Point);
         Date testDate = new Date();
         
         //DateDuration testDD = new DateDuration(testDate, 180L);
@@ -300,25 +299,12 @@ public final class DatabaseAdmin {
         Map<DrawType, DrawDuration> drawMap = new HashMap<>();
         
         asd.getInstance();
-        //asd.saveDesignToDatabase(design1);
+        asd.saveDesignToDatabase(design1);
         testList = asd.getDesignsFromDatabase();
         drawMap = asd.getBestDrawTimesFromDatabase().get("Prueba1");
         
         System.out.println(drawMap.get(DrawType.Arcade).getDateDuration().getDateTime());
         System.out.println(testList.get(0).getFireDuration().getDateDuration().getDuration());
         
-        //Point p = new Point(2,3);
-        //Figure prueba1 = new Figure(p, 3, Color.blue, FigureType.Line);
-        //Figure prueba2 = new Figure(2, 3, 4, 5, FigureType.Circular);
-        //asd.fillDesignList(prueba1);
-        //asd.fillDesignList(prueba2);
-        //asd.convertToJson();
-        //asd.convertToJson();
-        //asd.convertFromJson();
-        
-        /*try {
-            testObject.delete();
-        } catch (ParseException ex) {
-            Logger.getLogger(DatabaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+    }*/
 }
