@@ -11,6 +11,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.List;
 import javax.swing.JColorChooser;
 import tenis.library.Background;
@@ -31,29 +32,28 @@ public class EditorPainter implements LogicController
     public void pintar(Design pDesign) {
         
     }
-    public static void paint (Graphics g){
+    public void paint (Graphics g,  List<Figure> pNodes, List<Edge> pEdges, Rectangle pMouseRect, boolean Selecting){
         Graphics2D g2 = (Graphics2D) g;
         
         //new Color(0x00f0f0f0)
-        for (Edge e :PaintAdministrator.getEdges()) {
+        for (Edge e : pEdges) {
             e.draw(g2);
         }
-        for (Figure n : PaintAdministrator.getNodes()){
+        for (Figure n : pNodes){
             n.draw(g2);
         }
-        if (PaintAdministrator.isSelecting()) {
+        if (Selecting) {
             g.setColor(Color.darkGray);
-            g.drawRect(PaintAdministrator.getMouseRect().x, PaintAdministrator.getMouseRect().y,
-                PaintAdministrator.getMouseRect().width, PaintAdministrator.getMouseRect().height);
+            g.drawRect(pMouseRect.x, pMouseRect.y,pMouseRect.width,pMouseRect.height);
         }
         
     }
     
-    public static void nameDesign(String pName){
+    /*public void nameDesign(String pName){
         PaintAdministrator.setName(pName);
-    }
+    }*/
     
-    public static void firstDesign() 
+    public void firstDesign(List<Figure> pNodes, List<Edge> pEdges, int pRadius, int pThickness) 
     {
         Point point1 = new Point(212,128);
         Point point2 = new Point(212,323);
@@ -62,30 +62,29 @@ public class EditorPainter implements LogicController
         Point point5 = new Point(680,323);
         Point curve1 = new Point(150,175);
         Point curve2 = new Point(330,170);
-        Figure.firstDesignPoints(point1,FigureType.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
-        Figure.firstDesignPoints(point2,FigureType.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
-        Figure.firstDesignPoints(point3,FigureType.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
-        Figure.firstDesignPoints(point4,FigureType.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
-        Figure.firstDesignPoints(point5,FigureType.Point,PaintAdministrator.getRadius(),PaintAdministrator.getNodes());
+        Figure.firstDesignPoints(point1,FigureType.Point,pRadius,pNodes);
+        Figure.firstDesignPoints(point2,FigureType.Point,pRadius,pNodes);
+        Figure.firstDesignPoints(point3,FigureType.Point,pRadius,pNodes);
+        Figure.firstDesignPoints(point4,FigureType.Point,pRadius,pNodes);
+        Figure.firstDesignPoints(point5,FigureType.Point,pRadius,pNodes);
         
-        Figure n0 = PaintAdministrator.getNodes().get(0);
-        Figure n1 = PaintAdministrator.getNodes().get(1);
-        Figure n2 = PaintAdministrator.getNodes().get(2);
-        Figure n3 = PaintAdministrator.getNodes().get(3);
-        Figure n4 = PaintAdministrator.getNodes().get(4);
-        PaintAdministrator.getEdges().add(new Edge(n2, n3,FigureType.Line,0, PaintAdministrator.getThickness(), Color.blue));
-        PaintAdministrator.getEdges().add(new Edge(n3, n4,FigureType.Line,0, PaintAdministrator.getThickness(), Color.blue));
-        PaintAdministrator.getEdges().add(new Edge(n1, n4,FigureType.Line,0, PaintAdministrator.getThickness(), Color.blue));
-        PaintAdministrator.getEdges().add(new Edge(n0, n1,FigureType.Curve,1, PaintAdministrator.getThickness(), Color.blue));
-        PaintAdministrator.getEdges().add(new Edge(n0, n2,FigureType.Curve,2, PaintAdministrator.getThickness(), Color.blue));
+        Figure n0 = pNodes.get(0);
+        Figure n1 = pNodes.get(1);
+        Figure n2 = pNodes.get(2);
+        Figure n3 = pNodes.get(3);
+        Figure n4 = pNodes.get(4);
+        pEdges.add(new Edge(n2, n3,FigureType.Line,0, pThickness, Color.blue));
+        pEdges.add(new Edge(n3, n4,FigureType.Line,0, pThickness, Color.blue));
+        pEdges.add(new Edge(n1, n4,FigureType.Line,0, pThickness, Color.blue));
+        pEdges.add(new Edge(n0, n1,FigureType.Curve,1, pThickness, Color.blue));
+        pEdges.add(new Edge(n0, n2,FigureType.Curve,2, pThickness, Color.blue));
     }
     
-    public static void putColor(Component component){
+    public void putColor(Component component, List<Figure> pNodes){
         Color color = null;
         color = JColorChooser.showDialog(component, "Choose a color", color);
         if (color != null) {
-            Figure.updateColor(PaintAdministrator.getNodes(), color);
-            
+            Figure.updateColor(pNodes, color);
         }
     }
     
@@ -96,26 +95,26 @@ public class EditorPainter implements LogicController
         Figure.lines(point, point1, pRadiusLine, FigureType.Point,FigureType.Line,pNodes,pEdges);
     }
     
-    public static void drawCircle()
+    public void drawCircle(int pRadiusCircle, List<Figure> pNodes, int pThickness)
     {
         Point point = new Point (WIDE/2, HIGH/2);
-        Figure.circle(point, PaintAdministrator.getRadiusCircle(), PaintAdministrator.getThickness(), FigureType.Circle,PaintAdministrator.getNodes());
+        Figure.circle(point, pRadiusCircle, pThickness, FigureType.Circle,pNodes);
     }
     
     
-    public static void drawPoint()
+    public void drawPoint(int pRadiusPoint, List<Figure> pNodes, List<Background> pBackground)
     {
         Point point = new Point (WIDE/2, HIGH/2);
-        Figure.Points(point,FigureType.Point,PaintAdministrator.getRadiusPoint(),PaintAdministrator.getNodes(),PaintAdministrator.getBackgrounds());
+        Figure.Points(point,FigureType.Point,pRadiusPoint,pNodes,pBackground);
     }
     
-    public static void UpdateRadius(int pValue){
+    public void UpdateRadius(int pValue, List<Figure> pNodes){
         
-        Figure.updateRadius(PaintAdministrator.getNodes(), pValue);
+        Figure.updateRadius(pNodes, pValue);
         
     }
-    private static final int WIDE = 640;
-    private static final int HIGH = 480;
+    private int WIDE = 640;
+    private int HIGH = 480;
     
     
     

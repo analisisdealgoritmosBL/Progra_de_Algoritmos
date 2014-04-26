@@ -9,7 +9,6 @@ package tenis.logic;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import tenis.library.Program_Mode;
-import tenis.logic.PaintAdministrator;
 import tenis.views.MainWindow;
 
 
@@ -19,15 +18,14 @@ public class LaunchWindow {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        MainWindow _window = new MainWindow();
         _window.show();
     }
     
-    public static void setMode(Program_Mode pMode)
+    public void setMode(Program_Mode pMode)
     {
         _ModeType = pMode;
     }
-    public static Program_Mode getMode()
+    public Program_Mode getMode()
     {
         return _ModeType;
     }
@@ -38,6 +36,7 @@ public class LaunchWindow {
     }
     public void createDesign() 
     {
+        _window.;
         _Administrator.firstDesign();
     }
     public void drawLine() 
@@ -60,7 +59,8 @@ public class LaunchWindow {
     }
 
     public void paint(Graphics g) {
-        _Administrator.paint(g);
+        _window.paint(g);
+        _Administrator.paint(g, _ModeType);
     }
 
     public void Drag(MouseEvent evt) {
@@ -75,8 +75,10 @@ public class LaunchWindow {
         _Administrator.Release(evt);
     }
     
+    
+    private static MainWindow _window = new MainWindow();
     private PaintAdministrator _Administrator = PaintAdministrator.getInstance();
     private String _desing;
-    private static Program_Mode _ModeType;
+    private Program_Mode _ModeType;
     
 }
