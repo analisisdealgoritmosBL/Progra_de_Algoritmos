@@ -2,7 +2,6 @@ package tenis.Datos;
 
 import java.util.List;
 import tenis.library.Design;
-import org.parse4j.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.awt.Color;
@@ -10,13 +9,17 @@ import java.awt.Point;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.parse4j.Parse;
+import org.parse4j.ParseException;
+import org.parse4j.ParseQuery;
 import org.parse4j.util.ParseRegistry;
-import org.parse4j.callback.FindCallback;
 import tenis.library.Background;
-import tenis.library.DateDuration;
 import tenis.library.DrawDuration;
+import tenis.library.DrawType;
 import tenis.library.Edge;
 
 //Pruebas
@@ -28,25 +31,26 @@ import tenis.library.Figure_Kind;
  *
  * @author L. Antonio Hidalgo
  */
-public final class DataBaseAdmin {
+public final class DatabaseAdmin {
     
     private Gson _ObjectJsonConverter = new Gson();
     private List<Design> _DesignList = new ArrayList<>();
+    private Map<String, HashMap<DrawType, DrawDuration>> _BestDrawTimes = new HashMap<String, HashMap<DrawType, DrawDuration>>();
     
     //This Database Administrator is created using the Singleton Pattern
-    private static DataBaseAdmin _DBInstance = null;
-    private DataBaseAdmin() { };
+    private static DatabaseAdmin _DBInstance = null;
+    private DatabaseAdmin() { };
     
-    public static synchronized DataBaseAdmin getInstance() {
+    public static synchronized DatabaseAdmin getInstance() {
         if(_DBInstance == null) {
             //If there are no instances of DB, one should be created
-            _DBInstance = new DataBaseAdmin();
+            _DBInstance = new DatabaseAdmin();
             
             //The ParseDesignObject and ParseBestTimeObject classes have to be registered prior to Parse initialization
             ParseRegistry.registerSubclass(ParseDesign.class);
             ParseRegistry.registerSubclass(ParseBestTime.class);
             
-            //Parse initialization should occur only once, in this case when DataBaseAdmin is instantiated.
+            //Parse initialization should occur only once, in this case when DatabaseAdmin is instantiated.
             //Both arguments are provided by Parse, and they correspond to APP_ID and APP_REST_API_ID according
             //to https://github.com/thiagolocatelli/parse4j/blob/master/README.md parse4j documentation.
             Parse.initialize("sWHeJhUcP8MMDStbDh2BcYu9AGfKqiPXIVfooZqQ", "FAu31BWoXqKV70BvEiVG2NSCyBo5CBve277vs915");
@@ -67,7 +71,7 @@ public final class DataBaseAdmin {
         try {
             dummyObjectToSave.save();
         } catch (ParseException ex) {
-            Logger.getLogger(DataBaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -121,6 +125,7 @@ public final class DataBaseAdmin {
         findDesignsInDatabase();
         return _DesignList;
     }
+    
     private void findDesignsInDatabase() {
         ParseQuery<ParseDesign> parseDesignQuery = ParseQuery.getQuery(ParseDesign.class);
         
@@ -147,7 +152,7 @@ public final class DataBaseAdmin {
             }
             });*/
         } catch (ParseException ex) {
-            Logger.getLogger(DataBaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -179,62 +184,107 @@ public final class DataBaseAdmin {
         try {
             dummyObjectToSave.save();
         } catch (ParseException ex) {
-            Logger.getLogger(DataBaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    private List<DrawDuration> findBestDrawTimesInDataBase(Design pDesign) {
+    public Map<String, HashMap<DrawType, DrawDuration>> getBestDrawTimesFromDatabase() {
+        HashMap<DrawType, DrawDuration> timesForDesign = new HashMap<>();
+        
+        if( !_DesignList.isEmpty())
+            for(Design designInList : _DesignList) {
+                System.out.println("entra");
+                timesForDesign = findBestDesignDrawTimeInDatabase(designInList);
+                System.out.println(timesForDesign.get(DrawType.Arcade));
+                _BestDrawTimes.put(designInList.getName(), timesForDesign);
+            }
+        return _BestDrawTimes;
+    }
+    
+    private HashMap<DrawType, DrawDuration> findBestDesignDrawTimeInDatabase(Design pDesign) {
         ParseBestTime currentBestTime = new ParseBestTime();
         ParseQuery<ParseBestTime> parseBestTimeQuery = ParseQuery.getQuery(ParseBestTime.class);
-        DrawDuration currentBestDrawDurationForDesign;
-        List<DrawDuration> bestDrawDurationsForDesign = new ArrayList<>();
-        Long currentDesignArcadeTime = pDesign.getArcadeDuration().getDateDuration().getDuration();
-        Long currentDesignFireTime = pDesign.getFireDuration().getDateDuration().getDuration();
-        Long currentBestArcadeTime;
+        HashMap<DrawType, DrawDuration> bestDrawDurationsForDesign = new HashMap<>();
+        DrawDuration currentBestArcadeTime;
+        DrawDuration currentBestFireTime;
         
         
         //Checks for objects of the ParseDesignObject class that have the Name attribute set
         parseBestTimeQuery.whereEqualTo("Name", pDesign.getName());
         try {
             if(parseBestTimeQuery.find() != null) {
-                bestDrawDurationsForDesign = buildDrawDurationFromQuery(parseBestTimeQuery.find());
+                //The result is unique because the Design's name is also unique.
+                //Since getFirst() is not implemented in parse4j, and it's known
+                //that there has to be only one result, the following is valid, though not optimal:
+                currentBestTime = parseBestTimeQuery.find().get(0);
+                bestDrawDurationsForDesign = buildDrawDurationFromQuery(currentBestTime);
                 
-                currentBestArcadeTime = 
+                currentBestArcadeTime = bestDrawDurationsForDesign.get(DrawType.Arcade);
+                currentBestFireTime = bestDrawDurationsForDesign.get(DrawType.Fire);
                 
-                //Checks if pDesign's ArcadeDuration is lower (and better) than the one currently stored
-                if(currentDesignTime < bestDrawDurationsForDesign.get(0).getDateDuration().getDuration()) {
-                    
-                }
-                    
+                //Checks if pDesign's ArcadeDuration or FireDuration is lower (and better) than the one currently stored
+                //and updates them if necessary
+                
+                updateBestDrawTime(pDesign, currentBestFireTime, currentBestArcadeTime);
             }
             else {
+                //If it has not been initialized, the best times are the default
                 saveBestDrawTime(pDesign);
-                bestDrawDurationsForDesign.add(pDesign.getArcadeDuration());
-                bestDrawDurationsForDesign.add(pDesign.getFireDuration());
+                bestDrawDurationsForDesign.put(DrawType.Arcade, pDesign.getArcadeDuration());
+                bestDrawDurationsForDesign.put(DrawType.Fire, pDesign.getFireDuration());
             }
                 
         } catch (ParseException ex) {
-            Logger.getLogger(DataBaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bestDrawDurationsForDesign;
     }
     
-    private List<DrawDuration> buildDrawDurationFromQuery(List<ParseBestTime> pBestTimes) {
+    private HashMap<DrawType, DrawDuration> buildDrawDurationFromQuery(ParseBestTime pBestTimes) {
         DrawDuration currentBestDrawDurationForDesign;
-        List<DrawDuration> bestDrawDurationFromQuery = new ArrayList<>();
-
-        for(ParseBestTime bestTime : pBestTimes) {
-            //A new DrawDuration is created with the results from the query
+        HashMap<DrawType, DrawDuration> bestDrawDurationFromQuery = new HashMap<>();
+        
+        //A new DrawDuration is created with the results from the query
+        currentBestDrawDurationForDesign = new DrawDuration(convertDrawDurationFromJson(pBestTimes.getFireDrawDuration()).getDateDuration(),
+            convertDrawDurationFromJson(pBestTimes.getFireDrawDuration()).getAlgorithm());
             
-            currentBestDrawDurationForDesign = new DrawDuration(convertDrawDurationFromJson(bestTime.getFireDrawDuration()).getDateDuration(),
-                convertDrawDurationFromJson(bestTime.getFireDrawDuration()).getAlgorithm());
+            bestDrawDurationFromQuery.put(DrawType.Fire, currentBestDrawDurationForDesign);
             
-            bestDrawDurationFromQuery.add(currentBestDrawDurationForDesign);
-        }
+        currentBestDrawDurationForDesign = new DrawDuration(convertDrawDurationFromJson(pBestTimes.getArcadeDrawDuration()).getDateDuration(),
+            convertDrawDurationFromJson(pBestTimes.getArcadeDrawDuration()).getAlgorithm());
+        
+            bestDrawDurationFromQuery.put(DrawType.Arcade, currentBestDrawDurationForDesign);
+        
         return bestDrawDurationFromQuery;
     }
     
-    public static void main(String[] args) {
+    private void updateBestDrawTime(Design pDesign, DrawDuration pCurrentBestFireTime, DrawDuration pCurrentBestArcadeTime) {
+        ParseBestTime dummyObjectToSave = new ParseBestTime();
+        Long currentDesignArcadeTime = pDesign.getArcadeDuration().getDateDuration().getDuration();
+        Long currentDesignFireTime = pDesign.getFireDuration().getDateDuration().getDuration();
+        Long currentBestFireTime = pCurrentBestFireTime.getDateDuration().getDuration();
+        Long currentBestArcadeTime = pCurrentBestArcadeTime.getDateDuration().getDuration();
+        
+        dummyObjectToSave.setDesignName(pDesign.getName());
+        
+        if(currentDesignArcadeTime < currentBestArcadeTime)
+            dummyObjectToSave.setArcadeDrawDuration(convertToJson(pDesign.getArcadeDuration()));
+        else
+            dummyObjectToSave.setArcadeDrawDuration(convertToJson(pCurrentBestArcadeTime));
+        
+        if(currentDesignFireTime < currentBestFireTime)
+            dummyObjectToSave.setFireDrawDuration(convertToJson(pDesign.getFireDuration()));
+        else
+            dummyObjectToSave.setFireDrawDuration(convertToJson(pCurrentBestFireTime));
+ 
+        try {
+            dummyObjectToSave.save();
+        } catch (ParseException ex) {
+            Logger.getLogger(DatabaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /*public static void main(String[] args) {
         //ParseRegistry.registerSubclass(ParseDesignObject.class);
         //Parse.initialize("sWHeJhUcP8MMDStbDh2BcYu9AGfKqiPXIVfooZqQ", "FAu31BWoXqKV70BvEiVG2NSCyBo5CBve277vs915");
         Point xy = new Point(2,3);
@@ -245,14 +295,16 @@ public final class DataBaseAdmin {
         
         //DateDuration testDD = new DateDuration(testDate, 180L);
         Design design1 = new Design("Prueba1", testCircle, testLine, testBG, testDate, 190L, testDate, 200L);
-        DataBaseAdmin asd = new DataBaseAdmin();
+        DatabaseAdmin asd = new DatabaseAdmin();
         List<Design> testList = new ArrayList<>();
-        List<DrawDuration> drawList = new ArrayList<>();
+        Map<DrawType, DrawDuration> drawMap = new HashMap<>();
         
         asd.getInstance();
         //asd.saveDesignToDatabase(design1);
-        drawList = asd.findBestDrawTimesInDataBase(design1);
         testList = asd.getDesignsFromDatabase();
+        drawMap = asd.getBestDrawTimesFromDatabase().get("Prueba1");
+        
+        System.out.println(drawMap.get(DrawType.Arcade).getDateDuration().getDateTime());
         System.out.println(testList.get(0).getFireDuration().getDateDuration().getDuration());
         
         //Point p = new Point(2,3);
@@ -267,7 +319,6 @@ public final class DataBaseAdmin {
         /*try {
             testObject.delete();
         } catch (ParseException ex) {
-            Logger.getLogger(DataBaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-    }
 }

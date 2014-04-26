@@ -74,6 +74,16 @@ public final class Design {
         _ArcadeDuration = pDrawDurationArcade;
     }
     
+    public Design(String pDesignName, List<Figure> pCircles, List<Edge> pLines, 
+            List<Background> pBackgrounds) {
+        setName(pDesignName);
+        setCircles(pCircles);
+        setLines(pLines);
+        setBackgrounds(pBackgrounds);
+        _FireDuration = new DrawDuration(new DateDuration (new Date(), 5*60*1000L), DrawType.Fire);
+        _ArcadeDuration = new DrawDuration(new DateDuration (new Date(), 5*60*1000L), DrawType.Arcade);
+    }
+    
     public String getName() 
     {
         //return PaintAdministrator._name;
