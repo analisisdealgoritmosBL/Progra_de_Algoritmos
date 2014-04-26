@@ -24,5 +24,4 @@ public class LogicControllerMODIFICADO {
     private Map<String, HashMap<DrawType, DrawDuration>> _BestDrawTimes = new HashMap<String, HashMap<DrawType, DrawDuration>>();
     private DatabaseAdmin _ProjectDatabase = DatabaseAdmin.getInstance();
     
-    
 }

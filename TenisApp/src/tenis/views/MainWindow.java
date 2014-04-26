@@ -5,17 +5,12 @@
 package tenis.views;
 
 import java.awt.*;
-import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
-import tenis.app.Main;
-import tenis.library.Background;
+import tenis.logic.LaunchWindow;
 import tenis.library.Edge;
-import tenis.library.Figure;
 import tenis.library.Program_Mode;
 import tenis.logic.EditorPainter;
 import tenis.logic.PaintAdministrator;
-import tenis.logic.PaintAdministrator;
-import tenis.logic.FirePainter;
 
 /**
  *
@@ -31,21 +26,8 @@ public class MainWindow extends javax.swing.JFrame {
     @Override
     public void paint(Graphics g) {
         super.paintComponents(g);
-        if (Main.getMode()==Program_Mode.EDIT){
-            EditorPainter.paint(g);
-        }
-        else if (Main.getMode()==Program_Mode.FIRE){
-            EditorPainter.paint(g);
-            FirePainter.Algorithm(g);
-        }
-        else if (Main.getMode()==Program_Mode.ARCADE){
-            //ArcadePainter.Algorithm(g);
-        }
+        LaunchWindow.paint(g);
     }
-    
-    
-    
-    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -314,69 +296,34 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String inputValue = JOptionPane.showInputDialog(jButton1, "Style Name: ", null, WIDTH);
-        Main.nameDesign(inputValue);
-        Main.createDesign();
-        repaint();
+        if (inputValue.isEmpty()){
+            JOptionPane.showMessageDialog(rootPane, "No puede crear un diseño sin nombre");
+        }
+        else{
+            LaunchWindow.nameDesign(inputValue);
+            LaunchWindow.createDesign();
+            repaint();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
-        //update(getGraphics());
-        repaint();
+        //Guardar el diseño
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-        Point delta = new Point();
-        //if (!Figure.RectIntersect(PaintAdministrator.getListFigure())){
-            
-        //}
-        if (PaintAdministrator.isSelecting()) {
-
-        //if (Figure.colitions(PaintAdministrator.getListFigure(), PaintAdministrator._edges)){
-            PaintAdministrator.getMouseRect().setBounds(
-                Math.min(PaintAdministrator.getMousePt().x, evt.getX()),
-                Math.min(PaintAdministrator.getMousePt().y, evt.getY()),
-                Math.abs(PaintAdministrator.getMousePt().x - evt.getX()),
-                Math.abs(PaintAdministrator.getMousePt().y - evt.getY()));
-            Figure.selectRect(PaintAdministrator.getNodes(), PaintAdministrator.getMouseRect());
-        //}
-        }
-        
-        
-        else {
-            delta.setLocation(
-                evt.getX() - PaintAdministrator.getMousePt().x,
-                evt.getY() - PaintAdministrator.getMousePt().y);
-            
-                Figure.updatePosition(PaintAdministrator.getNodes(), delta);
-            
-            PaintAdministrator.setMousePt(evt.getPoint());
-        }
+        LaunchWindow.Drag(evt);
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMouseDragged
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        PaintAdministrator.setMousePt(evt.getPoint());
-        if (evt.isShiftDown()) {
-            Figure.selectToggle(PaintAdministrator.getNodes(), PaintAdministrator.getMousePt());
-        } else if (evt.isPopupTrigger()) {
-            Figure.selectOne(PaintAdministrator.getNodes(), PaintAdministrator.getMousePt());
-            //showPopup(evt);
-        } else if (Figure.selectOne(PaintAdministrator.getNodes(), PaintAdministrator.getMousePt())) {
-            PaintAdministrator.setSelecting(false);
-        } else {
-            Figure.selectNone(PaintAdministrator.getNodes());
-            PaintAdministrator.setSelecting(true);
-        }
+        LaunchWindow.MousePress(evt);
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        PaintAdministrator.setSelecting(false);
-        PaintAdministrator.getMouseRect().setBounds(0, 0, 0, 0);
-        if (evt.isPopupTrigger()) {
-            //showPopup(e);
-        }
+        LaunchWindow.Released(evt);        
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMouseReleased
 
@@ -386,17 +333,17 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
-        Main.UpdateRadius((int) jSpinner1.getValue());
+        LaunchWindow.UpdateRadius((int) jSpinner1.getValue());
         repaint();
     }//GEN-LAST:event_jSpinner1StateChanged
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        Main.drawLine();
+        LaunchWindow.drawLine();
         repaint();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        Main.drawCircle();
+        LaunchWindow.drawCircle();
         repaint();
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -412,31 +359,31 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jSpinner2StateChanged
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        Main.drawPoint();
+        LaunchWindow.drawPoint();
         repaint();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        Main.Clean();
+        LaunchWindow.Clean();
         repaint();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        Main.setMode(Program_Mode.ARCADE);
+        LaunchWindow.setMode(Program_Mode.ARCADE);
         jToggleButton1.setSelected(false);
         jToggleButton3.setSelected(false);
         repaint();
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
-        Main.setMode(Program_Mode.FIRE);
+        LaunchWindow.setMode(Program_Mode.FIRE);
         jToggleButton1.setSelected(false);
         jToggleButton2.setSelected(false);
         repaint();
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        Main.setMode(Program_Mode.EDIT);
+        LaunchWindow.setMode(Program_Mode.EDIT);
         jToggleButton2.setSelected(false);
         jToggleButton3.setSelected(false);
         repaint();

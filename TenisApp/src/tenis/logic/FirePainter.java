@@ -21,6 +21,7 @@ import tenis.library.Design;
 import tenis.library.Edge;
 import tenis.library.Figure;
 import static tenis.logic.FirePainter.getPixelColor;
+import static tenis.logic.FirePainter.polygon;
 
 /**
  *
@@ -96,9 +97,10 @@ public class FirePainter implements LogicController
         p.setColor(principal);
         removePoints ();
         for (Background pointColor : _Backgrounds){
-            //FirstRect(p, pointColor);
-            //SecondRect(p, pointColor);
+            FirstRect(p, pointColor);
+            SecondRect(p, pointColor);
             ThirdRect(p, pointColor);
+            FourthRect(p, pointColor);
         }
     }
     private static void FirstRect(Graphics p,Background pOriginColor){
@@ -113,16 +115,23 @@ public class FirePainter implements LogicController
         p.setColor(pOriginColor.getBackgroundColor());
         
         for (int PixelY = 0; PixelY<500 ;PixelY++){
-            --actualPointY;
+            actualPointY--;
             actualPointX = oldPointX;
+            /*if (FindSpace(actualPointX,actualPointY)&&(getPixelColor(actualPointX,actualPointY).equals(azul)||getPixelColor(actualPointX,actualPointY).equals(negro))){
+                oldPointX = PixelPointX;
+                System.out.print(actualPointX);
+            }*/
             if (getPixelColor(actualPointX,actualPointY).equals(azul)){
                 break;
             }
             else if (getPixelColor(actualPointX,actualPointY).equals(negro)){
                 break;
             }
+            
+            
             for (int PixelX = 0; PixelX <500; PixelX++){
-                ++actualPointX;
+                actualPointX++;
+                System.out.print(actualPointX);
                 if (getPixelColor(actualPointX,actualPointY).equals(azul)){
                     break;
                 }
@@ -146,7 +155,7 @@ public class FirePainter implements LogicController
         p.setColor(pOriginColor.getBackgroundColor());
         
         for (int PixelY = 0; PixelY<500 ;PixelY++){
-            ++actualPointY;
+            actualPointY++;
             actualPointX = oldPointX;
             if (getPixelColor(actualPointX,actualPointY).equals(azul)){
                 break;
@@ -155,7 +164,7 @@ public class FirePainter implements LogicController
                 break;
             }
             for (int PixelX = 0; PixelX <500; PixelX++){
-                ++actualPointX;
+                actualPointX++;
                 if (getPixelColor(actualPointX,actualPointY).equals(azul)){
                     break;
                 }
@@ -179,7 +188,7 @@ public class FirePainter implements LogicController
         p.setColor(pOriginColor.getBackgroundColor());
         
         for (int PixelY = 0; PixelY<500 ;PixelY++){
-            ++actualPointY;
+            actualPointY++;
             actualPointX = oldPointX;
             if (getPixelColor(actualPointX,actualPointY).equals(azul)){
                 break;
@@ -188,7 +197,7 @@ public class FirePainter implements LogicController
                 break;
             }
             for (int PixelX = 0; PixelX <500; PixelX++){
-                --actualPointX;
+                actualPointX--;
                 if (getPixelColor(actualPointX,actualPointY).equals(azul)){
                     break;
                 }
@@ -200,34 +209,61 @@ public class FirePainter implements LogicController
         }
         
     }
+    private static void FourthRect(Graphics p,Background pOriginColor){
+        int oldPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
+        int oldPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
+        int actualPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
+        int actualPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
         
+        Color azul = Color.blue;
+        Color negro = Color.black;
         
-        /*
-        for (int i = 0; i<500; i++){
-            p.setColor(principal);
-            --inicio.y;
-            if (getPixelColor(inicio.x,inicio.y).equals(Color.blue)){
+        p.setColor(pOriginColor.getBackgroundColor());
+        
+        for (int PixelY = 0; PixelY<500 ;PixelY++){
+            actualPointY--;
+            actualPointX = oldPointX;
+            if (getPixelColor(actualPointX,actualPointY).equals(azul)){
                 break;
             }
-            else if (getPixelColor(inicio.x,inicio.y).equals(Color.black)){
-                principal = Color.green;
+            else if (getPixelColor(actualPointX,actualPointY).equals(negro)){
+                break;
             }
-                
-            for (int j = 0; j<500; j++){
-                ++inicio.x;
-                if (getPixelColor(inicio.x,inicio.y).equals(Color.blue)){
-                    System.out.print("\n");
+            for (int PixelX = 0; PixelX <500; PixelX++){
+                actualPointX--;
+                if (getPixelColor(actualPointX,actualPointY).equals(azul)){
                     break;
                 }
-                else if (getPixelColor(inicio.x,inicio.y).equals(Color.black)){
-                    p.setColor(Color.orange);
+                else if (getPixelColor(actualPointX,actualPointY).equals(negro)){
+                    break;
                 }
-                p.fillRect(inicio.x, inicio.y, 1, 1);
+                p.fillRect(actualPointX, actualPointY, 1, 1);
             }
-        }    
-        */
+        }        
+    }
     
+    /*private static boolean FindSpace(int actualPointX, int actualPointY){
+        if ((getPixelColor(actualPointX+1,actualPointY+1).equals(Color.blue)||(getPixelColor(actualPointX+1,actualPointY+1).equals(Color.black)))&&
+            (getPixelColor(actualPointX+1,actualPointY).equals(Color.blue)||(getPixelColor(actualPointX+1,actualPointY).equals(Color.black)))&&
+            (getPixelColor(actualPointX,actualPointY).equals(Color.blue)||(getPixelColor(actualPointX,actualPointY).equals(Color.black)))&&
+            (getPixelColor(actualPointX+2,actualPointY).equals(Color.blue)||(getPixelColor(actualPointX+2,actualPointY).equals(Color.black)))){
+            return false;
+        }
+        else{
+            for (int PixelX = 0; PixelX <500; PixelX++){
+                actualPointX++;
+                if (getPixelColor(actualPointX,actualPointY).equals(Color.white)){
+                    PixelPointX=actualPointX;
+                    System.out.print("\n");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }*/
     
+    //private static int PixelPointX;
+    //private static int PixelPointX1;
     private static Polygon shape;
     private static List <Figure> _points = PaintAdministrator.getNodes();
     private static List <Edge> _Connections = PaintAdministrator.getEdges();

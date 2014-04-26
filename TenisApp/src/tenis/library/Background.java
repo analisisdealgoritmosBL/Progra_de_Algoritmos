@@ -15,9 +15,8 @@ public class Background {
     private Color _BackgroundColor;
     private FigureType _BackgroundKind;
     
-    public Background(Figure pFigure1, Color pBackgroundColor, FigureType pKind) {
+    public Background(Figure pFigure1, FigureType pKind) {
         this._BackgroundFigure1 = pFigure1;
-        this._BackgroundColor = pBackgroundColor;
         this._BackgroundKind = pKind;
     }
     
