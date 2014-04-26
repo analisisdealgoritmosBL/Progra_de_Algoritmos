@@ -26,6 +26,7 @@ import tenis.library.Figure;
 
 /**
  * This Database Administrator is created using the Singleton Pattern.
+ * It connects to a Parse account, using thiagolocatelli's parse4j library.
  * @author L. Antonio Hidalgo
  */
 public final class DatabaseAdmin {
@@ -35,8 +36,15 @@ public final class DatabaseAdmin {
     private Map<String, HashMap<DrawType, DrawDuration>> _BestDrawTimes = new HashMap<String, HashMap<DrawType, DrawDuration>>();
     
     private static DatabaseAdmin _DBInstance = null;
+    /**
+     * Empty constructor to avoid unwanted instances.
+     */
     private DatabaseAdmin() { };
     
+    /**
+     * Singleton "constructor".
+     * @return 
+     */
     public static synchronized DatabaseAdmin getInstance() {
         if(_DBInstance == null) {
             //If there are no instances of DB, one should be created
@@ -54,7 +62,7 @@ public final class DatabaseAdmin {
         return _DBInstance;
     }
     /**
-     * Saves a design to the parse db.
+     * Saves a design to the parse database.
      * @param pDesign 
      */
     private void saveDesignToDatabase(Design pDesign) {
@@ -74,6 +82,12 @@ public final class DatabaseAdmin {
         }
     }
     
+    /**
+     * Converts a generic list of objects from their respective classes to
+     * a json representation.
+     * @param pGenericObjectList
+     * @return String json representation.
+     */
     private String convertToJson(List<?> pGenericObjectList) {
         String jsonString = new String();
         
@@ -81,13 +95,24 @@ public final class DatabaseAdmin {
         return jsonString;
     }
     
+    /**
+     * Converts a type T object from its class to a json representation.
+     * @param <T>
+     * @param pGenericObject
+     * @return 
+     */
     private <T> String convertToJson(T pGenericObject) {
         String jsonString = new String();
         
         jsonString = _ObjectJsonConverter.toJson(pGenericObject);
         return jsonString;
     }
-            
+    
+    /**
+     * Converts a json string to a DrawDuration object.
+     * @param pJsonString
+     * @return DrawDuration object.
+     */
     private DrawDuration convertDrawDurationFromJson(String pJsonString) {
         DrawDuration drawDurationFromJson;
         
@@ -96,6 +121,11 @@ public final class DatabaseAdmin {
         return drawDurationFromJson;
     }
     
+    /**
+     * Converts a json string to a Figure List.
+     * @param pJsonString
+     * @return Figure List.
+     */
     private List<Figure> convertFigureListFromJson(String pJsonString) {
         List<Figure> figureListFromJson = new ArrayList<>();
         Type collectionType = new TypeToken<ArrayList<Figure>>(){}.getType();
@@ -104,6 +134,11 @@ public final class DatabaseAdmin {
         return figureListFromJson;
     }
     
+    /**Converts a json string to an Edge List.
+     * 
+     * @param pJsonString
+     * @return Edge List.
+     */
     private List<Edge> convertLineListFromJson(String pJsonString) {
         List<Edge> lineListFromJson = new ArrayList<>();
         Type collectionType = new TypeToken<ArrayList<Edge>>(){}.getType();
@@ -112,6 +147,11 @@ public final class DatabaseAdmin {
         return lineListFromJson;
     }
     
+    /**Converts a json string to a Background List.
+     * 
+     * @param pJsonString
+     * @return Background List.
+     */
     private List<Background> convertBackgroundListFromJson(String pJsonString) {
         List<Background> backgroundListFromJson = new ArrayList<>();
         Type collectionType = new TypeToken<ArrayList<Background>>(){}.getType();
@@ -120,11 +160,18 @@ public final class DatabaseAdmin {
         return backgroundListFromJson;
     }
     
+    /**
+     * Gets Design List from the parse database.
+     * @return Design List.
+     */
     public List<Design> getDesignsFromDatabase() {
         findDesignsInDatabase();
         return _DesignList;
     }
     
+    /**
+     * Queries the database to find all the Design objects that have names, i.e. all of them.
+     */
     private void findDesignsInDatabase() {
         ParseQuery<ParseDesign> parseDesignQuery = ParseQuery.getQuery(ParseDesign.class);
         
@@ -156,6 +203,11 @@ public final class DatabaseAdmin {
         }
     }
     
+    /**
+     * Fills the DatabaseAdmin class _DesignList attribute with the ParseDesign
+     * query results.
+     * @param pDesignList 
+     */
     private void buildDesignListFromQuery(List<ParseDesign> pDesignList) {
         Design retrievedDesign;
         
@@ -174,6 +226,10 @@ public final class DatabaseAdmin {
         }
     }
     
+    /**
+     * Saves the BestDrawTime for a design.
+     * @param pDesign 
+     */
     private void saveBestDrawTime(Design pDesign) {
         ParseBestTime dummyObjectToSave = new ParseBestTime();
         
@@ -188,6 +244,10 @@ public final class DatabaseAdmin {
         }
     }
     
+    /**
+     * Fetches the BestDrawTimes from the parse database, for all the saved designs.
+     * @return A HashMap of the DrawDuration objects for all of the designs currently in the database.
+     */
     public Map<String, HashMap<DrawType, DrawDuration>> getBestDrawTimesFromDatabase() {
         HashMap<DrawType, DrawDuration> timesForDesign = new HashMap<>();
         
@@ -199,6 +259,11 @@ public final class DatabaseAdmin {
         return _BestDrawTimes;
     }
     
+    /**
+     * Finds the BestDrawTime for a specific design in the database.
+     * @param pDesign
+     * @return A HashMap that relates DrawType with DrawDuration.
+     */
     private HashMap<DrawType, DrawDuration> findBestDesignDrawTimeInDatabase(Design pDesign) {
         ParseBestTime currentBestTime = new ParseBestTime();
         ParseQuery<ParseBestTime> parseBestTimeQuery = ParseQuery.getQuery(ParseBestTime.class);

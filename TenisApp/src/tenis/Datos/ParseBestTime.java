@@ -5,7 +5,9 @@ import org.parse4j.ParseClassName;
 
 
 /**
- *
+ * Inherits from ParseObject to have default names
+ * for the DrawDuration object that will be saved in the
+ * parse database.
  * @author L. Antonio Hidalgo
  */
 @ParseClassName("ParseBestTimeObject")
