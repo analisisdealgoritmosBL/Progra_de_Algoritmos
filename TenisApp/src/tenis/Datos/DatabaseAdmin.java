@@ -90,6 +90,7 @@ public final class DatabaseAdmin {
     public void saveDesignsToDatabase(List<Design> pDesigns) {
         for(Design designInList : pDesigns)
             saveDesignToDatabase(designInList);
+        System.out.println("DB Admin saveDesigns");
     }
     
     /**
@@ -176,6 +177,7 @@ public final class DatabaseAdmin {
      */
     public List<Design> getDesignsFromDatabase() {
         findDesignsInDatabase();
+        System.out.println("DB Admin getDesigns");
         return _DesignList;
     }
     

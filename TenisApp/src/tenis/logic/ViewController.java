@@ -12,7 +12,6 @@ import tenis.library.Design;
 import tenis.library.DrawDuration;
 import tenis.library.DrawType;
 import tenis.library.Program_Mode;
-import tenis.views.MainWindow;
 
 
 public class ViewController {

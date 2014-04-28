@@ -45,6 +45,7 @@ public class DatabaseController {
     
     public void getDesignsFromDatabase() {
         _FetchedDesignList = _ProjectDatabase.getDesignsFromDatabase();
+        System.out.println("DB Controller getDesigns");
     }
     
     public void getBestDrawTimesFromDatabase() {

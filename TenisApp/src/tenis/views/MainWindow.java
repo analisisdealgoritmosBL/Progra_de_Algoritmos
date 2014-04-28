@@ -344,7 +344,6 @@ public class MainWindow extends javax.swing.JFrame {
         }
         else{
             _WindowController.createDesign();
-            List<String> Designs = _WindowController.loadDesign();
             DefaultTableModel modelo=(DefaultTableModel) jTable1.getModel();             
             modelo.addRow(new Object[0]);
             jTable1.setValueAt(inputValue,  modelo.getRowCount()-1, 0);
