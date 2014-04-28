@@ -1,5 +1,6 @@
 package tenis.library;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,7 +83,7 @@ public final class Design {
         _FireDuration = new DrawDuration(new DateDuration (new Date(), 5*60*1000L), DrawType.Fire);
         _ArcadeDuration = new DrawDuration(new DateDuration (new Date(), 5*60*1000L), DrawType.Arcade);
     }
-    
+       
     public String getName() 
     {
         //return PaintAdministrator._name;
@@ -104,8 +105,7 @@ public final class Design {
     }
     
     public void setCircles(List<Figure> pDesignCircles) {
-        for(Figure circle : pDesignCircles)
-            _DesignCircles.add(circle);
+            _DesignCircles = pDesignCircles;
     }
     
     public List<Edge> getLines()
@@ -119,8 +119,7 @@ public final class Design {
     }
     
     public void setLines(List<Edge> pDesignLines) {
-        for(Edge line : pDesignLines)
-            _DesignLines.add(line);
+            _DesignLines = pDesignLines;
     }
     
     public List<Background> getBackgrounds() {
@@ -132,8 +131,7 @@ public final class Design {
     }
     
     public void setBackgrounds(List<Background> pDesignBackgrounds) {
-        for(Background background : pDesignBackgrounds)
-            _DesignBackgrounds.add(background);
+            _DesignBackgrounds = pDesignBackgrounds;
     }
     
     public DrawDuration getFireDuration(){

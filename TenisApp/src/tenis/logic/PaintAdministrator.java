@@ -207,14 +207,15 @@ public class PaintAdministrator
         _Designs = _DBController.getFetchedDesignList();
     }
     
-    public void saveDesignsToDatabase() {
-        _DBController.setSavedDesignList(_Designs);
-        _DBController.saveDesignsToDatabase();
+    public void saveDesignToDatabase() {
+        _DBController.setDesignToSave(_DesignToSave);
+        _DBController.saveDesignToDatabase();
     }
     
     
     private Map<String, HashMap<DrawType, DrawDuration>> _BestDrawTimes = new HashMap<String, HashMap<DrawType, DrawDuration>>();
     private List<Design> _Designs = new ArrayList<>();
+    private Design _DesignToSave = new Design("", null, null, null);
     private Program_Mode _ModeType;
     private static PaintAdministrator _PainterLogic;
     private DatabaseController _DBController = new DatabaseController();

@@ -66,7 +66,7 @@ public final class DatabaseAdmin {
      * Saves a design to the parse database.
      * @param pDesign 
      */
-    private void saveDesignToDatabase(Design pDesign) {
+    public void saveDesignToDatabase(Design pDesign) {
         ParseDesign dummyObjectToSave = new ParseDesign();
         
         dummyObjectToSave.setDesignName(pDesign.getName());
@@ -81,6 +81,7 @@ public final class DatabaseAdmin {
         } catch (ParseException ex) {
             Logger.getLogger(DatabaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("DB Admin saveDesign");
     }
     
     /**

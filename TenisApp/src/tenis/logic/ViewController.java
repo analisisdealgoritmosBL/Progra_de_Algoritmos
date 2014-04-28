@@ -80,7 +80,7 @@ public class ViewController {
     
     public void saveDesign(String pName) {
         _Administrator.setDesignName(pName);
-        _Administrator.saveDesignsToDatabase();
+        _Administrator.saveDesignToDatabase();
     }
     
     public List<Design> _Designs = new ArrayList<>();
