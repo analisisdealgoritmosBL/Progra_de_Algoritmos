@@ -1,5 +1,6 @@
 package tenis.logic;
 
+import java.awt.AWTException;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -21,19 +22,24 @@ import tenis.logic.DatabaseController;
 public class PaintAdministrator 
 {
 
-    public void paint(Graphics p, Program_Mode pMode){
-
+    public void paint(Graphics p, Program_Mode pMode) throws AWTException{
+        
         switch(pMode){
                 case EDIT: 
                     _Editor.paint(p, _nodes, _edges, _mouseRect, _selecting); 
                     break;
                 case FIRE:
                     _Editor.paint(p, _nodes, _edges, _mouseRect, _selecting);
-                    FirePainter.Algorithm(p);
+                    _Fire.Algorithm(p, _nodes, _Backgrounds);
                     break;
                 case ARCADE:
-                    //ArcadePainter.Algorithm(g);
+                    _Editor.paint(p, _nodes, _edges, _mouseRect, _selecting);
+                    _Arcade.Algorithm(p,_nodes, _Backgrounds);
                     break;
+                default:
+                    _Editor.paint(p, _nodes, _edges, _mouseRect, _selecting); 
+                    break;
+                
         }    
     }
 
@@ -250,10 +256,6 @@ public class PaintAdministrator
         return _curvePoints;
     }
 
-    public void setCurvePoints(List<Point> _curvePoints) {
-        this._curvePoints = _curvePoints;
-    }
-
     public String getName() {
         return _name;
     }
@@ -283,7 +285,9 @@ public class PaintAdministrator
     private static PaintAdministrator _PainterLogic;
     private DatabaseController _DBController = new DatabaseController();
     private Dictionary<Program_Mode, LogicController> _Painters;
-    private EditorPainter _Editor = new EditorPainter();
+    private EditorPainter _Editor = new EditorPainter();    
+    private FirePainter _Fire = new FirePainter();
+    private ArcadePainter _Arcade = new ArcadePainter();
     private final int WIDE = 640;
     private final int HIGH = 480;
     private Point _mousePt = new Point(WIDE / 2, HIGH / 2);

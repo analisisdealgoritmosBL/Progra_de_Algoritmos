@@ -1,9 +1,9 @@
 package tenis.library;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Line2D;
 import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,8 @@ public class Edge {
         private int _curve;
         private int _thickness1;
         private Color _color;
+        private Line2D line = new Line2D.Float();
+        QuadCurve2D _Curve = new QuadCurve2D.Float();
 
         public Edge(Figure pFigure1, Figure pFigure2, FigureType pKind, int pCurve, int pThickness, Color pColor) {
             this._figure1 = pFigure1;
@@ -29,9 +31,8 @@ public class Edge {
             this._thickness1 = pThickness;
             this._color = pColor;
         }
-
+        
         public void draw(Graphics2D g2) {
-            QuadCurve2D q = new QuadCurve2D.Float();
             Point _point1 = _figure1.getLocation();
             Point _point2 = _figure2.getLocation();
             g2.setColor(_color);
@@ -44,30 +45,18 @@ public class Edge {
                 
                 if (_curve == 1){
                     pointCurve.setLocation(_point2.x-50, _point2.y-((_point2.y-_point1.y)/2));
-                    q.setCurve(_point1,pointCurve,_point2);
-                    _pointCurve1 = pointCurve;
+                    this._Curve.setCurve(_point1,pointCurve,_point2);
                 }
                 else if (_curve == 2){
                     pointCurve.setLocation(_point2.x-((_point2.x-_point1.x)/2),_point2.y+50);
-                    q.setCurve(_point1,pointCurve,_point2);
-                    _pointCurve2 = pointCurve;
+                    this._Curve.setCurve(_point1,pointCurve,_point2);
                 }
-                g2.draw(q);
+                g2.draw(_Curve);
                 
             }
             
             //g2.setStroke(new BasicStroke (this._thickness1));
         }
-        
-        public static List <Point> getcurvePoints(){
-            List <Point> pointCurves = new ArrayList();
-            pointCurves.add(_pointCurve1);
-            pointCurves.add(_pointCurve2);
-            return pointCurves;
-        }
-        
-        private static Point _pointCurve1;
-        private static Point _pointCurve2;
         
         public List <Point> intersect1(List<Edge> list) 
         {
