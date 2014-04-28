@@ -1,7 +1,10 @@
 package tenis.logic;
 
+import java.awt.AWTException;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import tenis.library.Program_Mode;
 import tenis.views.MainWindow;
 
@@ -48,7 +51,7 @@ public class ViewController {
         _Administrator.clear();
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g) throws AWTException {
         _Administrator.paint(g, _ModeType);
     }
 
@@ -63,14 +66,20 @@ public class ViewController {
     public void mouseReleased(MouseEvent evt) {
         _Administrator.Release(evt);
     }
+    public void putColor(Component component) {
+        _Administrator.updateColor(component);
+    }
+    public List<String> loadDesign() {
+        return _Administrator.getDesigns();
+    }
     
-    public List<Design>
+    
     
     private PaintAdministrator _Administrator;
     private Program_Mode _ModeType;
+
+    
     
 
-    public void putColor(MainWindow aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 }

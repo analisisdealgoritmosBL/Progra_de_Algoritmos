@@ -1,6 +1,7 @@
 package tenis.logic;
 
 import java.awt.AWTException;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -262,9 +263,17 @@ public class PaintAdministrator
     public void setName(String _name) {
         this._name = _name;
     }
+    
+    void updateColor(Component component) {
+        _Editor.putColor(component, _nodes);
+    }
 
-    public List<Design> getDesigns() {
-        return _Designs;
+    public List<String> getDesigns() {
+        List<String> names = new ArrayList();
+        for (Design design : _Designs){
+            names.add(design.getName());
+        }
+        return names;
     }
 
     public void setDesigns(List<Design> _Designs) {
@@ -278,6 +287,7 @@ public class PaintAdministrator
     public void getDesignsFromDatabase() {
         _Designs = _DBController.getDesignsFromDatabase();
     }
+    
     
     private Map<String, HashMap<DrawType, DrawDuration>> _BestDrawTimes = new HashMap<String, HashMap<DrawType, DrawDuration>>();
     private Program_Mode _ModeType;
@@ -302,5 +312,8 @@ public class PaintAdministrator
     private List<Edge> _edges = new ArrayList<>();
     private List<Background> _Backgrounds = new ArrayList<>();
     private List<Point> _curvePoints;
+    private List<Design> _Designs; 
     private String _name;
+
+    
 }
