@@ -160,7 +160,6 @@ public final class Design {
         _FireDuration.setDateDuration(new DateDuration(pDateArcade, pDurationArcade));
     }
     
-    
     private List<Background> _DesignBackgrounds = new ArrayList<>();
     private DrawDuration _FireDuration;
     private DrawDuration _ArcadeDuration;

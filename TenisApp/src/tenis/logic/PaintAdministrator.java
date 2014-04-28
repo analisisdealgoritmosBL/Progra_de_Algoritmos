@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package tenis.logic;
 
 import java.awt.Graphics;
@@ -100,10 +94,10 @@ public class PaintAdministrator
     }
     
     
-    public void cargarDiseno(Design pDesino) 
+    public void loadDesign(Design pDesign) 
     {
         LogicController painter = _Painters.get(_ModeType);
-        painter.pintar(pDesino);
+        painter.pintar(pDesign);
     }
     
     public void setMode(Program_Mode pMode)

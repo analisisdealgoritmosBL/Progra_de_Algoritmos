@@ -5,12 +5,11 @@
 package tenis.views;
 
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import tenis.logic.LaunchWindow;
-import tenis.library.Edge;
+import tenis.logic.ViewController;
 import tenis.library.Program_Mode;
-import tenis.logic.EditorPainter;
-import tenis.logic.PaintAdministrator;
+import java.util.List;
 
 /**
  *
@@ -18,8 +17,10 @@ import tenis.logic.PaintAdministrator;
  */
 public class MainWindow extends javax.swing.JFrame {
 
-    public MainWindow() {
+    public MainWindow(ViewController pWindowController) {
         initComponents();
+        _WindowController = pWindowController;
+        this.setVisible(rootPaneCheckingEnabled);
     }
     
 
@@ -294,55 +295,56 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String inputValue = JOptionPane.showInputDialog(jButton1, "Style Name: ", null, WIDTH);
+        String inputValue = JOptionPane.showInputDialog(jButton1, "Design Name: ", null, WIDTH);
         if (inputValue.isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "No puede crear un diseño sin nombre");
         }
         else{
-            nameDesign(inputValue);
-            createDesign();
+            _WindowController.newDesign(inputValue);
             repaint();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+        //Se debe determinar el nombre seleccionado en el jList1
+        //EventsController.saveDesign(selectedJlist1);
         //Guardar el diseño
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-        LaunchWindow.Drag(evt);
+        _WindowController.mouseDrag(evt);
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMouseDragged
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        LaunchWindow.MousePress(evt);
+        _WindowController.mousePress(evt);
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        LaunchWindow.Released(evt);        
+        _WindowController.mouseReleased(evt);        
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMouseReleased
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        EditorPainter.putColor(this);
+        _WindowController.putColor(this);
+        //EditorPainter.putColor(this);
         repaint();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
-        LaunchWindow.UpdateRadius((int) jSpinner1.getValue());
+        _WindowController.updateRadius((int) jSpinner1.getValue());
         repaint();
     }//GEN-LAST:event_jSpinner1StateChanged
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        LaunchWindow.drawLine();
+        _WindowController.drawLine();
         repaint();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        LaunchWindow.drawCircle();
+        _WindowController.drawCircle();
         repaint();
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -358,38 +360,38 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jSpinner2StateChanged
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        LaunchWindow.drawPoint();
+        _WindowController.drawPoint();
         repaint();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        LaunchWindow.Clean();
+        _WindowController.clean();
         repaint();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        LaunchWindow.setMode(Program_Mode.ARCADE);
+        _WindowController.setMode(Program_Mode.ARCADE);
         jToggleButton1.setSelected(false);
         jToggleButton3.setSelected(false);
         repaint();
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
-        LaunchWindow.setMode(Program_Mode.FIRE);
+        _WindowController.setMode(Program_Mode.FIRE);
         jToggleButton1.setSelected(false);
         jToggleButton2.setSelected(false);
         repaint();
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        LaunchWindow.setMode(Program_Mode.EDIT);
+        _WindowController.setMode(Program_Mode.EDIT);
         jToggleButton2.setSelected(false);
         jToggleButton3.setSelected(false);
         repaint();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
     
   
-    
+    private ViewController _WindowController;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -421,5 +423,4 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
     // End of variables declaration//GEN-END:variables
-
 }
