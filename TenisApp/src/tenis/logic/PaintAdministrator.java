@@ -187,17 +187,30 @@ public class PaintAdministrator
         }
         return names;
     }
+
+    public Map<String, HashMap<DrawType, DrawDuration>> getBestDrawTimes() {
+        return _BestDrawTimes;
+    }
     
     public void getBestDrawTimesFromDatabase() {
-        _BestDrawTimes = _DBController.getBestDrawTimesFromDatabase();
+        _DBController.getBestDrawTimesFromDatabase();
+        _BestDrawTimes = _DBController.getFetchedBestDrawTimes();
+                
     }
     
     public void getDesignsFromDatabase() {
-        _Designs = _DBController.getDesignsFromDatabase();
+        _DBController.getDesignsFromDatabase();
+        _Designs = _DBController.getFetchedDesignList();
+    }
+    
+    public void saveDesignsToDatabase() {
+        _DBController.setSavedDesignList(_Designs);
+        _DBController.saveDesignsToDatabase();
     }
     
     
     private Map<String, HashMap<DrawType, DrawDuration>> _BestDrawTimes = new HashMap<String, HashMap<DrawType, DrawDuration>>();
+    private List<Design> _Designs = new ArrayList<>();
     private Program_Mode _ModeType;
     private static PaintAdministrator _PainterLogic;
     private DatabaseController _DBController = new DatabaseController();
