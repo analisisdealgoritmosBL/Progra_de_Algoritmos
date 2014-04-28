@@ -17,7 +17,6 @@ import tenis.library.DrawType;
 import tenis.library.Edge;
 import tenis.library.Figure;
 import tenis.library.Program_Mode;
-import tenis.logic.DatabaseController;
 
 public class PaintAdministrator 
 {
@@ -302,7 +301,6 @@ public class PaintAdministrator
     private List<Figure> _nodes = new ArrayList<>();
     private List<Edge> _edges = new ArrayList<>();
     private List<Background> _Backgrounds = new ArrayList<>();
-    private List<Point> _curvePoints = Edge.getcurvePoints();
-    private List<Design> _Designs = new ArrayList<>();
+    private List<Point> _curvePoints;
     private String _name;
 }
