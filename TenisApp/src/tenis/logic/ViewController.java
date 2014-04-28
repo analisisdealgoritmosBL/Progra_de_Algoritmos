@@ -1,6 +1,7 @@
 package tenis.logic;
 
 import java.awt.AWTException;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -27,11 +28,6 @@ public class ViewController {
     public Program_Mode getMode()
     {
         return _ModeType;
-    }
-    
-    public void newDesign(String pDesignName)
-    {
-        //
     }
     public void createDesign() 
     {
@@ -75,24 +71,16 @@ public class ViewController {
         _Administrator.updateColor(component);
     }
     public List<String> loadDesign() {
-        return _Administrator.getDesigns();
+        _Administrator.getDesignsFromDatabase();
+        return _Administrator.getDesignsName();
+        
     }
     public void updateThickness(int pThickness) {
         _Administrator.updateThickness(pThickness);
     }
     
-    public void getDesignsFromDatabase() {
-        _Administrator.getDesignsFromDatabase();
-        _Designs = _Administrator.getDesigns();
-    }
-    
-    public void getBestDrawTimesFromDatabase() {
-        _Administrator.getBestDrawTimesFromDatabase();
-        _BestDrawTimes = _Administrator.getBestDrawTimes();
-    }
-    
-    public void saveDesignsToDatabase() {
-        _Administrator.setDesigns(_Designs);
+    public void saveDesign(String pName) {
+        _Administrator.setDesignName(pName);
         _Administrator.saveDesignsToDatabase();
     }
     

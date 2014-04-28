@@ -180,12 +180,16 @@ public class PaintAdministrator
         _Editor.putThickness(pThickness, _edges);
     }
     
-    public List<String> getDesigns() {
+    public List<String> getDesignsName() {
         List<String> names = new ArrayList();
         for (Design design : _Designs){
             names.add(design.getName());
         }
         return names;
+    }
+    
+    void setDesignName(String pName) {
+        Design newDesign = new Design(pName, _nodes, _edges, _Backgrounds); 
     }
 
     public Map<String, HashMap<DrawType, DrawDuration>> getBestDrawTimes() {
@@ -232,7 +236,8 @@ public class PaintAdministrator
     private List<Edge> _edges = new ArrayList<>();
     private List<Background> _Backgrounds = new ArrayList<>();
     private List<Point> _curvePoints;
-    private List<Design> _Designs;
+
+    
 
     
 }

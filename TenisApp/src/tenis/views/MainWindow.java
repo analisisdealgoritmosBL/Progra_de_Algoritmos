@@ -344,15 +344,17 @@ public class MainWindow extends javax.swing.JFrame {
         }
         else{
             _WindowController.createDesign();
-            _WindowController.newDesign(inputValue);
+            List<String> Designs = _WindowController.loadDesign();
+            DefaultTableModel modelo=(DefaultTableModel) jTable1.getModel();             
+            modelo.addRow(new Object[0]);
+            jTable1.setValueAt(inputValue,  modelo.getRowCount()-1, 0);
             repaint();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //Se debe determinar el nombre seleccionado en el jList1
-        //EventsController.saveDesign(selectedJlist1);
-        //Guardar el diseño
+        
+        _WindowController.saveDesign(jTable1.getValueAt(jTable1.getSelectedRow(),0).toString());
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
