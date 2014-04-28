@@ -61,6 +61,7 @@ public final class DatabaseAdmin {
         }
         return _DBInstance;
     }
+    
     /**
      * Saves a design to the parse database.
      * @param pDesign 
@@ -80,6 +81,15 @@ public final class DatabaseAdmin {
         } catch (ParseException ex) {
             Logger.getLogger(DatabaseAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    /**
+     * Saves a list of designs to the parse database.
+     * @param pDesigns 
+     */
+    public void saveDesignsToDatabase(List<Design> pDesigns) {
+        for(Design designInList : pDesigns)
+            saveDesignToDatabase(designInList);
     }
     
     /**

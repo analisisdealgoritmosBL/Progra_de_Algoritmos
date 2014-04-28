@@ -6,15 +6,17 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import tenis.library.Background;
 import tenis.library.Design;
+import tenis.library.DrawDuration;
+import tenis.library.DrawType;
 import tenis.library.Edge;
 import tenis.library.Figure;
 import tenis.library.Program_Mode;
-//import tenis.logic.PaintAdministrator.firstDesign;
-//import tenis.logic.PaintAdministrator.getEdges;
-//import tenis.logic.PaintAdministrator.getNodes;
+import tenis.logic.DatabaseController;
 
 public class PaintAdministrator 
 {
@@ -259,9 +261,27 @@ public class PaintAdministrator
     public void setName(String _name) {
         this._name = _name;
     }
+
+    public List<Design> getDesigns() {
+        return _Designs;
+    }
+
+    public void setDesigns(List<Design> _Designs) {
+        this._Designs = _Designs;
+    }
     
+    public void getBestDrawTimesFromDatabase() {
+        _BestDrawTimes = _DBController.getBestDrawTimesFromDatabase();
+    }
+    
+    public void getDesignsFromDatabase() {
+        _Designs = _DBController.getDesignsFromDatabase();
+    }
+    
+    private Map<String, HashMap<DrawType, DrawDuration>> _BestDrawTimes = new HashMap<String, HashMap<DrawType, DrawDuration>>();
     private Program_Mode _ModeType;
     private static PaintAdministrator _PainterLogic;
+    private DatabaseController _DBController = new DatabaseController();
     private Dictionary<Program_Mode, LogicController> _Painters;
     private EditorPainter _Editor = new EditorPainter();
     private final int WIDE = 640;
@@ -279,5 +299,6 @@ public class PaintAdministrator
     private List<Edge> _edges = new ArrayList<>();
     private List<Background> _Backgrounds = new ArrayList<>();
     private List<Point> _curvePoints = Edge.getcurvePoints();
+    private List<Design> _Designs = new ArrayList<>();
     private String _name;
 }

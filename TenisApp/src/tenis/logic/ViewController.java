@@ -64,8 +64,11 @@ public class ViewController {
         _Administrator.Release(evt);
     }
     
+    public List<Design>
+    
     private PaintAdministrator _Administrator;
     private Program_Mode _ModeType;
+    
 
     public void putColor(MainWindow aThis) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
