@@ -14,14 +14,13 @@ import java.awt.Polygon;
 import java.awt.Robot;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tenis.library.Background;
 import tenis.library.Design;
 import tenis.library.Edge;
 import tenis.library.Figure;
-import static tenis.logic.FirePainter.getPixelColor;
-import static tenis.logic.FirePainter.polygon;
 
 /**
  *
@@ -33,34 +32,12 @@ public class FirePainter implements LogicController
     public void pintar(Design pDesign) {
         System.out.println("Imprimendo en modo Fire");
     }
-       
-    public static void FirePainter(Graphics g){
-        if (pixels.isEmpty()){
-            System.out.print("No hay nada que pintar");
-        }
-        //for (Point e : pixels) {
-            g.fillRect(100, 100, 100, 100);
-            
-        //}
+    
+    private void removePoints (List <Figure> pPoints){
+        Figure.updateRadius1(pPoints, 0);
     }
     
-    private static void removePoints (){
-        Figure.updateRadius1(_points, 0);
-    }
-    
-    public static Color getPixelColor(int pX, int pY){
-        //removePoints();
-        Robot rb = null;
-        try {
-            rb = new Robot();
-        } catch (AWTException ex) {
-            Logger.getLogger(FirePainter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Color aPixelColor = rb.getPixelColor(pX, pY);//gets the color of the pixel at screen coordinate 0,0.
-        return aPixelColor;
-    }
-    
-    public static void polygon(List <Figure> pPoints,List <Edge> pConnections, List <Point> pCurvePoints){
+    public void polygon(List <Figure> pPoints,List <Edge> pConnections, List <Point> pCurvePoints){
         int [] getXpoints = new int [6];
         int [] getYpoints = new int [6];
         int index = 0;
@@ -74,36 +51,88 @@ public class FirePainter implements LogicController
         //getYpoints[index] = pCurvePoints.get(1).y;
         
         
-        shape = new Polygon(getXpoints,getYpoints,5);
+        Polygon shape = new Polygon(getXpoints,getYpoints,5);
         
         List <Point> Con1 = pConnections.get(0).intersect1(pConnections);
         List <Point> Con2 = pConnections.get(0).intersect2(pConnections);
         for (Point connectionX : Con1){
             if(shape.contains(connectionX)){
-                _skipPoints.add(connectionX);
+                //_skipPoints.add(connectionX);
             }  
         }
         for (Point connectionY : Con2){
             if(shape.contains(connectionY)){
-                _skipPoints.add(connectionY);
+                //_skipPoints.add(connectionY);
             }
         }
     }
-    public static void Algorithm(Graphics p){
+    
+    public Color getPixelColor(int pX, int pY){
+        //removePoints();
+        Robot rb = null;
+        try {
+            rb = new Robot();
+        } catch (AWTException ex) {
+            Logger.getLogger(FirePainter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Color aPixelColor = rb.getPixelColor(pX, pY);//gets the color of the pixel at screen coordinate 0,0.
+        return aPixelColor;
+    }
+    
+    public void Algorithm(Graphics p,List <Figure> pPoints,List <Background> pBackgrounds) throws AWTException{
         //p.setColor(Color.black);
         //Color black = Color.black;
-        polygon(_points,_Connections,_CurvePoints);
-        Color principal =  Color.red;
-        p.setColor(principal);
-        removePoints ();
-        for (Background pointColor : _Backgrounds){
-            FirstRect(p, pointColor);
-            SecondRect(p, pointColor);
-            ThirdRect(p, pointColor);
-            FourthRect(p, pointColor);
+        removePoints (pPoints);
+        for (Background pointColor : pBackgrounds){
+            floodFillScanlineStack(p, pointColor.getBackgroundFigure1().getLocation().x, pointColor.getBackgroundFigure1().getLocation().y, Color.white, pointColor.getBackgroundColor());
         }
     }
-    private static void FirstRect(Graphics p,Background pOriginColor){
+    
+    void floodFillScanlineStack(Graphics p,int x, int y,  Color targetColor, Color replacementColor) throws AWTException
+    {
+        Robot robot = new Robot();
+        if(targetColor == replacementColor) return;
+        Stack pending = new Stack();
+        boolean spanLeft, spanRight;
+
+        //if (pending.isEmpty())return;
+        
+        pending.push(new Point(x,y));
+        
+        while(!pending.isEmpty()){
+            Point g = (Point)pending.pop();
+            spanLeft = spanRight = false;
+            while(robot.getPixelColor(g.x, g.y).equals(targetColor))
+            {
+                p.setColor(replacementColor);
+                p.fillRect(g.x, g.y, 1, 1);
+                if(!spanLeft && robot.getPixelColor(g.x-1, g.y).equals(targetColor)) 
+                {
+                    pending.push(new Point(g.x-1, g.y));
+                    spanLeft = true;
+                }
+                else if(spanLeft && !robot.getPixelColor(g.x-1, g.y).equals(targetColor))
+                {
+                    spanLeft = false;
+                }
+                if(!spanRight && robot.getPixelColor(g.x+1, g.y).equals(targetColor)) 
+                {
+                    pending.push(new Point(g.x+1, g.y));
+                    spanRight = true;
+                }
+                else if(spanRight && !robot.getPixelColor(g.x+1, g.y).equals(targetColor))
+                {
+                    spanRight = false;
+                } 
+                pending.push(new Point(g.x, g.y+1));
+                pending.push(new Point(g.x, g.y-1));
+            }
+            
+        }
+        System.out.print("sali");
+    }
+    
+    /*private void FirstRect(Graphics p,Background pOriginColor){
         int oldPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
         int oldPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
         int actualPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
@@ -116,26 +145,23 @@ public class FirePainter implements LogicController
         
         for (int PixelY = 0; PixelY<500 ;PixelY++){
             actualPointY--;
-            actualPointX = oldPointX;
-            /*if (FindSpace(actualPointX,actualPointY)&&(getPixelColor(actualPointX,actualPointY).equals(azul)||getPixelColor(actualPointX,actualPointY).equals(negro))){
+            if (FindSpace(actualPointX,actualPointY)&&(getPixelColor(actualPointX,actualPointY).equals(negro)||getPixelColor(actualPointX,actualPointY).equals(azul))){
                 oldPointX = PixelPointX;
-                System.out.print(actualPointX);
-            }*/
-            if (getPixelColor(actualPointX,actualPointY).equals(azul)){
+            }
+            if (getPixelColor(actualPointX,actualPointY).equals(negro)){
                 break;
             }
-            else if (getPixelColor(actualPointX,actualPointY).equals(negro)){
+            else if (getPixelColor(actualPointX,actualPointY).equals(azul)){
                 break;
             }
-            
-            
+            actualPointX = oldPointX;
             for (int PixelX = 0; PixelX <500; PixelX++){
                 actualPointX++;
                 System.out.print(actualPointX);
-                if (getPixelColor(actualPointX,actualPointY).equals(azul)){
+                if (getPixelColor(actualPointX,actualPointY).equals(negro)){
                     break;
                 }
-                else if (getPixelColor(actualPointX,actualPointY).equals(negro)){
+                else if (getPixelColor(actualPointX,actualPointY).equals(azul)){
                     break;
                 }
                 p.fillRect(actualPointX, actualPointY, 1, 1);
@@ -143,7 +169,7 @@ public class FirePainter implements LogicController
         }
         
     }
-    private static void SecondRect(Graphics p,Background pOriginColor){
+    private void SecondRect(Graphics p,Background pOriginColor){
         int oldPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
         int oldPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
         int actualPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
@@ -176,7 +202,7 @@ public class FirePainter implements LogicController
         }
         
     }
-    private static void ThirdRect(Graphics p,Background pOriginColor){
+    private void ThirdRect(Graphics p,Background pOriginColor){
         int oldPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
         int oldPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
         int actualPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
@@ -209,7 +235,7 @@ public class FirePainter implements LogicController
         }
         
     }
-    private static void FourthRect(Graphics p,Background pOriginColor){
+    private void FourthRect(Graphics p,Background pOriginColor){
         int oldPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
         int oldPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
         int actualPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
@@ -242,27 +268,18 @@ public class FirePainter implements LogicController
         }        
     }
     
-    /*private static boolean FindSpace(int actualPointX, int actualPointY){
-        if ((getPixelColor(actualPointX+1,actualPointY+1).equals(Color.blue)||(getPixelColor(actualPointX+1,actualPointY+1).equals(Color.black)))&&
-            (getPixelColor(actualPointX+1,actualPointY).equals(Color.blue)||(getPixelColor(actualPointX+1,actualPointY).equals(Color.black)))&&
-            (getPixelColor(actualPointX,actualPointY).equals(Color.blue)||(getPixelColor(actualPointX,actualPointY).equals(Color.black)))&&
-            (getPixelColor(actualPointX+2,actualPointY).equals(Color.blue)||(getPixelColor(actualPointX+2,actualPointY).equals(Color.black)))){
-            return false;
-        }
-        else{
-            for (int PixelX = 0; PixelX <500; PixelX++){
-                actualPointX++;
-                if (getPixelColor(actualPointX,actualPointY).equals(Color.white)){
-                    PixelPointX=actualPointX;
-                    System.out.print("\n");
-                    return true;
-                }
+    private boolean FindSpace(int actualPointX, int actualPointY){
+        for (int PixelX = 0; PixelX <500; PixelX++){
+            actualPointX++;
+            if (getPixelColor(actualPointX,actualPointY).equals(Color.white)){
+                PixelPointX=actualPointX;
+                return true;
             }
         }
+        
         return false;
     }*/
     
-    //private static int PixelPointX;
+    private int PixelPointX;
     //private static int PixelPointX1;
-    private Polygon shape;
 }

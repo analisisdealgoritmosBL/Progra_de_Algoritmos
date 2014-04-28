@@ -6,6 +6,7 @@
 
 package tenis.logic;
 
+import java.awt.AWTException;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -18,26 +19,28 @@ import tenis.library.Design;
 import tenis.library.Edge;
 import tenis.library.Figure;
 import tenis.library.Program_Mode;
-//import tenis.logic.PaintAdministrator.firstDesign;
-//import tenis.logic.PaintAdministrator.getEdges;
-//import tenis.logic.PaintAdministrator.getNodes;
 
 public class PaintAdministrator 
 {
 
-    public void paint(Graphics p, Program_Mode pMode){
-
+    public void paint(Graphics p, Program_Mode pMode) throws AWTException{
+        
         switch(pMode){
                 case EDIT: 
                     _Editor.paint(p, _nodes, _edges, _mouseRect, _selecting); 
                     break;
                 case FIRE:
                     _Editor.paint(p, _nodes, _edges, _mouseRect, _selecting);
-                    FirePainter.Algorithm(p);
+                    _Fire.Algorithm(p, _nodes, _Backgrounds);
                     break;
                 case ARCADE:
-                    //ArcadePainter.Algorithm(g);
+                    _Editor.paint(p, _nodes, _edges, _mouseRect, _selecting);
+                    _Arcade.Algorithm(p,_nodes, _Backgrounds);
                     break;
+                default:
+                    _Editor.paint(p, _nodes, _edges, _mouseRect, _selecting); 
+                    break;
+                
         }    
     }
 
@@ -254,10 +257,6 @@ public class PaintAdministrator
         return _curvePoints;
     }
 
-    public void setCurvePoints(List<Point> _curvePoints) {
-        this._curvePoints = _curvePoints;
-    }
-
     public String getName() {
         return _name;
     }
@@ -269,7 +268,9 @@ public class PaintAdministrator
     private Program_Mode _ModeType;
     private static PaintAdministrator _PainterLogic;
     private Dictionary<Program_Mode, LogicController> _Painters;
-    private EditorPainter _Editor = new EditorPainter();
+    private EditorPainter _Editor = new EditorPainter();    
+    private FirePainter _Fire = new FirePainter();
+    private ArcadePainter _Arcade = new ArcadePainter();
     private final int WIDE = 640;
     private final int HIGH = 480;
     private Point _mousePt = new Point(WIDE / 2, HIGH / 2);
@@ -284,6 +285,6 @@ public class PaintAdministrator
     private List<Figure> _nodes = new ArrayList<>();
     private List<Edge> _edges = new ArrayList<>();
     private List<Background> _Backgrounds = new ArrayList<>();
-    private List<Point> _curvePoints = Edge.getcurvePoints();
+    private List<Point> _curvePoints;
     private String _name;
 }
