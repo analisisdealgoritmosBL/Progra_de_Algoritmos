@@ -33,7 +33,7 @@ public class ArcadePainter implements LogicController {
         //boundaryFloodFill(pDesign.getFiguras().getX(), pDesign.getFiguras().getY());
     }
     private void removePoints (List <Figure> pPoints){
-        Figure.updateRadius1(pPoints, 0);
+        _Figure.updateRadius1(pPoints, 0);
     }
     
     public Color getPixelColor(int pX, int pY){
@@ -57,7 +57,7 @@ public class ArcadePainter implements LogicController {
         }
     }
     
-    public void floodFill(Graphics g, int x, int y, Color targetColor, Color replacementColor) throws AWTException{
+    public void floodFillRecursive(Graphics g, int x, int y, Color targetColor, Color replacementColor) throws AWTException{
 
         Robot robot = new Robot();
 
@@ -70,22 +70,22 @@ public class ArcadePainter implements LogicController {
         g.fillRect(x, y, 1, 1);
 
         if(robot.getPixelColor(x-1, y).equals(targetColor)){
-            floodFill(g, x-1, y, targetColor, replacementColor);
+            floodFillRecursive(g, x-1, y, targetColor, replacementColor);
         }
 
         if(robot.getPixelColor(x+1, y).equals(targetColor)){
-            floodFill(g, x+1, y, targetColor, replacementColor);
+            floodFillRecursive(g, x+1, y, targetColor, replacementColor);
         }
 
         if(robot.getPixelColor(x, y-1).equals(targetColor)){
-            floodFill(g, x, y-1, targetColor, replacementColor);
+            floodFillRecursive(g, x, y-1, targetColor, replacementColor);
         }
 
         if(robot.getPixelColor(x, y+1).equals(targetColor)){
-            floodFill(g, x, y+1, targetColor, replacementColor);
+            floodFillRecursive(g, x, y+1, targetColor, replacementColor);
         }
     }
-    private static void floodFill1(Graphics g, int x, int y, Color targetColor, Color replacementColor) throws AWTException {
+    private void floodFill1(Graphics g, int x, int y, Color targetColor, Color replacementColor) throws AWTException {
         Robot robot = new Robot();
         Stack pending = new Stack();
         pending.push(new Point(x, y));
@@ -101,4 +101,5 @@ public class ArcadePainter implements LogicController {
             }
         }
     }
+    private Figure _Figure = new Figure();
 }

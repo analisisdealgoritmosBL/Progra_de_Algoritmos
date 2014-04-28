@@ -34,7 +34,7 @@ public class FirePainter implements LogicController
     }
     
     private void removePoints (List <Figure> pPoints){
-        Figure.updateRadius1(pPoints, 0);
+        _Figure.updateRadius1(pPoints, 0);
     }
     
     public void polygon(List <Figure> pPoints,List <Edge> pConnections, List <Point> pCurvePoints){
@@ -123,163 +123,16 @@ public class FirePainter implements LogicController
                 else if(spanRight && !robot.getPixelColor(g.x+1, g.y).equals(targetColor))
                 {
                     spanRight = false;
-                } 
+                }
                 pending.push(new Point(g.x, g.y+1));
                 pending.push(new Point(g.x, g.y-1));
             }
             
+            
         }
-        System.out.print("sali");
     }
     
-    /*private void FirstRect(Graphics p,Background pOriginColor){
-        int oldPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
-        int oldPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
-        int actualPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
-        int actualPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
-        
-        Color azul = Color.blue;
-        Color negro = Color.black;
-        
-        p.setColor(pOriginColor.getBackgroundColor());
-        
-        for (int PixelY = 0; PixelY<500 ;PixelY++){
-            actualPointY--;
-            if (FindSpace(actualPointX,actualPointY)&&(getPixelColor(actualPointX,actualPointY).equals(negro)||getPixelColor(actualPointX,actualPointY).equals(azul))){
-                oldPointX = PixelPointX;
-            }
-            if (getPixelColor(actualPointX,actualPointY).equals(negro)){
-                break;
-            }
-            else if (getPixelColor(actualPointX,actualPointY).equals(azul)){
-                break;
-            }
-            actualPointX = oldPointX;
-            for (int PixelX = 0; PixelX <500; PixelX++){
-                actualPointX++;
-                System.out.print(actualPointX);
-                if (getPixelColor(actualPointX,actualPointY).equals(negro)){
-                    break;
-                }
-                else if (getPixelColor(actualPointX,actualPointY).equals(azul)){
-                    break;
-                }
-                p.fillRect(actualPointX, actualPointY, 1, 1);
-            }
-        }
-        
-    }
-    private void SecondRect(Graphics p,Background pOriginColor){
-        int oldPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
-        int oldPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
-        int actualPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
-        int actualPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
-        
-        Color azul = Color.blue;
-        Color negro = Color.black;
-        
-        p.setColor(pOriginColor.getBackgroundColor());
-        
-        for (int PixelY = 0; PixelY<500 ;PixelY++){
-            actualPointY++;
-            actualPointX = oldPointX;
-            if (getPixelColor(actualPointX,actualPointY).equals(azul)){
-                break;
-            }
-            else if (getPixelColor(actualPointX,actualPointY).equals(negro)){
-                break;
-            }
-            for (int PixelX = 0; PixelX <500; PixelX++){
-                actualPointX++;
-                if (getPixelColor(actualPointX,actualPointY).equals(azul)){
-                    break;
-                }
-                else if (getPixelColor(actualPointX,actualPointY).equals(negro)){
-                    break;
-                }
-                p.fillRect(actualPointX, actualPointY, 1, 1);
-            }
-        }
-        
-    }
-    private void ThirdRect(Graphics p,Background pOriginColor){
-        int oldPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
-        int oldPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
-        int actualPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
-        int actualPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
-        
-        Color azul = Color.blue;
-        Color negro = Color.black;
-        
-        p.setColor(pOriginColor.getBackgroundColor());
-        
-        for (int PixelY = 0; PixelY<500 ;PixelY++){
-            actualPointY++;
-            actualPointX = oldPointX;
-            if (getPixelColor(actualPointX,actualPointY).equals(azul)){
-                break;
-            }
-            else if (getPixelColor(actualPointX,actualPointY).equals(negro)){
-                break;
-            }
-            for (int PixelX = 0; PixelX <500; PixelX++){
-                actualPointX--;
-                if (getPixelColor(actualPointX,actualPointY).equals(azul)){
-                    break;
-                }
-                else if (getPixelColor(actualPointX,actualPointY).equals(negro)){
-                    break;
-                }
-                p.fillRect(actualPointX, actualPointY, 1, 1);
-            }
-        }
-        
-    }
-    private void FourthRect(Graphics p,Background pOriginColor){
-        int oldPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
-        int oldPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
-        int actualPointX = pOriginColor.getBackgroundFigure1().getLocation().x;
-        int actualPointY = pOriginColor.getBackgroundFigure1().getLocation().y;
-        
-        Color azul = Color.blue;
-        Color negro = Color.black;
-        
-        p.setColor(pOriginColor.getBackgroundColor());
-        
-        for (int PixelY = 0; PixelY<500 ;PixelY++){
-            actualPointY--;
-            actualPointX = oldPointX;
-            if (getPixelColor(actualPointX,actualPointY).equals(azul)){
-                break;
-            }
-            else if (getPixelColor(actualPointX,actualPointY).equals(negro)){
-                break;
-            }
-            for (int PixelX = 0; PixelX <500; PixelX++){
-                actualPointX--;
-                if (getPixelColor(actualPointX,actualPointY).equals(azul)){
-                    break;
-                }
-                else if (getPixelColor(actualPointX,actualPointY).equals(negro)){
-                    break;
-                }
-                p.fillRect(actualPointX, actualPointY, 1, 1);
-            }
-        }        
-    }
     
-    private boolean FindSpace(int actualPointX, int actualPointY){
-        for (int PixelX = 0; PixelX <500; PixelX++){
-            actualPointX++;
-            if (getPixelColor(actualPointX,actualPointY).equals(Color.white)){
-                PixelPointX=actualPointX;
-                return true;
-            }
-        }
-        
-        return false;
-    }*/
-    
-    private int PixelPointX;
+    private Figure _Figure = new Figure();
     //private static int PixelPointX1;
 }

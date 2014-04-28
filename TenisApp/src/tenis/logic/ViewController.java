@@ -72,11 +72,16 @@ public class ViewController {
     public List<String> loadDesign() {
         return _Administrator.getDesigns();
     }
+    public void updateThickness(int pThickness) {
+        _Administrator.updateThickness(pThickness);
+    }
     
     
     
     private PaintAdministrator _Administrator;
-    private Program_Mode _ModeType;
+    private Program_Mode _ModeType = Program_Mode.EDIT;
+
+    
 
     
     

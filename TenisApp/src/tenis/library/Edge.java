@@ -1,5 +1,6 @@
 package tenis.library;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -31,6 +32,15 @@ public class Edge {
             this._thickness1 = pThickness;
             this._color = pColor;
         }
+
+        public Edge() {
+            this._figure1 = null;
+            this._figure2 = null;
+            this._kind = null;
+            this._curve = 0;
+            this._thickness1 = 0;
+            this._color = null;
+        }
         
         public void draw(Graphics2D g2) {
             Point _point1 = _figure1.getLocation();
@@ -40,6 +50,7 @@ public class Edge {
             if (this._kind == FigureType.Line)
             {           
                 g2.drawLine(_point1.x, _point1.y, _point2.x, _point2.y);
+                g2.setStroke(new BasicStroke(this._thickness1));
             }
             else if (this._kind == FigureType.Curve) {
                 
@@ -78,7 +89,7 @@ public class Edge {
         }
         
         
-        public static void updateThickness(List<Edge> list, int thickness) 
+        public void updateThickness(List<Edge> list, int thickness) 
         {
             for (Edge n : list) 
             {

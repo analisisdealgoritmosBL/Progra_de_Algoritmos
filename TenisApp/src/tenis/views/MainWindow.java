@@ -167,6 +167,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jButton11.setText("Report");
 
+        jToggleButton1.setSelected(true);
         jToggleButton1.setText("EDIT");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -342,6 +343,7 @@ public class MainWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "No puede crear un diseño sin nombre");
         }
         else{
+            _WindowController.createDesign();
             _WindowController.newDesign(inputValue);
             repaint();
         }
@@ -391,14 +393,8 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jSpinner2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner2StateChanged
-        /*int thickness;
-        thickness = (int) jSpinner1.getValue();
-        Figure.updateThickness(PaintAdministrator.getListFigure(), thickness);
+        _WindowController.updateThickness((int) jSpinner1.getValue());
         repaint();
-        int thickness;
-        thickness = (int) jSpinner1.getValue();
-        Edge.updateThickness(PaintAdministrator.getEdges(), thickness);
-        repaint();*/
     }//GEN-LAST:event_jSpinner2StateChanged
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -429,7 +425,7 @@ public class MainWindow extends javax.swing.JFrame {
         _WindowController.setMode(Program_Mode.EDIT);
         jToggleButton2.setSelected(false);
         jToggleButton3.setSelected(false);
-        //repaint();
+        repaint();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

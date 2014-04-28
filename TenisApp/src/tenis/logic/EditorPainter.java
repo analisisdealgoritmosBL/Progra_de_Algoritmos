@@ -57,11 +57,11 @@ public class EditorPainter implements LogicController
         Point point5 = new Point(680,323);
         Point curve1 = new Point(150,175);
         Point curve2 = new Point(330,170);
-        Figure.firstDesignPoints(point1,FigureType.Point,pRadius,pNodes);
-        Figure.firstDesignPoints(point2,FigureType.Point,pRadius,pNodes);
-        Figure.firstDesignPoints(point3,FigureType.Point,pRadius,pNodes);
-        Figure.firstDesignPoints(point4,FigureType.Point,pRadius,pNodes);
-        Figure.firstDesignPoints(point5,FigureType.Point,pRadius,pNodes);
+        _Figure.firstDesignPoints(point1,FigureType.Point,pRadius,pNodes);
+        _Figure.firstDesignPoints(point2,FigureType.Point,pRadius,pNodes);
+        _Figure.firstDesignPoints(point3,FigureType.Point,pRadius,pNodes);
+        _Figure.firstDesignPoints(point4,FigureType.Point,pRadius,pNodes);
+        _Figure.firstDesignPoints(point5,FigureType.Point,pRadius,pNodes);
         
         Figure n0 = pNodes.get(0);
         Figure n1 = pNodes.get(1);
@@ -79,7 +79,7 @@ public class EditorPainter implements LogicController
         Color color = null;
         color = JColorChooser.showDialog(component, "Choose a color", color);
         if (color != null) {
-            Figure.updateColor(pNodes, color);
+            _Figure.updateColor(pNodes, color);
         }
     }
     
@@ -87,29 +87,61 @@ public class EditorPainter implements LogicController
     {
         Point point = new Point (WIDE/2, HIGH/2);
         Point point1 = new Point ((WIDE/2)+50, (HIGH/2)+50);
-        Figure.lines(point, point1, pRadiusLine, FigureType.Point,FigureType.Line,pNodes,pEdges);
+        _Figure.lines(point, point1, pRadiusLine, FigureType.Point,FigureType.Line,pNodes,pEdges);
     }
     
     public void drawCircle(int pRadiusCircle, List<Figure> pNodes, int pThickness)
     {
         Point point = new Point (WIDE/2, HIGH/2);
-        Figure.circle(point, pRadiusCircle, pThickness, FigureType.Circle,pNodes);
+        _Figure.circle(point, pRadiusCircle, pThickness, FigureType.Circle,pNodes);
     }
     
     
     public void drawPoint(int pRadiusPoint, List<Figure> pNodes, List<Background> pBackground)
     {
         Point point = new Point (WIDE/2, HIGH/2);
-        Figure.Points(point,FigureType.Point,pRadiusPoint,pNodes,pBackground);
+        _Figure.Points(point,FigureType.Point,pRadiusPoint,pNodes,pBackground);
     }
     
     public void UpdateRadius(int pValue, List<Figure> pNodes){
         
-        Figure.updateRadius(pNodes, pValue);
+        _Figure.updateRadius(pNodes, pValue);
         
     }
+    
+    public void putThickness(int pThickness, List<Edge> _edges) {
+        _Edges.updateThickness(_edges, pThickness);
+    }
+    
+    public void selectRect(List<Figure> _nodes, Rectangle _mouseRect) {
+        _Figure.selectRect(_nodes, _mouseRect);
+    }
+
+    public void updatePosition(List<Figure> _nodes, Point delta) {
+        _Figure.updatePosition(_nodes, delta);
+    }
+
+    public void selectToggle(List<Figure> _nodes, Point _mousePt) {
+        _Figure.selectToggle(_nodes, _mousePt);
+    }
+
+    public boolean selectOne(List<Figure> _nodes, Point _mousePt) {
+        return _Figure.selectOne(_nodes, _mousePt);
+    }
+
+    public void selectNone(List<Figure> _nodes) {
+        _Figure.selectNone(_nodes);
+    }
+    
+    private Figure _Figure = new Figure();
+    private Edge _Edges = new Edge();
+    
     private int WIDE = 640;
     private int HIGH = 480;
+
+    
+
+    
     
     
     

@@ -20,10 +20,8 @@ public class Figure {
         private Point point;
         private int radius;
         private int thickness;
-        private static final int _thicknessLine = 1;
+        private final int _thicknessLine = 1;
         private Color color;
-
-    
         private FigureType kind;
         private boolean selected = false;
         private Rectangle b = new Rectangle();
@@ -40,6 +38,14 @@ public class Figure {
             this.thickness = pThickness;
             setBoundary(b);
             //setPosBounds(u);
+        }
+
+        public Figure() {
+            this.point = null;
+            this.radius = 0;
+            this.color = null;
+            this.kind = null;
+            this.thickness = 0;
         }
        
         /**
@@ -116,7 +122,7 @@ public class Figure {
         /**
          * Collected all the selected nodes in list.
          */
-        public static void getSelected(List<Figure> list, List<Figure> selected) {
+        public void getSelected(List<Figure> list, List<Figure> selected) {
             selected.clear();
             for (Figure n : list) {
                 if (n.isSelected()) {
@@ -128,7 +134,7 @@ public class Figure {
         /**
          * Select no nodes.
          */
-        public static void selectNone(List<Figure> list) {
+        public void selectNone(List<Figure> list) {
             for (Figure n : list) {
                 n.setSelected(false);
             }
@@ -137,11 +143,11 @@ public class Figure {
         /**
          * Select a single node; return true if not already selected.
          */
-        public static boolean selectOne(List<Figure> list, Point p) {
+        public boolean selectOne(List<Figure> list, Point p) {
             for (Figure n : list) {
                 if (n.contains(p)) {
                     if (!n.isSelected()) {
-                        Figure.selectNone(list);
+                        selectNone(list);
                         n.setSelected(true);
                     }
                     return true;
@@ -153,7 +159,7 @@ public class Figure {
         /**
          * Select each node in r.
          */
-        public static void selectRect(List<Figure> list, Rectangle r) {
+        public void selectRect(List<Figure> list, Rectangle r) {
             for (Figure n : list) {
                 n.setSelected(r.contains(n.point));
             }
@@ -162,7 +168,7 @@ public class Figure {
         /**
          * Toggle selected state of each node containing p.
          */
-        public static void selectToggle(List<Figure> list, Point pointSearch) {
+        public void selectToggle(List<Figure> list, Point pointSearch) {
             for (Figure n : list) {
                 if (n.contains(pointSearch)) {
                     n.setSelected(!n.isSelected());
@@ -173,7 +179,7 @@ public class Figure {
         /**
          * Update each node's position by d (delta).
          */
-        public static void updatePosition(List<Figure> list, Point d) {
+        public void updatePosition(List<Figure> list, Point d) {
             for (Figure n : list) {
                 if (n.isSelected()) {
                     n.point.x += d.x;
@@ -186,7 +192,7 @@ public class Figure {
         /**
          * Update each node's radius r.
          */
-        public static void updateRadius(List<Figure> list, int pRadPoint) {
+        public void updateRadius(List<Figure> list, int pRadPoint) {
             for (Figure n : list) {
                 if (n.isSelected()) {
                     n.radius = pRadPoint;
@@ -194,10 +200,13 @@ public class Figure {
                 }
             }
         }
-        public static void updateRadius1(List<Figure> list, int pRadPoint) {
+        public void updateRadius1(List<Figure> list, int pRadPoint) {
             for (Figure n : list) {
-                n.radius = pRadPoint;
-                n.setBoundary(n.b);
+                if (n.kind != FigureType.Circle){
+                    n.radius = pRadPoint;
+                    n.setBoundary(n.b);
+                }
+                
             }            
         }
         
@@ -205,7 +214,7 @@ public class Figure {
         /**
          * Update each node's color.
          */
-        public static void updateColor(List<Figure> list, Color color) 
+        public void updateColor(List<Figure> list, Color color) 
         {
             for (Figure n : list) 
             {
@@ -229,18 +238,18 @@ public class Figure {
         }*/
 
         
-        public static void firstDesignPoints(Point mousePt, FigureType kind, int radius, List<Figure> nodes) 
+        public void firstDesignPoints(Point mousePt, FigureType kind, int radius, List<Figure> nodes) 
         {
-            Figure.selectNone(nodes);
+            selectNone(nodes);
             Point p = mousePt.getLocation();
             Figure n = new Figure(p, radius, Color.blue, kind, 0);
             n.setSelected(true);
             nodes.add(n);
         }
         
-        public static void Points(Point mousePt, FigureType kind, int radius, List<Figure> nodes, List<Background> Backgroundnodes) 
+        public void Points(Point mousePt, FigureType kind, int radius, List<Figure> nodes, List<Background> Backgroundnodes) 
         {
-            Figure.selectNone(nodes);
+            selectNone(nodes);
             Point p = mousePt.getLocation();
             Figure n = new Figure(p, radius, Color.green, kind, 0);
             Backgroundnodes.add(new Background(n,kind));
@@ -248,9 +257,9 @@ public class Figure {
             nodes.add(n);
         }
         
-        public static void lines(Point mousePt1, Point mousePt2, int radius, FigureType kindPoint, FigureType kindLine, List<Figure> nodes, List<Edge> edges) 
+        public void lines(Point mousePt1, Point mousePt2, int radius, FigureType kindPoint, FigureType kindLine, List<Figure> nodes, List<Edge> edges) 
         {
-            Figure.selectNone(nodes);
+            selectNone(nodes);
             Figure n = new Figure(mousePt1, radius, Color.BLACK, kindPoint, 0);
             Figure n1 = new Figure(mousePt2, radius, Color.BLACK, kindPoint, 0);
             edges.add(new Edge(n, n1, kindLine, 0, _thicknessLine, Color.black));
@@ -258,15 +267,14 @@ public class Figure {
             nodes.add(n);
             nodes.add(n1);
         }
-        public static void circle(Point mousePt,  int radius, int thickness, FigureType kind, List<Figure> nodes) 
+        public void circle(Point mousePt,  int radius, int thickness, FigureType kind, List<Figure> nodes) 
         {
-            Figure.selectNone(nodes);
+            selectNone(nodes);
             Point p = mousePt.getLocation();
             Figure n = new Figure(p, radius, Color.green, kind, thickness);
             n.setSelected(true);
             nodes.add(n);
         }
     
-        
     
 }
