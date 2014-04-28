@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package tenis.logic;
 
 import java.awt.Color;
@@ -30,8 +24,9 @@ public class EditorPainter implements LogicController
     
     @Override
     public void pintar(Design pDesign) {
-        
+        System.out.println("Modo de Edición");
     }
+    
     public void paint (Graphics g,  List<Figure> pNodes, List<Edge> pEdges, Rectangle pMouseRect, boolean Selecting){
         Graphics2D g2 = (Graphics2D) g;
         

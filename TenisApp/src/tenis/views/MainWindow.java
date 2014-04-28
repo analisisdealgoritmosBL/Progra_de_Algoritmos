@@ -27,6 +27,7 @@ public class MainWindow extends javax.swing.JFrame {
     @Override
     public void paint(Graphics g) {
         super.paintComponents(g);
+        _WindowController.paint(g);
     }
     
     @SuppressWarnings("unchecked")
