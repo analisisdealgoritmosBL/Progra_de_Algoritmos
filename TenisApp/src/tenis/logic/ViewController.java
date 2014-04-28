@@ -1,7 +1,15 @@
 package tenis.logic;
 
+import java.awt.AWTException;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import tenis.library.Design;
+import tenis.library.DrawDuration;
+import tenis.library.DrawType;
 import tenis.library.Program_Mode;
 import tenis.views.MainWindow;
 
@@ -48,7 +56,7 @@ public class ViewController {
         _Administrator.clear();
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g) throws AWTException {
         _Administrator.paint(g, _ModeType);
     }
 
@@ -64,8 +72,23 @@ public class ViewController {
         _Administrator.Release(evt);
     }
     
-    public List<Design>
+    public void getDesignsFromDatabase() {
+        _Administrator.getDesignsFromDatabase();
+        _Designs = _Administrator.getDesigns();
+    }
     
+    public void getBestDrawTimesFromDatabase() {
+        _Administrator.getBestDrawTimesFromDatabase();
+        _BestDrawTimes = _Administrator.getBestDrawTimes();
+    }
+    
+    public void saveDesignsToDatabase() {
+        _Administrator.setDesigns(_Designs);
+        _Administrator.saveDesignsToDatabase();
+    }
+    
+    public List<Design> _Designs = new ArrayList<>();
+    private Map<String, HashMap<DrawType, DrawDuration>> _BestDrawTimes = new HashMap<String, HashMap<DrawType, DrawDuration>>();
     private PaintAdministrator _Administrator;
     private Program_Mode _ModeType;
     
