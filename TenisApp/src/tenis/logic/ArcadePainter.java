@@ -36,7 +36,7 @@ public class ArcadePainter implements LogicController {
         _Figure.updateRadius1(pPoints, 0);
     }
     
-    public Color getPixelColor(int pX, int pY){
+    public Color getPixelColor(int pPixelPosX, int pPixelPosY){
         //removePoints();
         Robot rb = null;
         try {
@@ -44,7 +44,7 @@ public class ArcadePainter implements LogicController {
         } catch (AWTException ex) {
             Logger.getLogger(FirePainter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Color aPixelColor = rb.getPixelColor(pX, pY);//gets the color of the pixel at screen coordinate 0,0.
+        Color aPixelColor = rb.getPixelColor(pPixelPosX,  pPixelPosY);//gets the color of the pixel at screen coordinate 0,0.
         return aPixelColor;
     }
     

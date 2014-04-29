@@ -76,18 +76,23 @@ public class ViewController {
         return _Administrator.getDesignsName();
     }
     public void saveDesign(String pName) {
-        _Administrator.setDesignName(pName);   
+        _Administrator.saveDesignName(pName);   
     }
     public void saveDesignToDatabase(){
         _Administrator.saveDesignToDatabase();
     }
-    public void getDesign(String Name) {
-        _Administrator.getDesing(Name);
-    }    
+    public void getDesign(String pName) {
+        _Administrator.getDesing(pName);
+    }
+    public void setDesign(String pName) {
+        _Administrator.setDesing(pName);
+    }
     
     public List<Design> _Designs = new ArrayList<>();
     private PaintAdministrator _Administrator;
     private Program_Mode _ModeType = Program_Mode.EDIT;
+
+    
 
     
 

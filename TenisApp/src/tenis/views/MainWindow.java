@@ -23,6 +23,8 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         _WindowController = pWindowController;
         this.setVisible(rootPaneCheckingEnabled);
+        Lock();
+        
     }
     
 
@@ -34,6 +36,7 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (AWTException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -47,29 +50,29 @@ public class MainWindow extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        AddButton = new javax.swing.JButton();
+        SaveButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
-        jButton8 = new javax.swing.JButton();
-        jSpinner1 = new javax.swing.JSpinner();
+        ColorButton = new javax.swing.JButton();
+        SizeSpinner = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jSpinner2 = new javax.swing.JSpinner();
+        LineButton = new javax.swing.JButton();
+        CircleButton = new javax.swing.JButton();
+        PointButton = new javax.swing.JButton();
+        ThicknessSpinner = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
-        jButton9 = new javax.swing.JButton();
-        jLayeredPane1 = new javax.swing.JLayeredPane();
-        jButton11 = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jButton3 = new javax.swing.JButton();
+        ClearButton = new javax.swing.JButton();
+        drawingPane = new javax.swing.JLayeredPane();
+        ReportButton = new javax.swing.JButton();
+        EditButton = new javax.swing.JToggleButton();
+        ArcadeButton = new javax.swing.JToggleButton();
+        FireButton = new javax.swing.JToggleButton();
+        LoadButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        ModelsList = new javax.swing.JList();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -92,115 +95,115 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("+");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        AddButton.setText("+");
+        AddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                AddButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Save");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        SaveButton.setText("Save");
+        SaveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                SaveButtonActionPerformed(evt);
             }
         });
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jButton8.setText("Color");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        ColorButton.setText("Color");
+        ColorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                ColorButtonActionPerformed(evt);
             }
         });
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(15, 1, 50, 1));
-        jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+        SizeSpinner.setModel(new javax.swing.SpinnerNumberModel(15, 1, 50, 1));
+        SizeSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSpinner1StateChanged(evt);
+                SizeSpinnerStateChanged(evt);
             }
         });
 
         jLabel1.setText("Tamano");
 
-        jButton6.setText("Line");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        LineButton.setText("Line");
+        LineButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                LineButtonActionPerformed(evt);
             }
         });
 
-        jButton7.setText("Circle");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        CircleButton.setText("Circle");
+        CircleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                CircleButtonActionPerformed(evt);
             }
         });
 
-        jButton10.setText("Point");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        PointButton.setText("Point");
+        PointButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                PointButtonActionPerformed(evt);
             }
         });
 
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 1, 50, 1));
-        jSpinner2.addChangeListener(new javax.swing.event.ChangeListener() {
+        ThicknessSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 50, 1));
+        ThicknessSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSpinner2StateChanged(evt);
+                ThicknessSpinnerStateChanged(evt);
             }
         });
 
         jLabel2.setText("Thickness");
 
-        jButton9.setText("Clear");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        ClearButton.setText("Clear");
+        ClearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                ClearButtonActionPerformed(evt);
             }
         });
 
-        jLayeredPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jLayeredPane1.setOpaque(true);
+        drawingPane.setBackground(new java.awt.Color(255, 255, 255));
+        drawingPane.setOpaque(true);
 
-        jButton11.setText("Report");
+        ReportButton.setText("Report");
 
-        jToggleButton1.setSelected(true);
-        jToggleButton1.setText("EDIT");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        EditButton.setSelected(true);
+        EditButton.setText("EDIT");
+        EditButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                EditButtonActionPerformed(evt);
             }
         });
 
-        jToggleButton2.setText("ARCADE");
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+        ArcadeButton.setText("ARCADE");
+        ArcadeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
+                ArcadeButtonActionPerformed(evt);
             }
         });
 
-        jToggleButton3.setText("FIRE");
-        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+        FireButton.setText("FIRE");
+        FireButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton3ActionPerformed(evt);
+                FireButtonActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Load");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        LoadButton.setText("Load");
+        LoadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                LoadButtonActionPerformed(evt);
             }
         });
 
-        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        ModelsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList1ValueChanged(evt);
+                ModelsListValueChanged(evt);
             }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(ModelsList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -214,13 +217,13 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(LoadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -229,33 +232,33 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
-                        .addComponent(jButton6)
+                        .addComponent(LineButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7)
+                        .addComponent(CircleButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10)
+                        .addComponent(PointButton)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SizeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton8)
+                        .addComponent(ColorButton)
                         .addGap(19, 19, 19)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ThicknessSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton9)
+                        .addComponent(ClearButton)
                         .addGap(48, 48, 48))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(61, 61, 61)
-                        .addComponent(jToggleButton1)
+                        .addComponent(EditButton)
                         .addGap(69, 69, 69)
-                        .addComponent(jToggleButton2)
+                        .addComponent(ArcadeButton)
                         .addGap(80, 80, 80)
-                        .addComponent(jToggleButton3)
+                        .addComponent(FireButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton11)
+                        .addComponent(ReportButton)
                         .addGap(63, 63, 63))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(16, 16, 16)
@@ -265,7 +268,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLayeredPane1)
+                        .addComponent(drawingPane)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -275,42 +278,42 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton11)
-                            .addComponent(jToggleButton1)
-                            .addComponent(jToggleButton2)
-                            .addComponent(jToggleButton3))
+                            .addComponent(ReportButton)
+                            .addComponent(EditButton)
+                            .addComponent(ArcadeButton)
+                            .addComponent(FireButton))
                         .addGap(15, 15, 15)
                         .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(drawingPane, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(16, 16, 16)
                         .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton8)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ColorButton)
+                            .addComponent(SizeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
-                            .addComponent(jButton6)
-                            .addComponent(jButton7)
-                            .addComponent(jButton10)
-                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LineButton)
+                            .addComponent(CircleButton)
+                            .addComponent(PointButton)
+                            .addComponent(ThicknessSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
-                            .addComponent(jButton9))
+                            .addComponent(ClearButton))
                         .addGap(0, 12, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jSeparator1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(LoadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(9, 9, 9)))
                 .addContainerGap())
         );
@@ -318,29 +321,32 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String inputValue = JOptionPane.showInputDialog(jButton1, "Design Name: ", null, WIDTH);
+    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
+        String inputValue = JOptionPane.showInputDialog(AddButton, "Design Name: ", null, WIDTH);
         if (inputValue.isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "No puede crear un diseño sin nombre");
         }
         else{
+            _WindowController.clean();
+            Unlock();
             _WindowController.createDesign();
             _WindowController.saveDesign(inputValue);
             _Model.insertElementAt(inputValue, _Model.getSize());
-            jList1.setModel(_Model);
-            jList1.setSelectedIndex(_Model.getSize()-1);
-            jButton1.setEnabled(false);
-            jButton2.setEnabled(true);
+            ModelsList.setModel(_Model);
+            ModelsList.setSelectedIndex(_Model.getSize()-1);
+            AddButton.setEnabled(false);
+            SaveButton.setEnabled(true);
+            
             repaint();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_AddButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        _WindowController.saveDesign(jList1.getSelectedValue().toString());
-        jButton1.setEnabled(true);
-        jButton2.setEnabled(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
+        _WindowController.setDesign(ModelsList.getSelectedValue().toString());
+        _WindowController.saveDesign(ModelsList.getSelectedValue().toString());
+        AddButton.setEnabled(true);
+        SaveButton.setEnabled(false);
+    }//GEN-LAST:event_SaveButtonActionPerformed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
         _WindowController.mouseDrag(evt);
@@ -357,99 +363,144 @@ public class MainWindow extends javax.swing.JFrame {
         evt.getComponent().repaint();
     }//GEN-LAST:event_formMouseReleased
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void ColorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColorButtonActionPerformed
         _WindowController.putColor(this);
         //EditorPainter.putColor(this);
         repaint();
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_ColorButtonActionPerformed
 
-    private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
-        _WindowController.updateRadius((int) jSpinner1.getValue());
+    private void SizeSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_SizeSpinnerStateChanged
+        _WindowController.updateRadius((int) SizeSpinner.getValue());
         repaint();
-    }//GEN-LAST:event_jSpinner1StateChanged
+    }//GEN-LAST:event_SizeSpinnerStateChanged
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void LineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LineButtonActionPerformed
         _WindowController.drawLine();
         repaint();
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_LineButtonActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void CircleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CircleButtonActionPerformed
         _WindowController.drawCircle();
         repaint();
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_CircleButtonActionPerformed
 
-    private void jSpinner2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner2StateChanged
+    private void ThicknessSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ThicknessSpinnerStateChanged
         //_WindowController.updateThickness((int) jSpinner1.getValue());
         //repaint();
-    }//GEN-LAST:event_jSpinner2StateChanged
+    }//GEN-LAST:event_ThicknessSpinnerStateChanged
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+    private void PointButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PointButtonActionPerformed
         _WindowController.drawPoint();
         repaint();
-    }//GEN-LAST:event_jButton10ActionPerformed
+    }//GEN-LAST:event_PointButtonActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void ClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButtonActionPerformed
         _WindowController.clean();
         repaint();
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_ClearButtonActionPerformed
 
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+    private void ArcadeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ArcadeButtonActionPerformed
+        LockFireArcade();
         _WindowController.setMode(Program_Mode.ARCADE);
-        jToggleButton1.setSelected(false);
-        jToggleButton3.setSelected(false);
+        EditButton.setSelected(false);
+        FireButton.setSelected(false);
         //repaint();
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
+    }//GEN-LAST:event_ArcadeButtonActionPerformed
 
-    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
+    private void FireButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FireButtonActionPerformed
+        LockFireArcade();
         _WindowController.setMode(Program_Mode.FIRE);
-        jToggleButton1.setSelected(false);
-        jToggleButton2.setSelected(false);
+        EditButton.setSelected(false);
+        ArcadeButton.setSelected(false);
         //repaint();
-    }//GEN-LAST:event_jToggleButton3ActionPerformed
+    }//GEN-LAST:event_FireButtonActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
+        Unlock();
         _WindowController.setMode(Program_Mode.EDIT);
         _WindowController.updateRadius1();
-        jToggleButton2.setSelected(false);
-        jToggleButton3.setSelected(false);
+        ArcadeButton.setSelected(false);
+        FireButton.setSelected(false);
         repaint();
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_EditButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void LoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadButtonActionPerformed
         List<String> Designs = _WindowController.loadDesign();   
         for (String name : Designs){
             _Model.insertElementAt(name, _Model.getSize());
-            jList1.setModel(_Model);
+            ModelsList.setModel(_Model);
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_LoadButtonActionPerformed
 
-    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        if (!jList1.isSelectionEmpty()){
-            _WindowController.getDesign(jList1.getSelectedValue().toString());
+    private void ModelsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ModelsListValueChanged
+        if (!ModelsList.isSelectionEmpty()){
+            _WindowController.getDesign(ModelsList.getSelectedValue().toString());
         }
-    }//GEN-LAST:event_jList1ValueChanged
+    }//GEN-LAST:event_ModelsListValueChanged
     
   
     private ViewController _WindowController;
     private DefaultListModel<String> _Model = new DefaultListModel<>();
     
+    void Lock(){
+        LineButton.setEnabled(false);
+        CircleButton.setEnabled(false);
+        ColorButton.setEnabled(false);
+        ClearButton.setEnabled(false);
+        PointButton.setEnabled(false);
+        ReportButton.setEnabled(false);
+        SizeSpinner.setEnabled(false);
+        ThicknessSpinner.setEnabled(false);
+        FireButton.setEnabled(false);
+        ArcadeButton.setEnabled(false);
+        EditButton.setEnabled(false);
+    }
+    void LockFireArcade(){
+        LineButton.setEnabled(false);
+        CircleButton.setEnabled(false);
+        ColorButton.setEnabled(false);
+        ClearButton.setEnabled(false);
+        PointButton.setEnabled(false);
+        ReportButton.setEnabled(false);
+        SizeSpinner.setEnabled(false);
+        ThicknessSpinner.setEnabled(false);
+    }
+    void Unlock(){
+        LineButton.setEnabled(true);
+        CircleButton.setEnabled(true);
+        ColorButton.setEnabled(true);
+        ClearButton.setEnabled(true);
+        PointButton.setEnabled(true);
+        ReportButton.setEnabled(true);
+        SizeSpinner.setEnabled(true);
+        ThicknessSpinner.setEnabled(true);
+        FireButton.setEnabled(true);
+        ArcadeButton.setEnabled(true);
+        EditButton.setEnabled(true);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddButton;
+    private javax.swing.JToggleButton ArcadeButton;
+    private javax.swing.JButton CircleButton;
+    private javax.swing.JButton ClearButton;
+    private javax.swing.JButton ColorButton;
+    private javax.swing.JToggleButton EditButton;
+    private javax.swing.JToggleButton FireButton;
+    private javax.swing.JButton LineButton;
+    private javax.swing.JButton LoadButton;
+    private javax.swing.JList ModelsList;
+    private javax.swing.JButton PointButton;
+    private javax.swing.JButton ReportButton;
+    private javax.swing.JButton SaveButton;
+    private javax.swing.JSpinner SizeSpinner;
+    private javax.swing.JSpinner ThicknessSpinner;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JLayeredPane drawingPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JList jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -459,10 +510,5 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
     // End of variables declaration//GEN-END:variables
 }

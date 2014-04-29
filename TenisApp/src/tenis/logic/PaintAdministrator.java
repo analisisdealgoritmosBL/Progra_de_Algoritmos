@@ -191,18 +191,29 @@ public class PaintAdministrator
         }
         return names;
     }
-    void getDesing(String Name) {
+    void getDesing(String pName) {
         for (Design design : _Designs){
-            if (Name.equals(design.getName())){
+            if (pName.equals(design.getName())){
                 _nodes = design.getCircles();
                 _Backgrounds = design.getBackgrounds();
                 _edges = design.getLines();
             }
         }  
     }
+    
+    void setDesing(String pName) {
+        for (Design design : _Designs){
+            if (pName.equals(design.getName())){
+                _DesignToSave.setName(pName);
+                _DesignToSave.setCircles(_nodes);
+                _DesignToSave.setBackgrounds(_Backgrounds);
+                _DesignToSave.setLines(_edges);
+            }
+        }
+    }
 
     
-    void setDesignName(String pName) {
+    void saveDesignName(String pName) {
         Design newDesign = new Design(pName, _nodes, _edges, _Backgrounds);
         _Designs.add(newDesign);
     }
@@ -223,6 +234,7 @@ public class PaintAdministrator
     }
     
     public void saveDesignToDatabase() {
+        
         _DBController.setDesignToSave(_DesignToSave);
         _DBController.saveDesignToDatabase();
     }
