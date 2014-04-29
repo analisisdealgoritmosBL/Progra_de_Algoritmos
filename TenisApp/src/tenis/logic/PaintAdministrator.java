@@ -176,6 +176,10 @@ public class PaintAdministrator
         _Editor.putColor(component, _nodes);
     }
     
+    void UpdateRadius() {
+        _Editor.UpdateRadius1(_radius, _nodes);
+    }
+    
     void updateThickness(int pThickness) {
         _Editor.putThickness(pThickness, _edges);
     }
@@ -187,9 +191,20 @@ public class PaintAdministrator
         }
         return names;
     }
+    void getDesing(String Name) {
+        for (Design design : _Designs){
+            if (Name.equals(design.getName())){
+                _nodes = design.getCircles();
+                _Backgrounds = design.getBackgrounds();
+                _edges = design.getLines();
+            }
+        }  
+    }
+
     
     void setDesignName(String pName) {
-        Design newDesign = new Design(pName, _nodes, _edges, _Backgrounds); 
+        Design newDesign = new Design(pName, _nodes, _edges, _Backgrounds);
+        _Designs.add(newDesign);
     }
 
     public Map<String, HashMap<DrawType, DrawDuration>> getBestDrawTimes() {
@@ -228,8 +243,8 @@ public class PaintAdministrator
     private Point _mousePt = new Point(WIDE / 2, HIGH / 2);
     private Rectangle _mouseRect = new Rectangle();
     private boolean _selecting = false;
-    private int _radius = 10;
-    private int _radiusPoint = 10;
+    private int _radius = 5;
+    private int _radiusPoint = 5;
     private int _thickness = 1;
     private int _radiusCircle = 15;
     private int _radiusLine = 5;
@@ -237,6 +252,9 @@ public class PaintAdministrator
     private List<Edge> _edges = new ArrayList<>();
     private List<Background> _Backgrounds = new ArrayList<>();
     private List<Point> _curvePoints;
+
+   
+    
 
     
 

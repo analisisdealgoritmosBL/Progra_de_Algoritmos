@@ -5,14 +5,13 @@
 package tenis.views;
 
 import java.awt.*;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import tenis.logic.ViewController;
 import tenis.library.Program_Mode;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -69,8 +68,8 @@ public class MainWindow extends javax.swing.JFrame {
         jToggleButton2 = new javax.swing.JToggleButton();
         jToggleButton3 = new javax.swing.JToggleButton();
         jButton3 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -196,30 +195,12 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Designs"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -242,7 +223,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,7 +304,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -344,17 +325,21 @@ public class MainWindow extends javax.swing.JFrame {
         }
         else{
             _WindowController.createDesign();
-            DefaultTableModel modelo=(DefaultTableModel) jTable1.getModel();             
-            modelo.addRow(new Object[0]);
-            jTable1.setValueAt(inputValue,  modelo.getRowCount()-1, 0);
+            _WindowController.saveDesign(inputValue);
+            _Model.insertElementAt(inputValue, _Model.getSize());
+            jList1.setModel(_Model);
+            jList1.setSelectedIndex(_Model.getSize()-1);
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(true);
             repaint();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
-        _WindowController.saveDesign(jTable1.getValueAt(jTable1.getSelectedRow(),0).toString());
-        
+        _WindowController.saveDesign(jList1.getSelectedValue().toString());
+        jButton1.setEnabled(true);
+        jButton2.setEnabled(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
@@ -394,8 +379,8 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jSpinner2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner2StateChanged
-        _WindowController.updateThickness((int) jSpinner1.getValue());
-        repaint();
+        //_WindowController.updateThickness((int) jSpinner1.getValue());
+        //repaint();
     }//GEN-LAST:event_jSpinner2StateChanged
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -424,23 +409,30 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         _WindowController.setMode(Program_Mode.EDIT);
+        _WindowController.updateRadius1();
         jToggleButton2.setSelected(false);
         jToggleButton3.setSelected(false);
         repaint();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        List<String> Designs = _WindowController.loadDesign();
-        DefaultTableModel modelo=(DefaultTableModel) jTable1.getModel();             
-        modelo.addRow(new Object[0]);
+        List<String> Designs = _WindowController.loadDesign();   
         for (String name : Designs){
-            jTable1.setValueAt(name, modelo.getRowCount()-1, 0);
+            _Model.insertElementAt(name, _Model.getSize());
+            jList1.setModel(_Model);
         }
-        
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+        if (!jList1.isSelectionEmpty()){
+            _WindowController.getDesign(jList1.getSelectedValue().toString());
+        }
+    }//GEN-LAST:event_jList1ValueChanged
     
   
     private ViewController _WindowController;
+    private DefaultListModel<String> _Model = new DefaultListModel<>();
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -457,18 +449,18 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JList jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;

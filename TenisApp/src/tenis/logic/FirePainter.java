@@ -37,36 +37,7 @@ public class FirePainter implements LogicController
         _Figure.updateRadius1(pPoints, 0);
     }
     
-    public void polygon(List <Figure> pPoints,List <Edge> pConnections, List <Point> pCurvePoints){
-        int [] getXpoints = new int [6];
-        int [] getYpoints = new int [6];
-        int index = 0;
-        for (index = 0; index<5;index++){
-            getXpoints[index] = pPoints.get(index).getLocation().x;
-            getYpoints[index] = pPoints.get(index).getLocation().y;
-        }
-        //getXpoints[index] = pCurvePoints.get(0).x;
-        //getYpoints[index] = pCurvePoints.get(0).y;
-        //getXpoints[index] = pCurvePoints.get(1).x;
-        //getYpoints[index] = pCurvePoints.get(1).y;
-        
-        
-        Polygon shape = new Polygon(getXpoints,getYpoints,5);
-        
-        List <Point> Con1 = pConnections.get(0).intersect1(pConnections);
-        List <Point> Con2 = pConnections.get(0).intersect2(pConnections);
-        for (Point connectionX : Con1){
-            if(shape.contains(connectionX)){
-                //_skipPoints.add(connectionX);
-            }  
-        }
-        for (Point connectionY : Con2){
-            if(shape.contains(connectionY)){
-                //_skipPoints.add(connectionY);
-            }
-        }
-    }
-    
+       
     public Color getPixelColor(int pX, int pY){
         //removePoints();
         Robot rb = null;

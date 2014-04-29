@@ -132,12 +132,17 @@ public class EditorPainter implements LogicController
     public void selectNone(List<Figure> _nodes) {
         _Figure.selectNone(_nodes);
     }
+    void UpdateRadius1(int _radius, List<Figure> _nodes) {
+        _Figure.updateRadius1(_nodes, _radius);
+    }
     
     private Figure _Figure = new Figure();
     private Edge _Edges = new Edge();
     
     private int WIDE = 640;
     private int HIGH = 480;
+
+    
 
     
 

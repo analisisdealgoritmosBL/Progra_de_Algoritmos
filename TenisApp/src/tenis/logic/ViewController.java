@@ -5,12 +5,8 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import tenis.library.Design;
-import tenis.library.DrawDuration;
-import tenis.library.DrawType;
 import tenis.library.Program_Mode;
 
 
@@ -47,6 +43,12 @@ public class ViewController {
     public void updateRadius(int pValue){
         _Administrator.UpdateCircle(pValue);
     }
+    public void updateRadius1() {
+        _Administrator.UpdateRadius();
+    }
+    public void updateThickness(int pThickness) {
+        _Administrator.updateThickness(pThickness);
+    }
     public void clean(){
         _Administrator.clear();
     }
@@ -72,21 +74,24 @@ public class ViewController {
     public List<String> loadDesign() {
         _Administrator.getDesignsFromDatabase();
         return _Administrator.getDesignsName();
-        
     }
-    public void updateThickness(int pThickness) {
-        _Administrator.updateThickness(pThickness);
-    }
-    
     public void saveDesign(String pName) {
-        _Administrator.setDesignName(pName);
+        _Administrator.setDesignName(pName);   
+    }
+    public void saveDesignToDatabase(){
         _Administrator.saveDesignToDatabase();
     }
+    public void getDesign(String Name) {
+        _Administrator.getDesing(Name);
+    }    
     
     public List<Design> _Designs = new ArrayList<>();
-    private Map<String, HashMap<DrawType, DrawDuration>> _BestDrawTimes = new HashMap<String, HashMap<DrawType, DrawDuration>>();
     private PaintAdministrator _Administrator;
     private Program_Mode _ModeType = Program_Mode.EDIT;
+
+    
+
+    
 
     
 
